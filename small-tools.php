@@ -1,0 +1,39 @@
+<?php
+/**
+ * Plugin Name: Small Tools
+ * Plugin URI: https://manjul.me
+ * Description: A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
+ * Version: 1.0.0
+ * Author: codemadan
+ * Author URI: https://manjul.me
+ * Text Domain: small-tools
+ * Domain Path: /languages
+ * Requires at least: 5.0
+ * Requires PHP: 7.2
+ */
+
+// If this file is called directly, abort.
+if (!defined('WPINC')) {
+    die;
+}
+
+// Define plugin constants
+define('SMALL_TOOLS_VERSION', '1.0.0');
+define('SMALL_TOOLS_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('SMALL_TOOLS_PLUGIN_URL', plugin_dir_url(__FILE__));
+
+// Include required files
+require_once SMALL_TOOLS_PLUGIN_DIR . 'includes/class-small-tools.php';
+require_once SMALL_TOOLS_PLUGIN_DIR . 'includes/class-small-tools-activator.php';
+require_once SMALL_TOOLS_PLUGIN_DIR . 'includes/class-small-tools-deactivator.php';
+
+// Activation and deactivation hooks
+register_activation_hook(__FILE__, array('Small_Tools_Activator', 'activate'));
+register_deactivation_hook(__FILE__, array('Small_Tools_Deactivator', 'deactivate'));
+
+// Initialize the plugin
+function run_small_tools() {
+    $plugin = new Small_Tools();
+    $plugin->run();
+}
+run_small_tools(); 

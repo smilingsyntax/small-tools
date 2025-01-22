@@ -1,0 +1,106 @@
+/* Dark Mode Styles */
+body.wp-admin {
+    background: #1a1a1a;
+    color: #f0f0f0;
+}
+
+#wpcontent, #wpfooter {
+    background: #1a1a1a;
+}
+
+/* Admin menu */
+#adminmenu, #adminmenuback, #adminmenuwrap {
+    background: #2c2c2c;
+}
+
+#adminmenu a {
+    color: #f0f0f0;
+}
+
+#adminmenu div.wp-menu-image:before {
+    color: #f0f0f0;
+}
+
+#adminmenu li.menu-top:hover,
+#adminmenu li.opensub > a.menu-top,
+#adminmenu li > a.menu-top:focus {
+    background-color: #383838;
+    color: #00b9eb;
+}
+
+/* Tables */
+.wp-list-table {
+    background: #2c2c2c;
+    border-color: #444;
+}
+
+.wp-list-table tr:nth-child(odd) {
+    background-color: #262626;
+}
+
+.wp-list-table th {
+    background: #383838;
+}
+
+/* Forms */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+textarea,
+select {
+    background-color: #2c2c2c !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
+}
+
+/* Buttons */
+.wp-core-ui .button {
+    background: #383838;
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+.wp-core-ui .button-primary {
+    background: #0073aa;
+    border-color: #006291;
+}
+
+/* Metaboxes */
+.postbox {
+    background: #2c2c2c;
+    border-color: #444;
+}
+
+.postbox h2.hndle {
+    border-bottom-color: #444;
+}
+
+/* Notice boxes */
+.notice {
+    background: #2c2c2c;
+    border-left-color: #00b9eb;
+}
+
+.notice-warning {
+    border-left-color: #ffb900;
+}
+
+.notice-error {
+    border-left-color: #dc3232;
+}
+
+.notice-success {
+    border-left-color: #46b450;
+}
+
+/* Links */
+a {
+    color: #00b9eb;
+}
+
+a:hover, a:active, a:focus {
+    color: #00a0d2;
+} 
