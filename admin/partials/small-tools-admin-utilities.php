@@ -17,27 +17,27 @@ if (!defined('WPINC')) {
             
             <label>
                 <input type="checkbox" name="cleanup_options[]" value="revisions"> 
-                Delete Post Revisions
+                Delete ALL Post Revisions
             </label><br>
             
             <label>
                 <input type="checkbox" name="cleanup_options[]" value="autodrafts"> 
-                Delete Auto Drafts
+                Delete ALL Auto Drafts
             </label><br>
             
             <label>
                 <input type="checkbox" name="cleanup_options[]" value="trash"> 
-                Delete Trashed Posts
+                Delete ALL Trash
             </label><br>
             
             <label>
                 <input type="checkbox" name="cleanup_options[]" value="spam"> 
-                Delete Spam Comments
+                Delete ALL Spam Comments
             </label><br>
             
             <label>
                 <input type="checkbox" name="cleanup_options[]" value="transients"> 
-                Delete Expired Transients
+                Delete ALL Expired Transients
             </label><br>
             
             <?php submit_button('Clean Database', 'primary', 'small_tools_cleanup_db'); ?>
@@ -60,69 +60,6 @@ if (!defined('WPINC')) {
             <?php wp_nonce_field('small_tools_import_settings', 'small_tools_import_nonce'); ?>
             <input type="file" name="small_tools_import_file" accept=".json">
             <?php submit_button('Import Settings', 'secondary', 'small_tools_import'); ?>
-        </form>
-    </div>
-
-    <div class="card">
-        <h2>Custom Post Types</h2>
-        <p>Create and manage custom post types.</p>
-        
-        <form method="post" action="">
-            <?php wp_nonce_field('small_tools_cpt', 'small_tools_cpt_nonce'); ?>
-            
-            <table class="form-table">
-                <tr>
-                    <th scope="row">
-                        <label for="cpt_name">Post Type Name</label>
-                    </th>
-                    <td>
-                        <input type="text" id="cpt_name" name="cpt_name" class="regular-text" 
-                               placeholder="e.g., product, book, movie">
-                        <p class="description">Lowercase letters and underscores only (e.g., my_post_type)</p>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <th scope="row">
-                        <label for="cpt_label">Label</label>
-                    </th>
-                    <td>
-                        <input type="text" id="cpt_label" name="cpt_label" class="regular-text" 
-                               placeholder="e.g., Products, Books, Movies">
-                        <p class="description">The display name for your post type</p>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <th scope="row">
-                        <label>Supports</label>
-                    </th>
-                    <td>
-                        <label>
-                            <input type="checkbox" name="cpt_supports[]" value="title" checked> 
-                            Title
-                        </label><br>
-                        <label>
-                            <input type="checkbox" name="cpt_supports[]" value="editor" checked> 
-                            Editor
-                        </label><br>
-                        <label>
-                            <input type="checkbox" name="cpt_supports[]" value="thumbnail"> 
-                            Featured Image
-                        </label><br>
-                        <label>
-                            <input type="checkbox" name="cpt_supports[]" value="excerpt"> 
-                            Excerpt
-                        </label><br>
-                        <label>
-                            <input type="checkbox" name="cpt_supports[]" value="custom-fields"> 
-                            Custom Fields
-                        </label>
-                    </td>
-                </tr>
-            </table>
-            
-            <?php submit_button('Create Post Type', 'primary', 'small_tools_create_cpt'); ?>
         </form>
     </div>
 </div> 

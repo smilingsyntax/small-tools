@@ -10,6 +10,10 @@ class Small_Tools_Admin {
 
         add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
+        
+        // Add handlers for utility actions
+        add_action('admin_init', array($this, 'handle_utility_actions'));
+        add_action('admin_notices', array($this, 'admin_notices'));
     }
 
     public function add_plugin_admin_menu() {
@@ -93,5 +97,159 @@ class Small_Tools_Admin {
 
     public function display_utilities_page() {
         require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/small-tools-admin-utilities.php';
+    }
+
+    public function handle_utility_actions() {
+        // Handle Database Cleanup
+        if (isset($_POST['small_tools_cleanup_db']) && check_admin_referer('small_tools_db_cleanup', 'small_tools_db_nonce')) {
+            $this->handle_database_cleanup();
+        }
+
+        // Handle Settings Export
+        if (isset($_POST['small_tools_export']) && check_admin_referer('small_tools_export_settings', 'small_tools_export_nonce')) {
+            $this->export_settings();
+        }
+
+        // Handle Settings Import
+        if (isset($_POST['small_tools_import']) && check_admin_referer('small_tools_import_settings', 'small_tools_import_nonce')) {
+            $this->import_settings();
+        }
+    }
+
+    private function handle_database_cleanup() {
+        global $wpdb;
+        $cleaned = 0;
+
+        if (!empty($_POST['cleanup_options'])) {
+            foreach ($_POST['cleanup_options'] as $option) {
+                switch ($option) {
+                    case 'revisions':
+                        $cleaned += $wpdb->query("DELETE FROM $wpdb->posts WHERE post_type = 'revision'");
+                        break;
+
+                    case 'autodrafts':
+                        $cleaned += $wpdb->query("DELETE FROM $wpdb->posts WHERE post_status = 'auto-draft'");
+                        break;
+
+                    case 'trash':
+                        $cleaned += $wpdb->query("DELETE FROM $wpdb->posts WHERE post_status = 'trash'");
+                        break;
+
+                    case 'spam':
+                        $cleaned += $wpdb->query("DELETE FROM $wpdb->comments WHERE comment_approved = 'spam'");
+                        break;
+
+                    case 'transients':
+                        // Delete expired transients
+                        $time = time();
+                        $cleaned += $wpdb->query($wpdb->prepare("
+                            DELETE FROM $wpdb->options 
+                            WHERE option_name LIKE %s 
+                            OR option_name LIKE %s 
+                            AND option_value < %d",
+                            $wpdb->esc_like('_transient_timeout_') . '%',
+                            $wpdb->esc_like('_site_transient_timeout_') . '%',
+                            $time
+                        ));
+                        break;
+                }
+            }
+            
+            // Optimize tables after cleanup
+            $wpdb->query("OPTIMIZE TABLE $wpdb->posts, $wpdb->comments, $wpdb->options");
+            
+            set_transient('small_tools_admin_notice', array(
+                'type' => 'success',
+                'message' => sprintf('%d items cleaned from the database.', $cleaned)
+            ), 45);
+        }
+    }
+
+    private function export_settings() {
+        $settings = array();
+        
+        // Get all plugin options
+        $options = array(
+            'small_tools_disable_right_click',
+            'small_tools_remove_image_threshold',
+            'small_tools_disable_lazy_load',
+            'small_tools_disable_emojis',
+            'small_tools_remove_jquery_migrate',
+            'small_tools_force_strong_passwords',
+            'small_tools_disable_xmlrpc',
+            'small_tools_hide_wp_version',
+            'small_tools_wc_variation_threshold',
+            'small_tools_admin_footer_text',
+            'small_tools_dark_mode_enabled'
+        );
+
+        foreach ($options as $option) {
+            $settings[$option] = get_option($option);
+        }
+
+        // Generate JSON file
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+        
+        // Force download
+        header('Content-Type: application/json');
+        header('Content-Disposition: attachment; filename="small-tools-settings.json"');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        echo $json;
+        exit;
+    }
+
+    private function import_settings() {
+        if (!isset($_FILES['small_tools_import_file'])) {
+            set_transient('small_tools_admin_notice', array(
+                'type' => 'error',
+                'message' => 'No file was uploaded.'
+            ), 45);
+            return;
+        }
+
+        $file = $_FILES['small_tools_import_file'];
+        
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            set_transient('small_tools_admin_notice', array(
+                'type' => 'error',
+                'message' => 'Error uploading file.'
+            ), 45);
+            return;
+        }
+
+        $json = file_get_contents($file['tmp_name']);
+        $settings = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            set_transient('small_tools_admin_notice', array(
+                'type' => 'error',
+                'message' => 'Invalid JSON file.'
+            ), 45);
+            return;
+        }
+
+        foreach ($settings as $option => $value) {
+            update_option($option, $value);
+        }
+
+        set_transient('small_tools_admin_notice', array(
+            'type' => 'success',
+            'message' => 'Settings imported successfully.'
+        ), 45);
+    }
+
+    public function admin_notices() {
+        $notice = get_transient('small_tools_admin_notice');
+        if ($notice) {
+            printf(
+                '<div class="notice notice-%s is-dismissible"><p>%s</p></div>',
+                esc_attr($notice['type']),
+                esc_html($notice['message'])
+            );
+            delete_transient('small_tools_admin_notice');
+        }
     }
 } 

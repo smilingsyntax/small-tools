@@ -61,8 +61,6 @@ class Small_Tools {
         if (function_exists('is_woocommerce')) {
             add_filter('woocommerce_ajax_variation_threshold', array($this, 'increase_wc_variation_threshold'), 10, 2);
         }
-        // add_filter('woocommerce_ajax_variation_threshold', array($this, 'increase_wc_variation_threshold'), 10, 2);
-        
 
         // Enqueue scripts and styles
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
