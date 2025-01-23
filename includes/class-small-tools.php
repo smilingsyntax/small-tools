@@ -33,7 +33,7 @@ class Small_Tools {
             add_filter('wp_lazy_loading_enabled', '__return_false');
         }
 
-        if (get_option('small_tools_disable_emojis', 'yes') === 'yes') {
+        if (get_option('small_tools_disable_emojis', 'no') === 'yes') {
             add_action('init', array($this, 'disable_emojis'));
         }
 
@@ -87,20 +87,6 @@ class Small_Tools {
                 $script->deps = array_diff($script->deps, array('jquery-migrate'));
             }
         }
-    }
-
-    public function external_links_new_tab($content) {
-        $host = parse_url(get_site_url(), PHP_URL_HOST);
-        return preg_replace_callback(
-            '/<a([^>]*)href="([^"]*)"([^>]*)>/',
-            function($matches) use ($host) {
-                if (strpos($matches[2], 'http') === 0 && strpos($matches[2], $host) === false) {
-                    return '<a' . $matches[1] . 'href="' . $matches[2] . '"' . $matches[3] . ' target="_blank" rel="noopener noreferrer">';
-                }
-                return $matches[0];
-            },
-            $content
-        );
     }
 
     // WooCommerce Features
