@@ -27,7 +27,7 @@ class Small_Tools_Activator {
         add_option('small_tools_wc_variation_threshold', '30');
         
         // Admin settings
-        add_option('small_tools_admin_footer_text', 'Thank you for using Small Tools');
+        add_option('small_tools_admin_footer_text', 'Thank you for using <a href="https://smalltools.io" target="_blank">Small Tools</a>');
         add_option('small_tools_dark_mode_enabled', 'no');
     }
 } 

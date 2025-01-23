@@ -40,9 +40,6 @@ class Small_Tools {
         if (get_option('small_tools_remove_jquery_migrate', 'no') === 'yes') {
             add_action('wp_default_scripts', array($this, 'remove_jquery_migrate'));
         }
-
-        // External links in new tab
-        add_filter('the_content', array($this, 'external_links_new_tab'));
         
         // Security Features
         if (get_option('small_tools_disable_xmlrpc', 'yes') === 'yes') {
@@ -55,8 +52,9 @@ class Small_Tools {
         }
 
         // Admin Features
-        add_filter('admin_footer_text', array($this, 'custom_admin_footer'));
-        
+        if (get_option('small_tools_admin_footer_text') !== '') {
+            add_filter('admin_footer_text', array($this, 'custom_admin_footer'));
+        }
         // WooCommerce Features
         if (function_exists('is_woocommerce')) {
             add_filter('woocommerce_ajax_variation_threshold', array($this, 'increase_wc_variation_threshold'), 10, 2);
