@@ -9,12 +9,12 @@ class Small_Tools {
         $this->plugin_name = 'small-tools';
         
         $this->load_dependencies();
-        // $this->setup_actions();
         add_action('plugins_loaded', array($this, 'setup_actions'));
     }
 
     private function load_dependencies() {
         // Load feature classes here
+        require_once SMALL_TOOLS_PLUGIN_DIR . 'includes/class-small-tools-settings.php';
         
         // Load admin class
         require_once SMALL_TOOLS_PLUGIN_DIR . 'admin/class-small-tools-admin.php';
@@ -24,45 +24,17 @@ class Small_Tools {
     }
 
     public function setup_actions() {
-        // WordPress General Features
-        if (get_option('small_tools_remove_image_threshold', 'yes') === 'yes') {
-            add_filter('big_image_size_threshold', '__return_false');
-        }
-
-        if (get_option('small_tools_disable_lazy_load', 'no') === 'yes') {
-            add_filter('wp_lazy_loading_enabled', '__return_false');
-        }
-
-        if (get_option('small_tools_disable_emojis', 'no') === 'yes') {
-            add_action('init', array($this, 'disable_emojis'));
-        }
-
-        if (get_option('small_tools_remove_jquery_migrate', 'no') === 'yes') {
-            add_action('wp_default_scripts', array($this, 'remove_jquery_migrate'));
+        // Load hooks file if it exists
+        $settings = Small_Tools_Settings::get_instance();
+        $hooks_file = $settings->get_settings_file_path();
+        
+        if (!file_exists($hooks_file)) {
+            $settings->generate_settings_file();
         }
         
-        // Security Features
-        if (get_option('small_tools_disable_xmlrpc', 'yes') === 'yes') {
-            add_filter('xmlrpc_enabled', '__return_false');
+        if (file_exists($hooks_file)) {
+            require_once $hooks_file;
         }
-
-        if (get_option('small_tools_hide_wp_version', 'yes') === 'yes') {
-            remove_action('wp_head', 'wp_generator');
-            add_filter('the_generator', '__return_empty_string');
-        }
-
-        // Admin Features
-        if (get_option('small_tools_admin_footer_text') !== '') {
-            add_filter('admin_footer_text', array($this, 'custom_admin_footer'));
-        }
-        // WooCommerce Features
-        if (function_exists('is_woocommerce')) {
-            add_filter('woocommerce_ajax_variation_threshold', array($this, 'increase_wc_variation_threshold'), 10, 2);
-        }
-
-        // Enqueue scripts and styles
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
     }
 
     public function run() {
@@ -90,18 +62,21 @@ class Small_Tools {
     }
 
     // WooCommerce Features
-    public function increase_wc_variation_threshold( $qty, $product ) {
-        return (int) get_option('small_tools_wc_variation_threshold', 30);
+    public function increase_wc_variation_threshold($qty = 30, $product) {
+        $settings = Small_Tools_Settings::get_instance()->get_settings();
+        return (int) $settings['small_tools_wc_variation_threshold'];
     }
 
     // Admin Features
     public function custom_admin_footer() {
-        return get_option('small_tools_admin_footer_text', 'Thank you for using Small Tools');
+        $settings = Small_Tools_Settings::get_instance()->get_settings();
+        return $settings['small_tools_admin_footer_text'];
     }
 
     // Asset Management
     public function enqueue_frontend_assets() {
-        if (get_option('small_tools_disable_right_click', 'no') === 'yes') {
+        $settings = Small_Tools_Settings::get_instance()->get_settings();
+        if ($settings['small_tools_disable_right_click'] === 'yes') {
             wp_enqueue_script(
                 'small-tools-frontend',
                 SMALL_TOOLS_PLUGIN_URL . 'public/js/small-tools-public.js',
@@ -113,7 +88,8 @@ class Small_Tools {
     }
 
     public function enqueue_admin_assets() {
-        if (get_option('small_tools_dark_mode_enabled', 'no') === 'yes') {
+        $settings = Small_Tools_Settings::get_instance()->get_settings();
+        if ($settings['small_tools_dark_mode_enabled'] === 'yes') {
             wp_enqueue_style(
                 'small-tools-admin',
                 SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-admin.css',

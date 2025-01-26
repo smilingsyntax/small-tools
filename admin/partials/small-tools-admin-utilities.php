@@ -9,6 +9,34 @@ if (!defined('WPINC')) {
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
     
     <div class="card">
+        <h2>Settings File Management</h2>
+        <p>Manage the settings file that stores your configuration for better performance.</p>
+        
+        <form method="post" action="">
+            <?php wp_nonce_field('small_tools_regenerate_settings', 'small_tools_regenerate_nonce'); ?>
+            <p>
+                <strong>Current Settings File:</strong><br>
+                <?php 
+                $settings_file = Small_Tools_Settings::get_instance()->get_settings_file_path();
+                echo esc_html($settings_file);
+                echo file_exists($settings_file) ? ' (Exists)' : ' (Not Generated)';
+                ?>
+            </p>
+            <?php submit_button('Regenerate Settings File', 'secondary', 'small_tools_regenerate_settings'); ?>
+        </form>
+
+        <hr>
+
+        <form method="post" action="">
+            <?php wp_nonce_field('small_tools_reset_defaults', 'small_tools_reset_nonce'); ?>
+            <p>Reset all settings to their default values and regenerate the settings file.</p>
+            <?php submit_button('Reset to Defaults', 'secondary', 'small_tools_reset_defaults', true, array(
+                'onclick' => 'return confirm("Are you sure you want to reset all settings to their default values? This cannot be undone.");'
+            )); ?>
+        </form>
+    </div>
+
+    <div class="card">
         <h2>Database Optimization</h2>
         <p>Clean up your database by removing unnecessary data.</p>
         
