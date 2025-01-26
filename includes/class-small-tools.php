@@ -62,7 +62,7 @@ class Small_Tools {
     }
 
     // WooCommerce Features
-    public function increase_wc_variation_threshold($qty = 30, $product) {
+    public function increase_wc_variation_threshold($qty, $product) {
         $settings = Small_Tools_Settings::get_instance()->get_settings();
         return (int) $settings['small_tools_wc_variation_threshold'];
     }
