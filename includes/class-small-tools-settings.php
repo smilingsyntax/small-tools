@@ -17,6 +17,7 @@ class Small_Tools_Settings {
             'small_tools_disable_lazy_load' => 'no',
             'small_tools_disable_emojis' => 'no',
             'small_tools_remove_jquery_migrate' => 'no',
+            'small_tools_back_to_top' => 'yes',
             'small_tools_force_strong_passwords' => 'yes',
             'small_tools_disable_xmlrpc' => 'yes',
             'small_tools_hide_wp_version' => 'yes',
@@ -116,9 +117,17 @@ class Small_Tools_Settings {
         }
 
         // Asset Management
-        if ($settings['small_tools_disable_right_click'] === 'yes') {
+        if ($settings['small_tools_disable_right_click'] === 'yes' || $settings['small_tools_back_to_top'] === 'yes') {
             $content .= "function small_tools_enqueue_frontend_assets() {\n";
             $content .= "    wp_enqueue_script('small-tools-frontend', '" . SMALL_TOOLS_PLUGIN_URL . "public/js/small-tools-public.js', array('jquery'), '" . SMALL_TOOLS_VERSION . "', true);\n";
+            $content .= "    wp_localize_script('small-tools-frontend', 'smallTools', array(\n";
+            $content .= "        'backToTop' => " . ($settings['small_tools_back_to_top'] === 'yes' ? 'true' : 'false') . ",\n";
+            $content .= "        'disableRightClick' => " . ($settings['small_tools_disable_right_click'] === 'yes' ? 'true' : 'false') . "\n";
+            $content .= "    ));\n";
+            if ($settings['small_tools_back_to_top'] === 'yes') {
+                $content .= "    wp_enqueue_style('dashicons');\n";
+                $content .= "    wp_enqueue_style('small-tools-backtotop', '" . SMALL_TOOLS_PLUGIN_URL . "public/css/small-tools-backtotop.css', array(), '" . SMALL_TOOLS_VERSION . "');\n";
+            }
             $content .= "}\n";
             $content .= "add_action('wp_enqueue_scripts', 'small_tools_enqueue_frontend_assets');\n\n";
         }

@@ -77,6 +77,18 @@ if (!defined('WPINC')) {
 
             <tr>
                 <th scope="row">
+                    <label for="small_tools_back_to_top">Back to Top Button</label>
+                </th>
+                <td>
+                    <input type="checkbox" id="small_tools_back_to_top" 
+                           name="small_tools_back_to_top" value="yes"
+                           <?php checked('yes', get_option('small_tools_back_to_top')); ?>>
+                    <p class="description">Add a back to top button to your website.</p>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
                     <label for="small_tools_dark_mode_enabled">Enable Dark Mode</label>
                 </th>
                 <td>

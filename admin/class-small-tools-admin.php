@@ -81,6 +81,9 @@ class Small_Tools_Admin {
         register_setting('small-tools-general', 'small_tools_remove_jquery_migrate', array(
             'sanitize_callback' => array($this, 'sanitize_and_regenerate')
         ));
+        register_setting('small-tools-general', 'small_tools_back_to_top', array(
+            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
+        ));
         register_setting('small-tools-general', 'small_tools_dark_mode_enabled', array(
             'sanitize_callback' => array($this, 'sanitize_and_regenerate')
         ));

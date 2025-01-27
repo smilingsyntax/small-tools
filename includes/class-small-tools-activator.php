@@ -17,6 +17,7 @@ class Small_Tools_Activator {
         add_option('small_tools_disable_lazy_load', 'no');
         add_option('small_tools_disable_emojis', 'no');
         add_option('small_tools_remove_jquery_migrate', 'no');
+        add_option('small_tools_back_to_top', 'yes');
         
         // Security settings
         add_option('small_tools_force_strong_passwords', 'yes');
