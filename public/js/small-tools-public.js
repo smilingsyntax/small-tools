@@ -12,10 +12,21 @@
     // Back to top functionality
     $(document).ready(function() {
         if (typeof smallTools !== 'undefined' && smallTools.backToTop) {
-            // Create back to top button
-            $('body').append('<a href="#" id="small-tools-back-to-top"><span class="dashicons dashicons-arrow-up-alt2"></span></a>');
+            // Set CSS variables
+            document.documentElement.style.setProperty('--back-to-top-size', smallTools.backToTopSize + 'px');
+            document.documentElement.style.setProperty('--back-to-top-bg-color', smallTools.backToTopBgColor);
 
-            var $backToTop = $('#small-tools-back-to-top');
+            // Create back to top button with custom icon or default arrow
+            var buttonContent = smallTools.backToTopIcon ? 
+                '<img src="' + smallTools.backToTopIcon + '" alt="Back to top">' :
+                '<span class="default-arrow">↑</span>';
+            
+            var $backToTop = $('<a>', {
+                href: '#',
+                id: 'small-tools-back-to-top',
+                class: 'position-' + smallTools.backToTopPosition,
+                html: buttonContent
+            }).appendTo('body');
 
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 100) {

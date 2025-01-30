@@ -89,6 +89,93 @@ if (!defined('WPINC')) {
 
             <tr>
                 <th scope="row">
+                    <label for="small_tools_back_to_top_position">Back to Top Position</label>
+                </th>
+                <td>
+                    <select id="small_tools_back_to_top_position" name="small_tools_back_to_top_position">
+                        <option value="left" <?php selected('left', get_option('small_tools_back_to_top_position')); ?>>Left</option>
+                        <option value="right" <?php selected('right', get_option('small_tools_back_to_top_position')); ?>>Right</option>
+                    </select>
+                    <p class="description">Choose the position of the back to top button.</p>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="small_tools_back_to_top_bg_color">Background Color</label>
+                </th>
+                <td>
+                    <input type="text" id="small_tools_back_to_top_bg_color" 
+                           name="small_tools_back_to_top_bg_color" 
+                           value="<?php echo esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)')); ?>" 
+                           class="small-tools-color-picker">
+                    <p class="description">Choose the background color for the back to top button.</p>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="small_tools_back_to_top_size">Button Size</label>
+                </th>
+                <td>
+                    <input type="number" id="small_tools_back_to_top_size" 
+                           name="small_tools_back_to_top_size" 
+                           value="<?php echo esc_attr(get_option('small_tools_back_to_top_size', '40')); ?>" 
+                           min="20" 
+                           max="100" 
+                           step="1" 
+                           class="small-text">
+                    <p class="description">Set the size of the back to top button in pixels (20-100).</p>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="small_tools_back_to_top_icon">Back to Top Icon</label>
+                </th>
+                <td>
+                    <div class="small-tools-media-upload">
+                        <input type="text" id="small_tools_back_to_top_icon" 
+                               name="small_tools_back_to_top_icon" 
+                               value="<?php echo esc_attr(get_option('small_tools_back_to_top_icon')); ?>" 
+                               class="regular-text">
+                        <button type="button" class="button small-tools-upload-btn">Upload Icon</button>
+                        <button type="button" class="button small-tools-remove-btn" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>>Remove Icon</button>
+                        <div class="small-tools-preview" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>>
+                            <a href="#" class="small-tools-preview-button">
+                                <img src="<?php echo esc_url(get_option('small_tools_back_to_top_icon')); ?>" alt="Icon preview">
+                            </a>
+                        </div>
+                        <p class="description">Upload a custom icon for the back to top button (recommended size: 24x24px). Leave empty to use default arrow icon.</p>
+                    </div>
+                    <style>
+                        .small-tools-preview-button {
+                            display: inline-block;
+                            width: <?php echo esc_attr(get_option('small_tools_back_to_top_size', '40')); ?>px;
+                            height: <?php echo esc_attr(get_option('small_tools_back_to_top_size', '40')); ?>px;
+                            background: <?php echo esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)')); ?>;
+                            border-radius: 50%;
+                            position: relative;
+                            text-decoration: none;
+                            margin: 10px 0;
+                        }
+                        .small-tools-preview-button img {
+                            width: 24px;
+                            height: 24px;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                        .small-tools-preview-button:hover {
+                            background: rgba(0, 0, 0, 0.9);
+                        }
+                    </style>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
                     <label for="small_tools_dark_mode_enabled">Enable Dark Mode</label>
                 </th>
                 <td>

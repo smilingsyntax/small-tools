@@ -18,6 +18,10 @@ class Small_Tools_Settings {
             'small_tools_disable_emojis' => 'no',
             'small_tools_remove_jquery_migrate' => 'no',
             'small_tools_back_to_top' => 'yes',
+            'small_tools_back_to_top_position' => 'right',
+            'small_tools_back_to_top_icon' => '',
+            'small_tools_back_to_top_bg_color' => 'rgba(0, 0, 0, 0.7)',
+            'small_tools_back_to_top_size' => '40',
             'small_tools_force_strong_passwords' => 'yes',
             'small_tools_disable_xmlrpc' => 'yes',
             'small_tools_hide_wp_version' => 'yes',
@@ -117,12 +121,17 @@ class Small_Tools_Settings {
         }
 
         // Asset Management
+        $back_to_top_size = $settings['small_tools_back_to_top_size'] ? $settings['small_tools_back_to_top_size'] : '60';
         if ($settings['small_tools_disable_right_click'] === 'yes' || $settings['small_tools_back_to_top'] === 'yes') {
             $content .= "function small_tools_enqueue_frontend_assets() {\n";
             $content .= "    wp_enqueue_script('small-tools-frontend', '" . SMALL_TOOLS_PLUGIN_URL . "public/js/small-tools-public.js', array('jquery'), '" . SMALL_TOOLS_VERSION . "', true);\n";
             $content .= "    wp_localize_script('small-tools-frontend', 'smallTools', array(\n";
             $content .= "        'backToTop' => " . ($settings['small_tools_back_to_top'] === 'yes' ? 'true' : 'false') . ",\n";
-            $content .= "        'disableRightClick' => " . ($settings['small_tools_disable_right_click'] === 'yes' ? 'true' : 'false') . "\n";
+            $content .= "        'disableRightClick' => " . ($settings['small_tools_disable_right_click'] === 'yes' ? 'true' : 'false') . ",\n";
+            $content .= "        'backToTopPosition' => '" . esc_js($settings['small_tools_back_to_top_position']) . "',\n";
+            $content .= "        'backToTopIcon' => '" . esc_js($settings['small_tools_back_to_top_icon']) . "',\n";
+            $content .= "        'backToTopBgColor' => '" . esc_js($settings['small_tools_back_to_top_bg_color']) . "',\n";
+            $content .= "        'backToTopSize' => " . (int)$back_to_top_size . "\n";
             $content .= "    ));\n";
             if ($settings['small_tools_back_to_top'] === 'yes') {
                 $content .= "    wp_enqueue_style('dashicons');\n";

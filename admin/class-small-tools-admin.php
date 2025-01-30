@@ -10,6 +10,7 @@ class Small_Tools_Admin {
 
         add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         
         // Add handlers for utility actions
         add_action('admin_init', array($this, 'handle_utility_actions'));
@@ -84,10 +85,22 @@ class Small_Tools_Admin {
         register_setting('small-tools-general', 'small_tools_back_to_top', array(
             'sanitize_callback' => array($this, 'sanitize_and_regenerate')
         ));
+        register_setting('small-tools-general', 'small_tools_back_to_top_position', array(
+            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
+        ));
+        register_setting('small-tools-general', 'small_tools_back_to_top_icon', array(
+            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
+        ));
         register_setting('small-tools-general', 'small_tools_dark_mode_enabled', array(
             'sanitize_callback' => array($this, 'sanitize_and_regenerate')
         ));
         register_setting('small-tools-general', 'small_tools_admin_footer_text', array(
+            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
+        ));
+        register_setting('small-tools-general', 'small_tools_back_to_top_bg_color', array(
+            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
+        ));
+        register_setting('small-tools-general', 'small_tools_back_to_top_size', array(
             'sanitize_callback' => array($this, 'sanitize_and_regenerate')
         ));
 
@@ -305,6 +318,22 @@ class Small_Tools_Admin {
                 esc_html($notice['message'])
             );
             delete_transient('small_tools_admin_notice');
+        }
+    }
+
+    public function enqueue_admin_scripts($hook) {
+        // Only enqueue on our plugin pages
+        if (strpos($hook, 'small-tools') !== false) {
+            wp_enqueue_media();
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('wp-color-picker');
+            wp_enqueue_script(
+                'small-tools-admin',
+                SMALL_TOOLS_PLUGIN_URL . 'admin/js/small-tools-admin.js',
+                array('jquery', 'wp-color-picker'),
+                $this->version,
+                true
+            );
         }
     }
 } 
