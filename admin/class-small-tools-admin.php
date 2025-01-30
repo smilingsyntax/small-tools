@@ -67,57 +67,49 @@ class Small_Tools_Admin {
 
     public function register_settings() {
         // General Settings
-        register_setting('small-tools-general', 'small_tools_disable_right_click', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_remove_image_threshold', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_disable_lazy_load', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_disable_emojis', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_remove_jquery_migrate', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_back_to_top', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_back_to_top_position', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_back_to_top_icon', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_dark_mode_enabled', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_admin_footer_text', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_back_to_top_bg_color', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-general', 'small_tools_back_to_top_size', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
+        $settings = array(
+            'small_tools_disable_right_click' => 'boolean',
+            'small_tools_remove_image_threshold' => 'boolean',
+            'small_tools_disable_lazy_load' => 'boolean',
+            'small_tools_disable_emojis' => 'boolean',
+            'small_tools_remove_jquery_migrate' => 'boolean',
+            'small_tools_back_to_top' => 'boolean',
+            'small_tools_back_to_top_position' => 'string',
+            'small_tools_back_to_top_icon' => 'url',
+            'small_tools_back_to_top_bg_color' => 'string',
+            'small_tools_back_to_top_size' => 'number',
+            'small_tools_dark_mode_enabled' => 'boolean',
+            'small_tools_admin_footer_text' => 'html'
+        );
+
+        foreach ($settings as $option => $type) {
+            register_setting('small-tools-general', $option, array(
+                'sanitize_callback' => array($this, 'sanitize_and_regenerate'),
+                'type' => $type,
+                'show_in_rest' => true
+            ));
+        }
 
         // Security Settings
-        register_setting('small-tools-security', 'small_tools_force_strong_passwords', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-security', 'small_tools_disable_xmlrpc', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
-        register_setting('small-tools-security', 'small_tools_hide_wp_version', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
-        ));
+        $security_settings = array(
+            'small_tools_force_strong_passwords' => 'boolean',
+            'small_tools_disable_xmlrpc' => 'boolean',
+            'small_tools_hide_wp_version' => 'boolean'
+        );
+
+        foreach ($security_settings as $option => $type) {
+            register_setting('small-tools-security', $option, array(
+                'sanitize_callback' => array($this, 'sanitize_and_regenerate'),
+                'type' => $type,
+                'show_in_rest' => true
+            ));
+        }
 
         // WooCommerce Settings
         register_setting('small-tools-woocommerce', 'small_tools_wc_variation_threshold', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate')
+            'sanitize_callback' => array($this, 'sanitize_and_regenerate'),
+            'type' => 'number',
+            'show_in_rest' => true
         ));
     }
 
@@ -126,7 +118,48 @@ class Small_Tools_Admin {
         add_action('shutdown', function() {
             Small_Tools_Settings::get_instance()->generate_settings_file();
         });
-        return $value;
+
+        // Sanitize based on option type
+        $option = current_filter();
+        
+        switch ($option) {
+            case 'pre_update_option_small_tools_back_to_top_bg_color':
+                return sanitize_text_field($value);
+                
+            case 'pre_update_option_small_tools_back_to_top_size':
+                $size = absint($value);
+                return ($size >= 20 && $size <= 100) ? $size : 40;
+                
+            case 'pre_update_option_small_tools_back_to_top_icon':
+                return esc_url_raw($value);
+                
+            case 'pre_update_option_small_tools_back_to_top_position':
+                return in_array($value, array('left', 'right')) ? $value : 'right';
+                
+            case 'pre_update_option_small_tools_admin_footer_text':
+                return wp_kses_post($value);
+                
+            case 'pre_update_option_small_tools_wc_variation_threshold':
+                return absint($value);
+                
+            default:
+                // For yes/no options
+                if (in_array($option, array(
+                    'pre_update_option_small_tools_disable_right_click',
+                    'pre_update_option_small_tools_remove_image_threshold',
+                    'pre_update_option_small_tools_disable_lazy_load',
+                    'pre_update_option_small_tools_disable_emojis',
+                    'pre_update_option_small_tools_remove_jquery_migrate',
+                    'pre_update_option_small_tools_back_to_top',
+                    'pre_update_option_small_tools_force_strong_passwords',
+                    'pre_update_option_small_tools_disable_xmlrpc',
+                    'pre_update_option_small_tools_hide_wp_version',
+                    'pre_update_option_small_tools_dark_mode_enabled'
+                ))) {
+                    return in_array($value, array('yes', 'no')) ? $value : 'no';
+                }
+                return sanitize_text_field($value);
+        }
     }
 
     public function display_plugin_admin_page() {
