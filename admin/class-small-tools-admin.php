@@ -292,46 +292,143 @@ class Small_Tools_Admin {
 
             switch ($option) {
                 case 'revisions':
-                    $cleaned += $wpdb->query("DELETE FROM $wpdb->posts WHERE post_type = 'revision'");
+                    // Get all revision IDs
+                    $revisions = get_posts(array(
+                        'post_type' => 'revision',
+                        'posts_per_page' => -1,
+                        'fields' => 'ids',
+                    ));
+                    
+                    foreach ($revisions as $revision_id) {
+                        if (wp_delete_post($revision_id, true)) {
+                            $cleaned++;
+                        }
+                    }
                     break;
 
                 case 'autodrafts':
-                    $cleaned += $wpdb->query("DELETE FROM $wpdb->posts WHERE post_status = 'auto-draft'");
+                    // Get all auto-draft IDs
+                    $autodrafts = get_posts(array(
+                        'post_status' => 'auto-draft',
+                        'posts_per_page' => -1,
+                        'fields' => 'ids',
+                    ));
+                    
+                    foreach ($autodrafts as $draft_id) {
+                        if (wp_delete_post($draft_id, true)) {
+                            $cleaned++;
+                        }
+                    }
                     break;
 
                 case 'trash':
-                    $cleaned += $wpdb->query("DELETE FROM $wpdb->posts WHERE post_status = 'trash'");
+                    // Get all trashed posts
+                    $trash_posts = get_posts(array(
+                        'post_status' => 'trash',
+                        'posts_per_page' => -1,
+                        'fields' => 'ids',
+                    ));
+                    
+                    foreach ($trash_posts as $trash_id) {
+                        if (wp_delete_post($trash_id, true)) {
+                            $cleaned++;
+                        }
+                    }
                     break;
 
                 case 'spam':
-                    $cleaned += $wpdb->query("DELETE FROM $wpdb->comments WHERE comment_approved = 'spam'");
+                    // Get all spam comments
+                    $spam_comments = get_comments(array(
+                        'status' => 'spam',
+                        'fields' => 'ids',
+                    ));
+                    
+                    foreach ($spam_comments as $comment_id) {
+                        if (wp_delete_comment($comment_id, true)) {
+                            $cleaned++;
+                        }
+                    }
                     break;
 
                 case 'transients':
-                    // Delete expired transients
+                    global $wpdb;
                     $time = time();
-                    $cleaned += $wpdb->query($wpdb->prepare("
-                        DELETE FROM $wpdb->options 
-                        WHERE option_name LIKE %s 
-                        OR option_name LIKE %s 
-                        AND option_value < %d",
-                        $wpdb->esc_like('_transient_timeout_') . '%',
-                        $wpdb->esc_like('_site_transient_timeout_') . '%',
-                        $time
-                    ));
+                    
+                    // Try to get cached list of expired transients
+                    $expired_transients = wp_cache_get('small_tools_expired_transients');
+                    
+                    if (false === $expired_transients) {
+                        // Get expired transients using WordPress functions
+                        $expired_transients = $wpdb->get_col(
+                            $wpdb->prepare(
+                                "SELECT REPLACE(option_name, '_transient_timeout_', '') AS transient_name 
+                                FROM {$wpdb->options} 
+                                WHERE option_name LIKE %s 
+                                AND option_value < %d",
+                                $wpdb->esc_like('_transient_timeout_') . '%',
+                                $time
+                            )
+                        );
+                        
+                        // Cache the results for 5 minutes
+                        wp_cache_set('small_tools_expired_transients', $expired_transients, '', 300);
+                    }
+                    
+                    foreach ($expired_transients as $transient) {
+                        if (delete_transient($transient)) {
+                            $cleaned++;
+                            // Delete this transient from cache as well
+                            wp_cache_delete($transient, 'transient');
+                        }
+                    }
+
+                    // Also clean site-wide transients in multisite
+                    if (is_multisite()) {
+                        // Try to get cached list of expired site transients
+                        $expired_site_transients = wp_cache_get('small_tools_expired_site_transients');
+                        
+                        if (false === $expired_site_transients) {
+                            $expired_site_transients = $wpdb->get_col(
+                                $wpdb->prepare(
+                                    "SELECT REPLACE(option_name, '_site_transient_timeout_', '') AS transient_name 
+                                    FROM {$wpdb->options} 
+                                    WHERE option_name LIKE %s 
+                                    AND option_value < %d",
+                                    $wpdb->esc_like('_site_transient_timeout_') . '%',
+                                    $time
+                                )
+                            );
+                            
+                            // Cache the results for 5 minutes
+                            wp_cache_set('small_tools_expired_site_transients', $expired_site_transients, '', 300);
+                        }
+                        
+                        foreach ($expired_site_transients as $transient) {
+                            if (delete_site_transient($transient)) {
+                                $cleaned++;
+                                // Delete this transient from cache as well
+                                wp_cache_delete($transient, 'site-transient');
+                            }
+                        }
+                    }
+                    
+                    // Clear our cached lists after cleanup
+                    wp_cache_delete('small_tools_expired_transients');
+                    wp_cache_delete('small_tools_expired_site_transients');
                     break;
             }
         }
-        
-        // Optimize tables after cleanup
-        $wpdb->query("OPTIMIZE TABLE $wpdb->posts, $wpdb->comments, $wpdb->options");
+
+        // Note: Database optimization is handled automatically by WordPress
+        // through its built-in maintenance routines
         
         set_transient('small_tools_admin_notice', array(
             'type' => 'success',
             'message' => sprintf(
                 // translators: %d is the number of items cleaned from the database.
                 __('%d items cleaned from the database.', 'small-tools'), 
-                $cleaned)
+                $cleaned
+            )
         ), 45);
     }
 
