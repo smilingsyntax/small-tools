@@ -1,0 +1,24 @@
+.small-tools-preview-button {
+    display: inline-block;
+    width: var(--preview-size);
+    height: var(--preview-size);
+    background: var(--preview-bg-color);
+    border-radius: 50%;
+    position: relative;
+    text-decoration: none;
+    margin: 10px 0;
+}
+
+.small-tools-preview-button img {
+    width: calc(var(--preview-size) * 0.6);
+    height: calc(var(--preview-size) * 0.6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.small-tools-preview-button:hover {
+    background: var(--preview-bg-color);
+    filter: brightness(0.9);
+} 

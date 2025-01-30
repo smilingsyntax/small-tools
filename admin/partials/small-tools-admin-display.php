@@ -111,35 +111,18 @@ if (!defined('WPINC')) {
                         <button type="button" class="button small-tools-upload-btn"><?php esc_html_e('Upload Icon', 'small-tools'); ?></button>
                         <button type="button" class="button small-tools-remove-btn" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>><?php esc_html_e('Remove Icon', 'small-tools'); ?></button>
                         <div class="small-tools-preview" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>>
-                            <a href="#" class="small-tools-preview-button">
+                            <a href="#" class="small-tools-preview-button" 
+                               style="<?php 
+                                    echo sprintf('--preview-size: %dpx; --preview-bg-color: %s;',
+                                        absint(get_option('small_tools_back_to_top_size', '40')),
+                                        esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)'))
+                                    );
+                                ?>">
                                 <img src="<?php echo esc_url(get_option('small_tools_back_to_top_icon')); ?>" alt="<?php esc_attr_e('Icon preview', 'small-tools'); ?>">
                             </a>
                         </div>
                         <p class="description"><?php esc_html_e('Upload a custom icon for the back to top button (recommended size: 24x24px). Leave empty to use default arrow icon.', 'small-tools'); ?></p>
                     </div>
-                    <style>
-                        .small-tools-preview-button {
-                            display: inline-block;
-                            width: <?php echo absint(get_option('small_tools_back_to_top_size', '40')); ?>px;
-                            height: <?php echo absint(get_option('small_tools_back_to_top_size', '40')); ?>px;
-                            background: <?php echo esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)')); ?>;
-                            border-radius: 50%;
-                            position: relative;
-                            text-decoration: none;
-                            margin: 10px 0;
-                        }
-                        .small-tools-preview-button img {
-                            width: <?php echo absint(get_option('small_tools_back_to_top_size', '40') * 0.6); ?>px;
-                            height: <?php echo absint(get_option('small_tools_back_to_top_size', '40') * 0.6); ?>px;
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                        }
-                        .small-tools-preview-button:hover {
-                            background: <?php echo esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.9)')); ?>;
-                        }
-                    </style>
                 </td>
             </tr>
 
