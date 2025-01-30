@@ -12,6 +12,7 @@ if (!defined('WPINC')) {
         <?php
         settings_fields('small-tools-general');
         do_settings_sections('small-tools-general');
+        wp_nonce_field('small_tools_general_settings', 'small_tools_general_nonce');
         ?>
         
         <table class="form-table" role="presentation">

@@ -13,7 +13,9 @@ if (!defined('WPINC')) {
         <p>Manage the settings file that stores your configuration for better performance.</p>
         
         <form method="post" action="">
-            <?php wp_nonce_field('small_tools_regenerate_settings', 'small_tools_regenerate_nonce'); ?>
+            <?php 
+            wp_nonce_field('small_tools_regenerate_settings', 'small_tools_regenerate_nonce');
+            ?>
             <p>
                 <strong>Current Settings File:</strong><br>
                 <?php 
@@ -28,7 +30,9 @@ if (!defined('WPINC')) {
         <hr>
 
         <form method="post" action="">
-            <?php wp_nonce_field('small_tools_reset_defaults', 'small_tools_reset_nonce'); ?>
+            <?php 
+            wp_nonce_field('small_tools_reset_defaults', 'small_tools_reset_nonce');
+            ?>
             <p>Reset all settings to their default values and regenerate the settings file.</p>
             <?php submit_button('Reset to Defaults', 'secondary', 'small_tools_reset_defaults', true, array(
                 'onclick' => 'return confirm("Are you sure you want to reset all settings to their default values? This cannot be undone.");'
@@ -41,7 +45,9 @@ if (!defined('WPINC')) {
         <p>Clean up your database by removing unnecessary data.</p>
         
         <form method="post" action="">
-            <?php wp_nonce_field('small_tools_db_cleanup', 'small_tools_db_nonce'); ?>
+            <?php 
+            wp_nonce_field('small_tools_db_cleanup', 'small_tools_db_nonce');
+            ?>
             
             <label>
                 <input type="checkbox" name="cleanup_options[]" value="revisions"> 
@@ -77,7 +83,9 @@ if (!defined('WPINC')) {
         <p>Export your Small Tools settings to use on another site or backup.</p>
         
         <form method="post" action="">
-            <?php wp_nonce_field('small_tools_export_settings', 'small_tools_export_nonce'); ?>
+            <?php 
+            wp_nonce_field('small_tools_export_settings', 'small_tools_export_nonce');
+            ?>
             <?php submit_button('Export Settings', 'secondary', 'small_tools_export'); ?>
         </form>
 
@@ -85,7 +93,9 @@ if (!defined('WPINC')) {
 
         <p>Import settings from another Small Tools installation.</p>
         <form method="post" action="" enctype="multipart/form-data">
-            <?php wp_nonce_field('small_tools_import_settings', 'small_tools_import_nonce'); ?>
+            <?php 
+            wp_nonce_field('small_tools_import_settings', 'small_tools_import_nonce');
+            ?>
             <input type="file" name="small_tools_import_file" accept=".json">
             <?php submit_button('Import Settings', 'secondary', 'small_tools_import'); ?>
         </form>

@@ -12,6 +12,7 @@ if (!defined('WPINC')) {
         <?php
         settings_fields('small-tools-security');
         do_settings_sections('small-tools-security');
+        wp_nonce_field('small_tools_security_settings', 'small_tools_security_nonce');
         ?>
         
         <table class="form-table">

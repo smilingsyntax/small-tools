@@ -25,6 +25,7 @@ if (!class_exists('WooCommerce')) {
         <?php
         settings_fields('small-tools-woocommerce');
         do_settings_sections('small-tools-woocommerce');
+        wp_nonce_field('small_tools_woocommerce_settings', 'small_tools_woocommerce_nonce');
         ?>
         
         <table class="form-table">
