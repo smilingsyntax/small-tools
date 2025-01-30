@@ -298,7 +298,7 @@ class Small_Tools_Admin {
         header('Pragma: no-cache');
         header('Expires: 0');
         
-        echo $json;
+        echo esc_js($json);
         exit;
     }
 
