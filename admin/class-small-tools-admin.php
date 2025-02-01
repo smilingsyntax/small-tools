@@ -554,6 +554,25 @@ class Small_Tools_Admin {
         ), 45);
     }
 
+    public function get_setting_description($key) {
+        $descriptions = array(
+            'disable_right_click' => __('Prevent users from right-clicking on your website content.', 'small-tools'),
+            'remove_image_threshold' => __('Allow uploading images in their original size without WordPress scaling.', 'small-tools'),
+            'disable_lazy_load' => __('Disable WordPress default lazy loading for images.', 'small-tools'),
+            'disable_emojis' => __('Remove WordPress emoji scripts to improve performance.', 'small-tools'),
+            'remove_jquery_migrate' => __('Remove jQuery Migrate script to reduce page load time.', 'small-tools'),
+            'back_to_top' => __('Add a back to top button to help users navigate long pages.', 'small-tools'),
+            'back_to_top_position' => __('Choose the position of the back to top button.', 'small-tools'),
+            'back_to_top_bg_color' => __('Set the background color of the back to top button.', 'small-tools'),
+            'back_to_top_size' => __('Set the size of the back to top button (20-100 pixels).', 'small-tools'),
+            'back_to_top_icon' => __('Upload a custom icon for the back to top button.', 'small-tools'),
+            'dark_mode_enabled' => __('Enable dark mode for WordPress admin dashboard.', 'small-tools'),
+            'admin_footer_text' => __('Customize the text shown in the admin footer.', 'small-tools')
+        );
+
+        return isset($descriptions[$key]) ? $descriptions[$key] : '';
+    }
+
     public function admin_notices() {
         $notice = get_transient('small_tools_admin_notice');
         if ($notice) {
