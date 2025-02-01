@@ -1,6 +1,6 @@
 === Small Tools ===
-Contributors: codemadan
-Donate link: https://manjul.me
+Contributors: smilingsyntax
+Donate link: https://smilingsyntax.com
 Tags: optimization, security, utilities, woocommerce, performance
 Requires at least: 5.0
 Tested up to: 6.7
@@ -36,7 +36,6 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
 **WooCommerce Features:**
 
 * Increase Variation Threshold - Customize WooCommerce variation limits
-* WooCommerce Integration Check - Seamless compatibility verification
 
 **Database Optimization:**
 
@@ -85,13 +84,3 @@ Yes, Small Tools includes specific features for WooCommerce and checks for WooCo
 
 = 1.0.0 =
 * Initial release
-* Added WordPress optimization features
-* Added security enhancements
-* Added WooCommerce integration
-* Added database cleanup tools
-* Added settings import/export functionality
-
-== Upgrade Notice ==
-
-= 1.0.0 =
-Initial release of Small Tools plugin. 

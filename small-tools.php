@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Small Tools
- * Plugin URI: https://manjul.me
+ * Plugin URI: https://smilingsyntax.com
  * Description: A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
  * Version: 1.0.0
- * Author: codemadan
- * Author URI: https://manjul.me
+ * Author: smilingsyntax
+ * Author URI: https://smilingsyntax.com
  * Text Domain: small-tools
  * Domain Path: /languages
  * Requires at least: 6.0
