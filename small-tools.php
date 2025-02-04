@@ -34,8 +34,8 @@ register_activation_hook(__FILE__, array('Small_Tools_Activator', 'activate'));
 register_deactivation_hook(__FILE__, array('Small_Tools_Deactivator', 'deactivate'));
 
 // Initialize the plugin
-function run_small_tools() {
+function small_tools_run() {
     $plugin = new Small_Tools();
     $plugin->run();
 }
-run_small_tools(); 
+small_tools_run(); 
