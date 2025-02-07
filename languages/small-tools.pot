@@ -1,0 +1,234 @@
+# Copyright (C) 2025 smilingsyntax
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Small Tools 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/small-tools\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-04T16:22:50+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: small-tools\n"
+
+#. Plugin Name of the plugin
+#: small-tools.php
+msgid "Small Tools"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: small-tools.php
+msgid "https://smilingsyntax.com/plugins/small-tools"
+msgstr ""
+
+#. Description of the plugin
+#: small-tools.php
+msgid "A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins."
+msgstr ""
+
+#. Author of the plugin
+#: small-tools.php
+msgid "smilingsyntax"
+msgstr ""
+
+#. Author URI of the plugin
+#: small-tools.php
+msgid "https://smilingsyntax.com"
+msgstr ""
+
+#: admin/class-small-tools-admin.php:209
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:215
+#: admin/class-small-tools-admin.php:223
+#: admin/class-small-tools-admin.php:231
+#: admin/class-small-tools-admin.php:241
+#: admin/class-small-tools-admin.php:254
+#: admin/class-small-tools-admin.php:271
+#: admin/class-small-tools-admin.php:477
+msgid "Invalid security token sent."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:246
+msgid "Settings file regenerated successfully."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:259
+msgid "Settings reset to defaults successfully."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:277
+msgid "No cleanup options selected."
+msgstr ""
+
+#. translators: %d is the number of items cleaned from the database.
+#: admin/class-small-tools-admin.php:429
+msgid "%d items cleaned from the database."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:460
+msgid "Error encoding settings"
+msgstr ""
+
+#: admin/class-small-tools-admin.php:483
+msgid "No file was uploaded."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:493
+msgid "File size too large. Please upload a file smaller than 1MB."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:498
+#: admin/class-small-tools-admin.php:513
+msgid "Error uploading file."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:507
+msgid "Invalid file type. Please upload a JSON file."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:524
+msgid "Invalid JSON file."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:553
+msgid "Settings imported successfully."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:559
+msgid "Prevent users from right-clicking on your website content."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:560
+msgid "Allow uploading images in their original size without WordPress scaling."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:561
+msgid "Disable WordPress default lazy loading for images."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:562
+msgid "Remove WordPress emoji scripts to improve performance."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:563
+msgid "Remove jQuery Migrate script to reduce page load time."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:564
+msgid "Add a back to top button to help users navigate long pages."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:565
+#: admin/partials/small-tools-admin-display.php:65
+msgid "Choose the position of the back to top button."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:566
+msgid "Set the background color of the back to top button."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:567
+msgid "Set the size of the back to top button (20-100 pixels)."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:568
+msgid "Upload a custom icon for the back to top button."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:569
+#: admin/partials/small-tools-admin-display.php:139
+msgid "Enable dark mode for WordPress admin dashboard."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:570
+msgid "Customize the text shown in the admin footer."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:20
+msgid "Disable Right Click"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:21
+msgid "Remove Image Threshold"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:22
+msgid "Disable Lazy Loading"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:23
+msgid "Disable Emojis"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:24
+msgid "Remove jQuery Migrate"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:25
+msgid "Back to Top Button"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:46
+msgid "Back to Top Position"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:52
+msgid "Left"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:53
+msgid "Right"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:71
+msgid "Background Color"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:79
+msgid "Choose the background color for the back to top button."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:85
+msgid "Button Size"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:96
+msgid "Set the size of the back to top button in pixels (20-100)."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:102
+msgid "Back to Top Icon"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:111
+msgid "Upload Icon"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:112
+msgid "Remove Icon"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:121
+msgid "Icon preview"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:124
+msgid "Upload a custom icon for the back to top button (recommended size: 24x24px). Leave empty to use default arrow icon."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:131
+msgid "Enable Dark Mode"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:145
+msgid "Admin Footer Text"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:153
+msgid "Custom text to display in the admin footer."
+msgstr ""
