@@ -1,122 +1,131 @@
 # Small Tools
 
-A lightweight multipurpose WordPress plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
+A lightweight multipurpose WordPress plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins, and bloated DB rows that comes with those.
+
+**Although this plugin stores settings on DataBase, on Load not a single hit is done on Database. Instead it stores the settings on file /uploads/small-tools/small-settings.php**
 
 ## Features
 
-### WordPress General Features
-
-- **Remove Image Threshold**
-  - Allow uploading images in their original size
-  - Bypass WordPress' built-in image scaling
-  
-- **Performance Optimization**
-  - Disable WordPress emoji scripts
-  - Remove jQuery Migrate script
+### Performance Optimization
+- **Image Handling**
+  - Remove image size threshold
+  - Control WordPress image scaling
   - Disable default lazy loading
-  
-- **Content Protection**
-  - Disable right-click functionality
-  - Basic content copy protection
-  
-- **Admin Experience**
-  - Dark Mode for WordPress admin
-  - Custom admin footer text
-  - Clean and intuitive interface
+- **Script Optimization**
+  - Remove emoji scripts
+  - Remove jQuery Migrate
+  - Conditional asset loading
+
+### Back to Top Button
+- **Customizable Appearance**
+  - Adjustable button size (20-100px)
+  - Custom background color with opacity
+  - Custom icon upload support
+  - Default arrow icon fallback
+- **Position Control**
+  - Left or right placement
+  - Fixed position at bottom
+  - Smooth scrolling animation
+- **Responsive Design**
+  - Mobile-friendly
+  - Adaptive sizing
+  - Touch-compatible
+
+### Admin Interface
+- **Dark Mode**
+  - Complete admin panel dark theme
+  - Eye-friendly color scheme
+  - Automatic theme switching
+- **Custom Branding**
+  - Customizable admin footer text
+  - Support for HTML in footer
+  - Brand-specific messaging
 
 ### Security Features
-
-- **Password Security**
-  - Force strong passwords for all users
-  - Enhanced password requirements
-  
-- **WordPress Hardening**
-  - Disable XML-RPC functionality
-  - Hide WordPress version information
-  - Remove potential security vulnerabilities
+- **Access Control**
+  - Force strong passwords
+  - Disable XML-RPC
+  - Hide WordPress version
+- **Content Protection**
+  - Disable right-click functionality
+  - Prevent unauthorized copying
+  - Custom protection messages
 
 ### WooCommerce Integration
-
-- **Performance Optimization**
-  - Increase variation threshold
-  - Customize AJAX variation limits
-  
-- **Compatibility**
-  - Automatic WooCommerce detection
-  - Seamless integration with WooCommerce features
-
-### Database Tools
-
-- **Database Cleanup**
-  - Remove post revisions
-  - Delete auto-drafts
-  - Clear trash posts
-  - Clean spam comments
-  - Remove expired transients
-  
-- **Optimization**
-  - Automatic table optimization
-  - Database performance enhancement
+- **Performance**
+  - Customizable variation threshold
+  - AJAX optimization
+  - Enhanced loading times
 
 ### Settings Management
-
-- **Backup & Restore**
-  - Export settings to JSON
-  - Import settings from backup
-  - Easy migration between sites
+- **Import/Export**
+  - JSON-based settings export
+  - Settings backup support
+  - Easy site migration
+- **File Management**
+  - Automatic settings file generation
+  - Performance-optimized loading
+  - Secure file storage
 
 ## Installation
 
-1. Download the plugin
-2. Upload to your WordPress site
-3. Navigate to `/wp-content/plugins/`
-4. Extract `small-tools.zip`
-5. Activate through WordPress admin panel
-6. Access via 'Small Tools' in admin menu
-
-## Requirements
-
-- WordPress 5.0 or higher
-- PHP 7.2 or higher
-- MySQL 5.6 or higher
+1. Upload the plugin files to `/wp-content/plugins/small-tools/`
+2. Activate through WordPress plugins menu
+3. Configure via 'Small Tools' admin menu
 
 ## Configuration
 
 ### General Settings
-
-1. Navigate to 'Small Tools' → 'General Settings'
-2. Enable/disable desired features
-3. Save changes
+- Enable/disable right-click protection
+- Configure image handling options
+- Set up back to top button
+- Manage performance features
 
 ### Security Settings
-
-1. Go to 'Small Tools' → 'Security'
-2. Configure security options
-3. Save changes
+- Configure password requirements
+- Manage XML-RPC access
+- Control version information display
 
 ### WooCommerce Settings
+- Set variation threshold
+- Optimize product loading
 
-1. Access 'Small Tools' → 'WooCommerce'
-2. Adjust WooCommerce-specific settings
-3. Save changes
+### Utilities
+- Database cleanup options
+- Settings import/export
+- File management tools
 
-### Database Tools
+## Requirements
 
-1. Visit 'Small Tools' → 'Tools'
-2. Select cleanup options
-3. Run optimization tools
+- WordPress 6.0 or higher
+- PHP 7.4 or higher
+- MySQL 5.6 or higher
+- WooCommerce 6.0+ (for WooCommerce features)
+
+## Frequently Asked Questions
+
+**Q: Is this plugin compatible with my theme?**  
+A: Yes, Small Tools is designed to work with any WordPress theme.
+
+**Q: Will this slow down my site?**  
+A: No, the plugin is optimized for performance and only loads features when needed.
+
+**Q: Can I customize the back to top button?**  
+A: Yes, you can customize the size, color, position, and icon of the button.
+
+**Q: Is the dark mode customizable?**  
+A: The dark mode theme is carefully designed for optimal readability and applies automatically.
 
 ## Support
 
-For support, feature requests, or bug reports:
-
+For support, bug reports, or feature requests:
 - Create an issue on GitHub
-- Visit [https://manjul.me](https://manjul.me)
-- Email: support@smalltools.com
+- Visit our [support forum](https://smilingsyntax.com/support)
+- Email: support@smilingsyntax.com
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
 
 ## License
 
@@ -124,4 +133,4 @@ This project is licensed under the GPL v2 or later - see the [LICENSE](LICENSE) 
 
 ## Credits
 
-Developed by [codemadan](https://manjul.me) 
+Developed by [smilingsyntax](https://smilingsyntax.com) 
