@@ -643,7 +643,7 @@ class Small_Tools_Admin {
             // Regenerate settings file
             Small_Tools_Settings::get_instance()->generate_settings_file();
             wp_send_json_success(array(
-                'message' => __('Settings saved successfully.ss', 'small-tools'),
+                'message' => __('Settings saved successfully.', 'small-tools'),
                 'settings' => $settings
             ));
         } else {
