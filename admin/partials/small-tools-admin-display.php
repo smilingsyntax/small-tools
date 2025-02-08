@@ -10,7 +10,7 @@ if (!defined('WPINC')) {
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <div class="small-tools-header-actions">
             <button type="submit" class="button button-primary" form="small-tools-settings-form"><?php esc_html_e('Save Changes', 'small-tools'); ?></button>
-            <span class="spinner small-tools-spinner"></span>
+            <span class="spinner"></span>
         </div>
     </div>
 
@@ -39,6 +39,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_disable_right_click" 
                                    name="small_tools_disable_right_click" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_disable_right_click')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('disable_right_click')); ?></p>
@@ -61,6 +62,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_remove_image_threshold" 
                                    name="small_tools_remove_image_threshold" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_remove_image_threshold')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('remove_image_threshold')); ?></p>
@@ -74,6 +76,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_disable_lazy_load" 
                                    name="small_tools_disable_lazy_load" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_disable_lazy_load')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('disable_lazy_load')); ?></p>
@@ -93,6 +96,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_disable_emojis" 
                                    name="small_tools_disable_emojis" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_disable_emojis')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('disable_emojis')); ?></p>
@@ -106,6 +110,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_remove_jquery_migrate" 
                                    name="small_tools_remove_jquery_migrate" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_remove_jquery_migrate')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('remove_jquery_migrate')); ?></p>
@@ -128,6 +133,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_back_to_top" 
                                    name="small_tools_back_to_top" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_back_to_top')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('back_to_top')); ?></p>
@@ -231,6 +237,7 @@ if (!defined('WPINC')) {
                             <input type="checkbox" 
                                    id="small_tools_dark_mode_enabled" 
                                    name="small_tools_dark_mode_enabled" 
+                                   class="smiling_syntax_toggle"
                                    value="yes"
                                    <?php checked('yes', get_option('small_tools_dark_mode_enabled')); ?>>
                             <p class="description"><?php echo esc_html($this->get_setting_description('dark_mode_enabled')); ?></p>

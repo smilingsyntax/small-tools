@@ -46,10 +46,10 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         var $form = $(this);
         var $submitButton = $('.small-tools-header-actions button[type="submit"]');
-        var $spinner = $('.small-tools-header-actions .small-tools-spinner');
+        var $spinner = $('.small-tools-header-actions .spinner');
         
-        // Show spinner
-        $spinner.css('display', 'inline-block');
+        // Show spinner and disable submit button
+        $spinner.addClass('is-active');
         $submitButton.prop('disabled', true);
 
         // Collect form data
@@ -100,7 +100,8 @@ jQuery(document).ready(function($) {
                 showNotice('Error saving settings.', 'error');
             },
             complete: function() {
-                $spinner.hide();
+                // Hide spinner and enable submit button
+                $spinner.removeClass('is-active');
                 $submitButton.prop('disabled', false);
             }
         });

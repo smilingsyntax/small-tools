@@ -1,4 +1,16 @@
 /* Main container styling */
+:root {
+    --st-primary: #4ECFC6;
+    --st-secondary: #FD7E23;
+    --st-primary-hover: #45bab2;
+    --st-secondary-hover: #e57120;
+    --st-border: #c3c4c7;
+    --st-text: #1d2327;
+    --st-text-light: #646970;
+    --st-bg: #f0f0f1;
+    --st-white: #fff;
+}
+
 .wrap {
     max-width: 1200px;
     margin: 20px 20px 0 0;
@@ -38,6 +50,14 @@
     line-height: 2;
     font-size: 14px;
     font-weight: 500;
+    background: var(--st-primary);
+    border-color: var(--st-primary-hover);
+}
+
+.small-tools-header-actions .button-primary:hover,
+.small-tools-header-actions .button-primary:focus {
+    background: var(--st-primary-hover);
+    border-color: var(--st-primary-hover);
 }
 
 .small-tools-header-actions .small-tools-spinner {
@@ -82,8 +102,8 @@
 .small-tools-tabs .nav-tab-active:hover,
 .small-tools-tabs .nav-tab-active:focus {
     background: #fff;
-    color: #2271b1;
-    border-bottom: 2px solid #2271b1;
+    color: var(--st-primary);
+    border-bottom: 2px solid var(--st-primary);
     font-weight: 600;
 }
 
@@ -117,7 +137,7 @@
 }
 
 .small-tools-section:hover .small-tools-section-title {
-    border-color: #2271b1;
+    border-color: var(--st-primary);
 }
 
 /* Form elements styling */
@@ -170,11 +190,14 @@
 }
 
 .small-tools-settings-form input[type="checkbox"]:checked {
-    background: #2271b1;
+    background: var(--st-primary);
 }
 
 .small-tools-settings-form input[type="checkbox"]:checked:before {
     left: 22px;
+}
+.smiling_syntax_toggle:before {
+    margin: 0 !important;
 }
 
 /* Description text styling */
@@ -215,13 +238,13 @@
 }
 
 .small-tools-save-notice.success {
-    background: #00a32a;
-    color: #fff;
+    background: var(--st-primary);
+    color: var(--st-white);
 }
 
 .small-tools-save-notice.error {
-    background: #d63638;
-    color: #fff;
+    background: var(--st-secondary);
+    color: var(--st-white);
 }
 
 /* Media uploader styling */
@@ -251,8 +274,19 @@
 }
 
 /* Loading spinner */
-.small-tools-spinner {
+.small-tools-spinner.spinner {
+    float: none;
     margin: 4px 10px 0;
+    visibility: hidden;
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    vertical-align: middle;
+}
+
+.small-tools-spinner.spinner.is-active {
+    visibility: visible;
 }
 
 /* Responsive styling */
@@ -274,4 +308,38 @@
     .small-tools-settings-form .form-table td {
         padding: 0 0 20px;
     }
+}
+
+/* Links */
+a {
+    color: var(--st-primary);
+}
+
+a:hover,
+a:focus,
+a:active {
+    color: var(--st-primary-hover);
+}
+
+/* Buttons */
+.wp-core-ui .button-primary {
+    background: var(--st-primary);
+    border-color: var(--st-primary-hover);
+}
+
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:focus {
+    background: var(--st-primary-hover);
+    border-color: var(--st-primary-hover);
+}
+
+.wp-core-ui .button-secondary {
+    color: var(--st-primary);
+    border-color: var(--st-primary);
+}
+
+.wp-core-ui .button-secondary:hover,
+.wp-core-ui .button-secondary:focus {
+    color: var(--st-primary-hover);
+    border-color: var(--st-primary-hover);
 } 

@@ -28,7 +28,7 @@ body.small-tools-dark-mode #adminmenu li.menu-top:hover,
 body.small-tools-dark-mode #adminmenu li.opensub > a.menu-top,
 body.small-tools-dark-mode #adminmenu li > a.menu-top:focus {
     background-color: #383838;
-    color: #00b9eb;
+    color: #4ECFC6;
 }
 
 /* Tables */
@@ -67,8 +67,29 @@ body.small-tools-dark-mode .wp-core-ui .button {
 }
 
 body.small-tools-dark-mode .wp-core-ui .button-primary {
-    background: #0073aa;
-    border-color: #006291;
+    background: #4ECFC6;
+    border-color: #45bab2;
+    color: #1a1a1a;
+}
+
+body.small-tools-dark-mode .wp-core-ui .button-primary:hover,
+body.small-tools-dark-mode .wp-core-ui .button-primary:focus {
+    background: #45bab2;
+    border-color: #45bab2;
+    color: #1a1a1a;
+}
+
+body.small-tools-dark-mode .wp-core-ui .button-secondary {
+    color: #4ECFC6;
+    border-color: #4ECFC6;
+    background: transparent;
+}
+
+body.small-tools-dark-mode .wp-core-ui .button-secondary:hover,
+body.small-tools-dark-mode .wp-core-ui .button-secondary:focus {
+    color: #45bab2;
+    border-color: #45bab2;
+    background: rgba(78, 207, 198, 0.1);
 }
 
 /* Metaboxes */
@@ -84,28 +105,41 @@ body.small-tools-dark-mode .postbox h2.hndle {
 /* Notice boxes */
 body.small-tools-dark-mode .notice {
     background: #2c2c2c;
-    border-left-color: #00b9eb;
+    border-left-color: #4ECFC6;
 }
 
 body.small-tools-dark-mode .notice-warning {
-    border-left-color: #ffb900;
+    border-left-color: #FD7E23;
 }
 
 body.small-tools-dark-mode .notice-error {
-    border-left-color: #dc3232;
+    border-left-color: #FD7E23;
 }
 
 body.small-tools-dark-mode .notice-success {
-    border-left-color: #46b450;
+    border-left-color: #4ECFC6;
 }
 
 /* Links */
 body.small-tools-dark-mode a {
-    color: #00b9eb;
+    color: #4ECFC6;
 }
 
 body.small-tools-dark-mode a:hover,
 body.small-tools-dark-mode a:active,
 body.small-tools-dark-mode a:focus {
-    color: #00a0d2;
+    color: #45bab2;
+}
+
+/* Checkboxes */
+body.small-tools-dark-mode .small-tools-settings-form input[type="checkbox"]:checked {
+    background: #4ECFC6;
+}
+
+body.small-tools-dark-mode .small-tools-settings-form input[type="checkbox"] {
+    background: #383838;
+}
+
+body.small-tools-dark-mode .small-tools-settings-form input[type="checkbox"]:before {
+    background: #f0f0f0;
 } 
