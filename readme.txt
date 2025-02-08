@@ -1,15 +1,15 @@
 === Small Tools ===
 Contributors: smilingsyntax
 Donate link: https://smilingsyntax.com
-Tags: optimization, performance, security, woocommerce, dark-mode, back-to-top, utilities
+Tags: optimization, performance, security, back-to-top
 Requires at least: 6.0
-Tested up to: 6.4
+Tested up to: 6.7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins, and bloated DB rows.
+A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
 
 == Description ==
 
@@ -133,10 +133,10 @@ The dark mode theme is carefully designed for optimal readability and applies au
 
 1. General Settings Panel
 2. Back to Top Button Customization
-3. Dark Mode Admin Interface
-4. Security Settings
-5. WooCommerce Integration
-6. Database Tools and Utilities
+3. Security Settings
+4. WooCommerce Integration
+5. Export/Import Settings
+6. Settings Generation Page. This will generate the settings file and there will be no **Database Calls**
 
 == Changelog ==
 
