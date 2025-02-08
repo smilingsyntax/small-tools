@@ -81,7 +81,8 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_bg_color' => 'string',
             'small_tools_back_to_top_size' => 'number',
             'small_tools_dark_mode_enabled' => 'boolean',
-            'small_tools_admin_footer_text' => 'html'
+            'small_tools_admin_footer_text' => 'html',
+            'small_tools_enable_duplication' => 'boolean'
         );
 
         foreach ($settings as $option => $type) {
@@ -181,7 +182,8 @@ class Small_Tools_Admin {
                     'pre_update_option_small_tools_force_strong_passwords',
                     'pre_update_option_small_tools_disable_xmlrpc',
                     'pre_update_option_small_tools_hide_wp_version',
-                    'pre_update_option_small_tools_dark_mode_enabled'
+                    'pre_update_option_small_tools_dark_mode_enabled',
+                    'pre_update_option_small_tools_enable_duplication'
                 ))) {
                     return in_array($value, array('yes', 'no')) ? $value : 'no';
                 }
@@ -569,7 +571,8 @@ class Small_Tools_Admin {
             'back_to_top_size' => __('Set the size of the back to top button (20-100 pixels).', 'small-tools'),
             'back_to_top_icon' => __('Upload a custom icon for the back to top button.', 'small-tools'),
             'dark_mode_enabled' => __('Enable dark mode for WordPress admin dashboard.', 'small-tools'),
-            'admin_footer_text' => __('Customize the text shown in the admin footer.', 'small-tools')
+            'admin_footer_text' => __('Customize the text shown in the admin footer.', 'small-tools'),
+            'enable_duplication' => __('Add a duplicate option to quickly clone posts, pages, and custom post types.', 'small-tools')
         );
 
         return isset($descriptions[$key]) ? $descriptions[$key] : '';
@@ -614,7 +617,8 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_bg_color',
             'small_tools_back_to_top_size',
             'small_tools_dark_mode_enabled',
-            'small_tools_admin_footer_text'
+            'small_tools_admin_footer_text',
+            'small_tools_enable_duplication'
         );
 
         foreach ($general_settings as $option) {
@@ -626,7 +630,8 @@ class Small_Tools_Admin {
                 'small_tools_disable_emojis',
                 'small_tools_remove_jquery_migrate',
                 'small_tools_back_to_top',
-                'small_tools_dark_mode_enabled'
+                'small_tools_dark_mode_enabled',
+                'small_tools_enable_duplication'
             ))) {
                 $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : 'no';
             } else {
@@ -678,7 +683,8 @@ class Small_Tools_Admin {
                     'small_tools_disable_emojis',
                     'small_tools_remove_jquery_migrate',
                     'small_tools_back_to_top',
-                    'small_tools_dark_mode_enabled'
+                    'small_tools_dark_mode_enabled',
+                    'small_tools_enable_duplication'
                 ))) {
                     return in_array($value, array('yes', 'no')) ? $value : 'no';
                 }

@@ -47,6 +47,26 @@ if (!defined('WPINC')) {
                     </tr>
                 </table>
             </div>
+
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Content Management', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_enable_duplication"><?php esc_html_e('Enable Content Duplication', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_enable_duplication" 
+                                   name="small_tools_enable_duplication" 
+                                   class="smiling_syntax_toggle"
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_enable_duplication')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_duplication')); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <!-- Performance Tab -->

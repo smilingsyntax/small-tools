@@ -5,7 +5,7 @@ class Small_Tools {
     protected $plugin_name;
 
     public function __construct() {
-        $this->version = SMALL_TOOLS_VERSION;
+            $this->version = SMALL_TOOLS_VERSION;
         $this->plugin_name = 'small-tools';
         
         $this->load_dependencies();
@@ -39,10 +39,150 @@ class Small_Tools {
         if (file_exists($hooks_file)) {
             require_once $hooks_file;
         }
+
+        // Content Duplication hooks
+        add_action('admin_action_small_tools_duplicate', array($this, 'duplicate_post_as_draft'));
+        add_filter('post_row_actions', array($this, 'duplicate_post_link'), 10, 2);
+        add_filter('page_row_actions', array($this, 'duplicate_post_link'), 10, 2);
+
+        // WordPress General Features
+        if (get_option('small_tools_disable_emojis') === 'yes') {
+            add_action('init', array($this, 'disable_emojis'));
+        }
+
+        if (get_option('small_tools_remove_jquery_migrate') === 'yes') {
+            add_action('wp_default_scripts', array($this, 'remove_jquery_migrate'));
+        }
+
+        // WooCommerce Features
+        if (function_exists('is_woocommerce')) {
+            add_filter('woocommerce_ajax_variation_threshold', array($this, 'increase_wc_variation_threshold'), 10, 2);
+        }
+
+        // Admin Features
+        if (!empty(get_option('small_tools_admin_footer_text'))) {
+            add_filter('admin_footer_text', array($this, 'custom_admin_footer'));
+        }
+
+        // Asset Management
+        if (get_option('small_tools_disable_right_click') === 'yes') {
+            add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
+        }
     }
 
     public function run() {
         // The main plugin logic
+    }
+
+    // Content Duplication Feature
+    public function duplicate_post_as_draft() {
+        // Check if duplication is enabled
+        if (get_option('small_tools_enable_duplication') !== 'yes') {
+            wp_die(__('Content duplication is not enabled.', 'small-tools'));
+        }
+
+        // Check if post ID has been provided and action is duplicate
+        if (empty($_GET['post']) || empty($_GET['action']) || $_GET['action'] !== 'small_tools_duplicate') {
+            return;
+        }
+
+        // Verify nonce
+        if (!isset($_GET['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['nonce'])), 'small_tools_duplicate_post_' . absint($_GET['post']))) {
+            wp_die(__('Security check failed.', 'small-tools'));
+        }
+
+        // Get the original post
+        $post_id = absint($_GET['post']);
+        $post = get_post($post_id);
+
+        // Verify post exists and user has permission
+        if (!$post || !current_user_can('edit_post', $post_id)) {
+            wp_die(__('You do not have permission to duplicate this content.', 'small-tools'));
+        }
+
+        // Get all current post attributes
+        $args = array(
+            'post_author'    => wp_get_current_user()->ID,
+            'post_content'   => $post->post_content,
+            'post_excerpt'   => $post->post_excerpt,
+            'post_name'      => $post->post_name . '-copy',
+            'post_parent'    => $post->post_parent,
+            'post_password'  => $post->post_password,
+            'post_status'    => 'draft',
+            'post_title'     => $post->post_title . ' ' . __('(Copy)', 'small-tools'),
+            'post_type'      => $post->post_type,
+            'comment_status' => $post->comment_status,
+            'ping_status'    => $post->ping_status,
+            'to_ping'        => $post->to_ping,
+            'menu_order'     => $post->menu_order
+        );
+
+        // Insert the post
+        $new_post_id = wp_insert_post($args);
+
+        if ($new_post_id) {
+            // Copy post taxonomies
+            $taxonomies = get_object_taxonomies($post->post_type);
+            foreach ($taxonomies as $taxonomy) {
+                $post_terms = wp_get_object_terms($post_id, $taxonomy, array('fields' => 'slugs'));
+                wp_set_object_terms($new_post_id, $post_terms, $taxonomy, false);
+            }
+
+            // Copy post metadata
+            $post_meta = get_post_meta($post_id);
+            if ($post_meta) {
+                foreach ($post_meta as $meta_key => $meta_values) {
+                    if ('_wp_old_slug' === $meta_key) { // Skip old slug
+                        continue;
+                    }
+                    foreach ($meta_values as $meta_value) {
+                        add_post_meta($new_post_id, $meta_key, maybe_unserialize($meta_value));
+                    }
+                }
+            }
+
+            // Redirect to the edit post screen for the new draft
+            wp_safe_redirect(
+                add_query_arg(
+                    array(
+                        'action' => 'edit',
+                        'post' => $new_post_id
+                    ),
+                    admin_url('post.php')
+                )
+            );
+            exit;
+        } else {
+            wp_die(__('Post creation failed.', 'small-tools'));
+        }
+    }
+
+    // Add duplicate action link
+    public function duplicate_post_link($actions, $post) {
+        // Check if duplication is enabled
+        if (get_option('small_tools_enable_duplication') !== 'yes') {
+            return $actions;
+        }
+
+        if (current_user_can('edit_posts')) {
+            $actions['duplicate'] = sprintf(
+                '<a href="%s" title="%s">%s</a>',
+                esc_url(wp_nonce_url(
+                    add_query_arg(
+                        array(
+                            'action' => 'small_tools_duplicate',
+                            'post' => $post->ID
+                        ),
+                        admin_url('admin.php')
+                    ),
+                    'small_tools_duplicate_post_' . $post->ID,
+                    'nonce'
+                )),
+                esc_attr__('Duplicate this item', 'small-tools'),
+                esc_html__('Duplicate', 'small-tools')
+            );
+        }
+        return $actions;
     }
 
     // WordPress General Features
@@ -67,20 +207,17 @@ class Small_Tools {
 
     // WooCommerce Features
     public function increase_wc_variation_threshold($qty, $product) {
-        $settings = Small_Tools_Settings::get_instance()->get_settings();
-        return (int) $settings['small_tools_wc_variation_threshold'];
+        return (int) get_option('small_tools_wc_variation_threshold', 30);
     }
 
     // Admin Features
     public function custom_admin_footer() {
-        $settings = Small_Tools_Settings::get_instance()->get_settings();
-        return $settings['small_tools_admin_footer_text'];
+        return get_option('small_tools_admin_footer_text', '');
     }
 
     // Asset Management
     public function enqueue_frontend_assets() {
-        $settings = Small_Tools_Settings::get_instance()->get_settings();
-        if ($settings['small_tools_disable_right_click'] === 'yes') {
+        if (get_option('small_tools_disable_right_click') === 'yes') {
             wp_enqueue_script(
                 'small-tools-frontend',
                 SMALL_TOOLS_PLUGIN_URL . 'public/js/small-tools-public.js',
