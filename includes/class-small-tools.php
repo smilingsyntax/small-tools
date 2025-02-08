@@ -18,9 +18,13 @@ class Small_Tools {
         
         // Load admin class
         require_once SMALL_TOOLS_PLUGIN_DIR . 'admin/class-small-tools-admin.php';
+
+        // Load enqueue class
+        require_once SMALL_TOOLS_PLUGIN_DIR . 'includes/class-small-tools-enqueue.php';
         
         // Initialize admin
         $plugin_admin = new Small_Tools_Admin($this->plugin_name, $this->version);
+        $small_tools_enqueue = new Small_Tools_Enqueue($this->plugin_name, $this->version);
     }
 
     public function setup_actions() {
@@ -83,19 +87,6 @@ class Small_Tools {
                 array('jquery'),
                 $this->version,
                 true
-            );
-        }
-    }
-
-    public function enqueue_admin_assets() {
-        $settings = Small_Tools_Settings::get_instance()->get_settings();
-        if ($settings['small_tools_dark_mode_enabled'] === 'yes') {
-            wp_enqueue_style(
-                'small-tools-admin',
-                SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-admin.css',
-                array(),
-                $this->version,
-                'all'
             );
         }
     }

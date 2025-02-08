@@ -11,6 +11,9 @@ class Small_Tools_Enqueue {
         // Admin scripts and styles
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_styles'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+        
+        // Add dark mode class to admin body
+        add_filter('admin_body_class', array($this, 'add_admin_body_class'));
     }
 
     public function enqueue_admin_styles($hook) {
@@ -31,32 +34,57 @@ class Small_Tools_Enqueue {
                 $this->version,
                 'all'
             );
-        }
-
-        // Enqueue dark mode styles if enabled
-        if (get_option('small_tools_dark_mode_enabled') === 'yes') {
             wp_enqueue_style(
-                'small-tools-dark-mode',
-                SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-dark-mode.css',
+                'small-tools-tabs',
+                SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-tabs.css',
                 array(),
                 $this->version,
                 'all'
             );
         }
+
+        // Always enqueue dark mode styles
+        wp_enqueue_style(
+            'small-tools-dark-mode',
+            SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-dark-mode.css',
+            array(),
+            $this->version,
+            'all'
+        );
     }
 
     public function enqueue_admin_scripts($hook) {
         // Only enqueue on our plugin pages
         if (strpos($hook, 'small-tools') !== false) {
             wp_enqueue_media();
+            wp_enqueue_script('jquery');
             wp_enqueue_script('wp-color-picker');
+            
+            // Enqueue settings script
             wp_enqueue_script(
-                'small-tools-admin',
-                SMALL_TOOLS_PLUGIN_URL . 'admin/js/small-tools-admin.js',
+                'small-tools-settings',
+                SMALL_TOOLS_PLUGIN_URL . 'admin/js/small-tools-settings.js',
                 array('jquery', 'wp-color-picker'),
                 $this->version,
                 true
             );
+
+            // Localize script
+            wp_localize_script(
+                'small-tools-settings',
+                'smallToolsSettings',
+                array(
+                    'ajaxurl' => admin_url('admin-ajax.php'),
+                    'nonce' => wp_create_nonce('small_tools_settings_nonce')
+                )
+            );
         }
+    }
+
+    public function add_admin_body_class($classes) {
+        if (get_option('small_tools_dark_mode_enabled') === 'yes') {
+            $classes .= ' small-tools-dark-mode';
+        }
+        return $classes;
     }
 } 

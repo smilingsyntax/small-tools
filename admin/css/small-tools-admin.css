@@ -1,106 +1,154 @@
-/* Dark Mode Styles */
-body.wp-admin {
-    background: #1a1a1a;
-    color: #f0f0f0;
-}
-
-#wpcontent, #wpfooter {
-    background: #1a1a1a;
-}
-
-/* Admin menu */
-#adminmenu, #adminmenuback, #adminmenuwrap {
-    background: #2c2c2c;
-}
-
-#adminmenu a {
-    color: #f0f0f0;
-}
-
-#adminmenu div.wp-menu-image:before {
-    color: #f0f0f0;
-}
-
-#adminmenu li.menu-top:hover,
-#adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top:focus {
-    background-color: #383838;
-    color: #00b9eb;
-}
-
-/* Tables */
-.wp-list-table {
-    background: #2c2c2c;
-    border-color: #444;
-}
-
-.wp-list-table tr:nth-child(odd) {
-    background-color: #262626;
-}
-
-.wp-list-table th {
-    background: #383838;
+/* Admin Styles */
+.small-tools-settings-header {
+    margin-bottom: 20px;
 }
 
 /* Forms */
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-input[type="email"],
-input[type="url"],
-textarea,
-select {
-    background-color: #2c2c2c !important;
-    color: #f0f0f0 !important;
-    border-color: #444 !important;
+.form-table th {
+    width: 250px;
+    padding: 20px 10px 20px 0;
 }
 
-/* Buttons */
-.wp-core-ui .button {
-    background: #383838;
-    border-color: #444;
-    color: #f0f0f0;
+.form-table td {
+    padding: 20px 10px;
 }
 
-.wp-core-ui .button-primary {
-    background: #0073aa;
-    border-color: #006291;
+/* Custom Toggle Switch */
+.small-tools-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
 }
 
-/* Metaboxes */
-.postbox {
-    background: #2c2c2c;
-    border-color: #444;
+.small-tools-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.postbox h2.hndle {
-    border-bottom-color: #444;
+.small-tools-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
 }
 
-/* Notice boxes */
-.notice {
-    background: #2c2c2c;
-    border-left-color: #00b9eb;
+.small-tools-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
 }
 
-.notice-warning {
-    border-left-color: #ffb900;
+.small-tools-toggle input:checked + .slider {
+    background-color: #2271b1;
 }
 
-.notice-error {
-    border-left-color: #dc3232;
+.small-tools-toggle input:checked + .slider:before {
+    transform: translateX(20px);
 }
 
-.notice-success {
-    border-left-color: #46b450;
+/* Description text */
+.description {
+    color: #646970;
+    font-style: normal;
+    margin-top: 5px;
 }
 
-/* Links */
-a {
-    color: #00b9eb;
+/* Media uploader */
+.small-tools-media-upload {
+    margin-top: 10px;
 }
 
-a:hover, a:active, a:focus {
-    color: #00a0d2;
+.small-tools-media-upload .button {
+    margin: 0 5px;
+}
+
+.small-tools-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+/* Color picker */
+.wp-picker-container {
+    display: inline-block;
+}
+
+.wp-picker-container .wp-color-result.button {
+    margin: 0 6px 0 0;
+}
+
+/* Sections */
+.small-tools-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.small-tools-section-title {
+    margin: 0 0 20px;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #dcdcde;
+    color: #1d2327;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Spinner */
+.small-tools-spinner {
+    float: none;
+    margin: 4px 10px 0;
+    vertical-align: middle;
+}
+
+/* Notice */
+.small-tools-save-notice {
+    position: fixed;
+    top: 32px;
+    right: 20px;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-weight: 500;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.small-tools-save-notice.success {
+    background: #00a32a;
+    color: #fff;
+}
+
+.small-tools-save-notice.error {
+    background: #d63638;
+    color: #fff;
 } 

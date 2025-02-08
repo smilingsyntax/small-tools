@@ -6,155 +6,251 @@ if (!defined('WPINC')) {
 ?>
 
 <div class="wrap">
-    <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-    
-    <form method="post" action="<?php echo esc_url(admin_url('options.php')); ?>">
-        <?php
-        settings_fields('small-tools-general');
-        do_settings_sections('small-tools-general');
-        wp_nonce_field('small_tools_general_settings', 'small_tools_general_nonce');
-        ?>
-        
-        <table class="form-table" role="presentation">
-            <?php foreach (array(
-                'disable_right_click' => __('Disable Right Click', 'small-tools'),
-                'remove_image_threshold' => __('Remove Image Threshold', 'small-tools'),
-                'disable_lazy_load' => __('Disable Lazy Loading', 'small-tools'),
-                'disable_emojis' => __('Disable Emojis', 'small-tools'),
-                'remove_jquery_migrate' => __('Remove jQuery Migrate', 'small-tools'),
-                'back_to_top' => __('Back to Top Button', 'small-tools')
-            ) as $key => $label): 
-                $option_name = 'small_tools_' . $key;
-            ?>
-            <tr>
-                <th scope="row">
-                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_html($label); ?></label>
-                </th>
-                <td>
-                    <input type="checkbox" 
-                           id="<?php echo esc_attr($option_name); ?>" 
-                           name="<?php echo esc_attr($option_name); ?>" 
-                           value="yes"
-                           <?php checked('yes', get_option($option_name)); ?>>
-                    <p class="description"><?php echo esc_html($this->get_setting_description($key)); ?></p>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+    <div class="small-tools-settings-header">
+        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+        <div class="small-tools-header-actions">
+            <button type="submit" class="button button-primary" form="small-tools-settings-form"><?php esc_html_e('Save Changes', 'small-tools'); ?></button>
+            <span class="spinner small-tools-spinner"></span>
+        </div>
+    </div>
 
-            <tr>
-                <th scope="row">
-                    <label for="small_tools_back_to_top_position"><?php esc_html_e('Back to Top Position', 'small-tools'); ?></label>
-                </th>
-                <td>
-                    <select id="small_tools_back_to_top_position" name="small_tools_back_to_top_position">
-                        <?php
-                        $positions = array(
-                            'left' => __('Left', 'small-tools'),
-                            'right' => __('Right', 'small-tools')
-                        );
-                        foreach ($positions as $value => $label) {
-                            printf(
-                                '<option value="%s" %s>%s</option>',
-                                esc_attr($value),
-                                selected($value, get_option('small_tools_back_to_top_position'), false),
-                                esc_html($label)
-                            );
-                        }
-                        ?>
-                    </select>
-                    <p class="description"><?php esc_html_e('Choose the position of the back to top button.', 'small-tools'); ?></p>
-                </td>
-            </tr>
+    <div class="small-tools-save-notice"></div>
 
-            <tr>
-                <th scope="row">
-                    <label for="small_tools_back_to_top_bg_color"><?php esc_html_e('Background Color', 'small-tools'); ?></label>
-                </th>
-                <td>
-                    <input type="text" 
-                           id="small_tools_back_to_top_bg_color" 
-                           name="small_tools_back_to_top_bg_color" 
-                           value="<?php echo esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)')); ?>" 
-                           class="small-tools-color-picker">
-                    <p class="description"><?php esc_html_e('Choose the background color for the back to top button.', 'small-tools'); ?></p>
-                </td>
-            </tr>
+    <h2 class="nav-tab-wrapper small-tools-tabs">
+        <a href="#" class="nav-tab" data-tab="general"><?php esc_html_e('General', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="performance"><?php esc_html_e('Performance', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="back-to-top"><?php esc_html_e('Back to Top', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="admin"><?php esc_html_e('Admin', 'small-tools'); ?></a>
+    </h2>
 
-            <tr>
-                <th scope="row">
-                    <label for="small_tools_back_to_top_size"><?php esc_html_e('Button Size', 'small-tools'); ?></label>
-                </th>
-                <td>
-                    <input type="number" 
-                           id="small_tools_back_to_top_size" 
-                           name="small_tools_back_to_top_size" 
-                           value="<?php echo esc_attr(get_option('small_tools_back_to_top_size', '40')); ?>" 
-                           min="20" 
-                           max="100" 
-                           step="1" 
-                           class="small-text">
-                    <p class="description"><?php esc_html_e('Set the size of the back to top button in pixels (20-100).', 'small-tools'); ?></p>
-                </td>
-            </tr>
+    <form method="post" action="" class="small-tools-settings-form" id="small-tools-settings-form">
+        <?php wp_nonce_field('small_tools_general_settings', 'small_tools_general_nonce'); ?>
 
-            <tr>
-                <th scope="row">
-                    <label for="small_tools_back_to_top_icon"><?php esc_html_e('Back to Top Icon', 'small-tools'); ?></label>
-                </th>
-                <td>
-                    <div class="small-tools-media-upload">
-                        <input type="text" 
-                               id="small_tools_back_to_top_icon" 
-                               name="small_tools_back_to_top_icon" 
-                               value="<?php echo esc_url(get_option('small_tools_back_to_top_icon')); ?>" 
-                               class="regular-text">
-                        <button type="button" class="button small-tools-upload-btn"><?php esc_html_e('Upload Icon', 'small-tools'); ?></button>
-                        <button type="button" class="button small-tools-remove-btn" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>><?php esc_html_e('Remove Icon', 'small-tools'); ?></button>
-                        <div class="small-tools-preview" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>>
-                            <a href="#" class="small-tools-preview-button" 
-                               style="<?php 
-                                    echo sprintf('--preview-size: %dpx; --preview-bg-color: %s;',
-                                        absint(get_option('small_tools_back_to_top_size', '40')),
-                                        esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)'))
+        <!-- General Tab -->
+        <div id="general" class="small-tools-tab-content">
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Content Protection', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_disable_right_click"><?php esc_html_e('Disable Right Click', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_disable_right_click" 
+                                   name="small_tools_disable_right_click" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_disable_right_click')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('disable_right_click')); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Performance Tab -->
+        <div id="performance" class="small-tools-tab-content">
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Image Optimization', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_remove_image_threshold"><?php esc_html_e('Remove Image Threshold', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_remove_image_threshold" 
+                                   name="small_tools_remove_image_threshold" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_remove_image_threshold')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('remove_image_threshold')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_disable_lazy_load"><?php esc_html_e('Disable Lazy Loading', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_disable_lazy_load" 
+                                   name="small_tools_disable_lazy_load" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_disable_lazy_load')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('disable_lazy_load')); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Script Optimization', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_disable_emojis"><?php esc_html_e('Disable Emojis', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_disable_emojis" 
+                                   name="small_tools_disable_emojis" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_disable_emojis')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('disable_emojis')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_remove_jquery_migrate"><?php esc_html_e('Remove jQuery Migrate', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_remove_jquery_migrate" 
+                                   name="small_tools_remove_jquery_migrate" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_remove_jquery_migrate')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('remove_jquery_migrate')); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Back to Top Tab -->
+        <div id="back-to-top" class="small-tools-tab-content">
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Back to Top Button', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_back_to_top"><?php esc_html_e('Enable Back to Top', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_back_to_top" 
+                                   name="small_tools_back_to_top" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_back_to_top')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('back_to_top')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_back_to_top_position"><?php esc_html_e('Button Position', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <select id="small_tools_back_to_top_position" name="small_tools_back_to_top_position">
+                                <?php
+                                $positions = array(
+                                    'left' => __('Left', 'small-tools'),
+                                    'right' => __('Right', 'small-tools')
+                                );
+                                foreach ($positions as $value => $label) {
+                                    printf(
+                                        '<option value="%s" %s>%s</option>',
+                                        esc_attr($value),
+                                        selected($value, get_option('small_tools_back_to_top_position'), false),
+                                        esc_html($label)
                                     );
-                                ?>">
-                                <img src="<?php echo esc_url(get_option('small_tools_back_to_top_icon')); ?>" alt="<?php esc_attr_e('Icon preview', 'small-tools'); ?>">
-                            </a>
-                        </div>
-                        <p class="description"><?php esc_html_e('Upload a custom icon for the back to top button (recommended size: 24x24px). Leave empty to use default arrow icon.', 'small-tools'); ?></p>
-                    </div>
-                </td>
-            </tr>
+                                }
+                                ?>
+                            </select>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('back_to_top_position')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_back_to_top_bg_color"><?php esc_html_e('Background Color', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" 
+                                   id="small_tools_back_to_top_bg_color" 
+                                   name="small_tools_back_to_top_bg_color" 
+                                   value="<?php echo esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)')); ?>" 
+                                   class="small-tools-color-picker">
+                            <p class="description"><?php echo esc_html($this->get_setting_description('back_to_top_bg_color')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_back_to_top_size"><?php esc_html_e('Button Size', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number" 
+                                   id="small_tools_back_to_top_size" 
+                                   name="small_tools_back_to_top_size" 
+                                   value="<?php echo esc_attr(get_option('small_tools_back_to_top_size', '40')); ?>" 
+                                   min="20" 
+                                   max="100" 
+                                   step="1" 
+                                   class="small-text">
+                            <p class="description"><?php echo esc_html($this->get_setting_description('back_to_top_size')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_back_to_top_icon"><?php esc_html_e('Custom Icon', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <div class="small-tools-media-upload">
+                                <input type="text" 
+                                       id="small_tools_back_to_top_icon" 
+                                       name="small_tools_back_to_top_icon" 
+                                       value="<?php echo esc_url(get_option('small_tools_back_to_top_icon')); ?>" 
+                                       class="regular-text">
+                                <button type="button" class="button small-tools-upload-btn"><?php esc_html_e('Upload Icon', 'small-tools'); ?></button>
+                                <button type="button" class="button small-tools-remove-btn" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>><?php esc_html_e('Remove Icon', 'small-tools'); ?></button>
+                                <div class="small-tools-preview" <?php echo !get_option('small_tools_back_to_top_icon') ? 'style="display:none;"' : ''; ?>>
+                                    <a href="#" class="small-tools-preview-button" 
+                                       style="<?php 
+                                            echo sprintf('--preview-size: %dpx; --preview-bg-color: %s;',
+                                                absint(get_option('small_tools_back_to_top_size', '40')),
+                                                esc_attr(get_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)'))
+                                            );
+                                        ?>">
+                                        <img src="<?php echo esc_url(get_option('small_tools_back_to_top_icon')); ?>" alt="<?php esc_attr_e('Icon preview', 'small-tools'); ?>">
+                                    </a>
+                                </div>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('back_to_top_icon')); ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
-            <tr>
-                <th scope="row">
-                    <label for="small_tools_dark_mode_enabled"><?php esc_html_e('Enable Dark Mode', 'small-tools'); ?></label>
-                </th>
-                <td>
-                    <input type="checkbox" 
-                           id="small_tools_dark_mode_enabled" 
-                           name="small_tools_dark_mode_enabled" 
-                           value="yes"
-                           <?php checked('yes', get_option('small_tools_dark_mode_enabled')); ?>>
-                    <p class="description"><?php esc_html_e('Enable dark mode for WordPress admin dashboard.', 'small-tools'); ?></p>
-                </td>
-            </tr>
-
-            <tr>
-                <th scope="row">
-                    <label for="small_tools_admin_footer_text"><?php esc_html_e('Admin Footer Text', 'small-tools'); ?></label>
-                </th>
-                <td>
-                    <input type="text" 
-                           id="small_tools_admin_footer_text" 
-                           name="small_tools_admin_footer_text" 
-                           value="<?php echo esc_attr(get_option('small_tools_admin_footer_text')); ?>" 
-                           class="regular-text">
-                    <p class="description"><?php esc_html_e('Custom text to display in the admin footer.', 'small-tools'); ?></p>
-                </td>
-            </tr>
-        </table>
-        
-        <?php submit_button(); ?>
+        <!-- Admin Tab -->
+        <div id="admin" class="small-tools-tab-content">
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Admin Interface', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_dark_mode_enabled"><?php esc_html_e('Enable Dark Mode', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_dark_mode_enabled" 
+                                   name="small_tools_dark_mode_enabled" 
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_dark_mode_enabled')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('dark_mode_enabled')); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_admin_footer_text"><?php esc_html_e('Admin Footer Text', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" 
+                                   id="small_tools_admin_footer_text" 
+                                   name="small_tools_admin_footer_text" 
+                                   value="<?php echo esc_attr(get_option('small_tools_admin_footer_text')); ?>" 
+                                   class="regular-text">
+                            <p class="description"><?php echo esc_html($this->get_setting_description('admin_footer_text')); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </form>
 </div> 

@@ -1,0 +1,111 @@
+/* Dark Mode Styles */
+body.small-tools-dark-mode {
+    background: #1a1a1a;
+    color: #f0f0f0;
+}
+
+body.small-tools-dark-mode #wpcontent,
+body.small-tools-dark-mode #wpfooter {
+    background: #1a1a1a;
+}
+
+/* Admin menu */
+body.small-tools-dark-mode #adminmenu,
+body.small-tools-dark-mode #adminmenuback,
+body.small-tools-dark-mode #adminmenuwrap {
+    background: #2c2c2c;
+}
+
+body.small-tools-dark-mode #adminmenu a {
+    color: #f0f0f0;
+}
+
+body.small-tools-dark-mode #adminmenu div.wp-menu-image:before {
+    color: #f0f0f0;
+}
+
+body.small-tools-dark-mode #adminmenu li.menu-top:hover,
+body.small-tools-dark-mode #adminmenu li.opensub > a.menu-top,
+body.small-tools-dark-mode #adminmenu li > a.menu-top:focus {
+    background-color: #383838;
+    color: #00b9eb;
+}
+
+/* Tables */
+body.small-tools-dark-mode .wp-list-table {
+    background: #2c2c2c;
+    border-color: #444;
+}
+
+body.small-tools-dark-mode .wp-list-table tr:nth-child(odd) {
+    background-color: #262626;
+}
+
+body.small-tools-dark-mode .wp-list-table th {
+    background: #383838;
+}
+
+/* Forms */
+body.small-tools-dark-mode input[type="text"],
+body.small-tools-dark-mode input[type="password"],
+body.small-tools-dark-mode input[type="number"],
+body.small-tools-dark-mode input[type="search"],
+body.small-tools-dark-mode input[type="email"],
+body.small-tools-dark-mode input[type="url"],
+body.small-tools-dark-mode textarea,
+body.small-tools-dark-mode select {
+    background-color: #2c2c2c !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
+}
+
+/* Buttons */
+body.small-tools-dark-mode .wp-core-ui .button {
+    background: #383838;
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+body.small-tools-dark-mode .wp-core-ui .button-primary {
+    background: #0073aa;
+    border-color: #006291;
+}
+
+/* Metaboxes */
+body.small-tools-dark-mode .postbox {
+    background: #2c2c2c;
+    border-color: #444;
+}
+
+body.small-tools-dark-mode .postbox h2.hndle {
+    border-bottom-color: #444;
+}
+
+/* Notice boxes */
+body.small-tools-dark-mode .notice {
+    background: #2c2c2c;
+    border-left-color: #00b9eb;
+}
+
+body.small-tools-dark-mode .notice-warning {
+    border-left-color: #ffb900;
+}
+
+body.small-tools-dark-mode .notice-error {
+    border-left-color: #dc3232;
+}
+
+body.small-tools-dark-mode .notice-success {
+    border-left-color: #46b450;
+}
+
+/* Links */
+body.small-tools-dark-mode a {
+    color: #00b9eb;
+}
+
+body.small-tools-dark-mode a:hover,
+body.small-tools-dark-mode a:active,
+body.small-tools-dark-mode a:focus {
+    color: #00a0d2;
+} 
