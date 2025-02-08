@@ -628,9 +628,9 @@ class Small_Tools_Admin {
                 'small_tools_back_to_top',
                 'small_tools_dark_mode_enabled'
             ))) {
-                $value = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : 'no';
+                $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : 'no';
             } else {
-                $value = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+                $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : '';
             }
             
             $value = $this->sanitize_setting($value, $option);
