@@ -1,5 +1,6 @@
 /* Main container styling */
 .wrap {
+    max-width: 1200px;
     margin: 20px 20px 0 0;
 }
 
@@ -46,12 +47,13 @@
 /* Tabs styling */
 .small-tools-tabs {
     margin: 0;
-    padding: 0;
+    padding: 0 !important;
     position: relative;
     background: #f0f0f1;
     border: 1px solid #c3c4c7;
     border-bottom: none;
     border-radius: 4px 4px 0 0;
+    display: flex;
 }
 
 .small-tools-tabs .nav-tab {
@@ -65,6 +67,9 @@
     border-right: 1px solid #c3c4c7;
     color: #50575e;
     transition: all 0.2s ease;
+    text-decoration: none;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .small-tools-tabs .nav-tab:hover,
@@ -85,8 +90,7 @@
 /* Content area styling */
 .small-tools-tab-content {
     display: none;
-    background: #fff;
-    border: 1px solid #c3c4c7;
+    border-bottom: 1px solid #c3c4c7;
     border-top: none;
     margin-bottom: 20px;
     border-radius: 0 0 4px 4px;
@@ -96,7 +100,6 @@
 .small-tools-section {
     padding: 25px;
     margin-bottom: 0;
-    border-bottom: 1px solid #eee;
 }
 
 .small-tools-section:last-child {
@@ -119,7 +122,7 @@
 
 /* Form elements styling */
 .small-tools-settings-form {
-    max-width: 900px;
+    max-width: 100%;
 }
 
 .small-tools-settings-form .form-table {
@@ -148,6 +151,9 @@
     transition: all 0.3s;
     cursor: pointer;
     border: none;
+    outline: none !important;
+    box-shadow: none !important;
+    margin: 0;
 }
 
 .small-tools-settings-form input[type="checkbox"]:before {
@@ -160,6 +166,7 @@
     left: 2px;
     background: #fff;
     transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .small-tools-settings-form input[type="checkbox"]:checked {
