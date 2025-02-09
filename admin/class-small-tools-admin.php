@@ -18,6 +18,10 @@ class Small_Tools_Admin {
         // Add AJAX handlers
         add_action('wp_ajax_small_tools_save_settings', array($this, 'ajax_save_settings'));
         add_action('wp_ajax_small_tools_replace_media', array($this, 'ajax_replace_media'));
+
+        // Add mime type handlers
+        add_filter('upload_mimes', array($this, 'add_custom_mime_types'), 10, 1);
+        add_filter('wp_check_filetype_and_ext', array($this, 'check_filetype'), 10, 5);
     }
 
     public function add_plugin_admin_menu() {
@@ -83,7 +87,9 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_size' => 'number',
             'small_tools_dark_mode_enabled' => 'boolean',
             'small_tools_admin_footer_text' => 'html',
-            'small_tools_enable_duplication' => 'boolean'
+            'small_tools_enable_duplication' => 'boolean',
+            'small_tools_enable_svg_upload' => 'boolean',
+            'small_tools_enable_avif_upload' => 'boolean'
         );
 
         foreach ($settings as $option => $type) {
@@ -561,19 +567,22 @@ class Small_Tools_Admin {
 
     public function get_setting_description($key) {
         $descriptions = array(
-            'disable_right_click' => __('Prevent users from right-clicking on your website content.', 'small-tools'),
-            'remove_image_threshold' => __('Allow uploading images in their original size without WordPress scaling.', 'small-tools'),
+            'disable_right_click' => __('Prevent users from right-clicking on images and content.', 'small-tools'),
+            'remove_image_threshold' => __('Remove WordPress image size threshold limit.', 'small-tools'),
             'disable_lazy_load' => __('Disable WordPress default lazy loading for images.', 'small-tools'),
-            'disable_emojis' => __('Remove WordPress emoji scripts to improve performance.', 'small-tools'),
-            'remove_jquery_migrate' => __('Remove jQuery Migrate script to reduce page load time.', 'small-tools'),
-            'back_to_top' => __('Add a back to top button to help users navigate long pages.', 'small-tools'),
+            'disable_emojis' => __('Remove emoji scripts and styles from loading.', 'small-tools'),
+            'remove_jquery_migrate' => __('Remove jQuery Migrate script from loading.', 'small-tools'),
+            'back_to_top' => __('Add a back to top button on your website.', 'small-tools'),
             'back_to_top_position' => __('Choose the position of the back to top button.', 'small-tools'),
-            'back_to_top_bg_color' => __('Set the background color of the back to top button.', 'small-tools'),
-            'back_to_top_size' => __('Set the size of the back to top button (20-100 pixels).', 'small-tools'),
             'back_to_top_icon' => __('Upload a custom icon for the back to top button.', 'small-tools'),
+            'back_to_top_bg_color' => __('Set the background color and opacity for the back to top button.', 'small-tools'),
+            'back_to_top_size' => __('Set the size of the back to top button (20-100px).', 'small-tools'),
             'dark_mode_enabled' => __('Enable dark mode for WordPress admin dashboard.', 'small-tools'),
             'admin_footer_text' => __('Customize the text shown in the admin footer.', 'small-tools'),
-            'enable_duplication' => __('Add a duplicate option to quickly clone posts, pages, and custom post types.', 'small-tools')
+            'enable_duplication' => __('Add a duplicate option to quickly clone posts, pages, and custom post types.', 'small-tools'),
+            'enable_media_replace' => __('Enable the ability to replace media files while maintaining the same URL and attachment ID.', 'small-tools'),
+            'enable_svg_upload' => __('Allow SVG file uploads with sanitization for enhanced security.', 'small-tools'),
+            'enable_avif_upload' => __('Enable support for AVIF image format uploads.', 'small-tools')
         );
 
         return isset($descriptions[$key]) ? $descriptions[$key] : '';
@@ -620,7 +629,9 @@ class Small_Tools_Admin {
             'small_tools_dark_mode_enabled',
             'small_tools_admin_footer_text',
             'small_tools_enable_duplication',
-            'small_tools_enable_media_replace'
+            'small_tools_enable_media_replace',
+            'small_tools_enable_svg_upload',
+            'small_tools_enable_avif_upload'
         );
 
         foreach ($general_settings as $option) {
@@ -634,7 +645,9 @@ class Small_Tools_Admin {
                 'small_tools_back_to_top',
                 'small_tools_dark_mode_enabled',
                 'small_tools_enable_duplication',
-                'small_tools_enable_media_replace'
+                'small_tools_enable_media_replace',
+                'small_tools_enable_svg_upload',
+                'small_tools_enable_avif_upload'
             ))) {
                 $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : 'no';
             } else {
@@ -687,7 +700,10 @@ class Small_Tools_Admin {
                     'small_tools_remove_jquery_migrate',
                     'small_tools_back_to_top',
                     'small_tools_dark_mode_enabled',
-                    'small_tools_enable_duplication'
+                    'small_tools_enable_duplication',
+                    'small_tools_enable_media_replace',
+                    'small_tools_enable_svg_upload',
+                    'small_tools_enable_avif_upload'
                 ))) {
                     return in_array($value, array('yes', 'no')) ? $value : 'no';
                 }
@@ -854,5 +870,99 @@ class Small_Tools_Admin {
             'message' => esc_html__('Media replaced successfully. Original media preserved with new attachment ID.', 'small-tools'),
             'redirect' => esc_url_raw(admin_url('upload.php'))
         ));
+    }
+
+    /**
+     * Add custom mime types based on settings
+     *
+     * @param array $mimes Existing mime types.
+     * @return array Modified mime types.
+     */
+    public function add_custom_mime_types($mimes) {
+        // Add SVG support if enabled
+        if (get_option('small_tools_enable_svg_upload') === 'yes') {
+            $mimes['svg'] = 'image/svg+xml';
+            $mimes['svgz'] = 'image/svg+xml';
+        }
+
+        // Add AVIF support if enabled
+        if (get_option('small_tools_enable_avif_upload') === 'yes') {
+            $mimes['avif'] = 'image/avif';
+        }
+
+        return $mimes;
+    }
+
+    /**
+     * Additional filetype and extension checking
+     *
+     * @param array  $data     Values for the extension, mime type, and corrected filename.
+     * @param string $file     Full path to the file.
+     * @param string $filename The name of the file.
+     * @param array  $mimes    Array of mime types keyed by their file extension regex.
+     * @param string $real_mime Real mime type of the uploaded file.
+     * @return array Modified data array
+     */
+    public function check_filetype($data, $file, $filename, $mimes, $real_mime = null) {
+        if (!$data['type']) {
+            $wp_filetype = wp_check_filetype($filename, $mimes);
+            $ext = $wp_filetype['ext'];
+            $type = $wp_filetype['type'];
+
+            // Handle SVG
+            if (get_option('small_tools_enable_svg_upload') === 'yes') {
+                if (in_array($ext, array('svg', 'svgz'))) {
+                    // Validate SVG content
+                    $file_content = file_get_contents($file);
+                    if ($this->validate_svg($file_content)) {
+                        $data['ext'] = $ext;
+                        $data['type'] = $type;
+                    }
+                }
+            }
+
+            // Handle AVIF
+            if (get_option('small_tools_enable_avif_upload') === 'yes') {
+                if ($ext === 'avif') {
+                    $data['ext'] = $ext;
+                    $data['type'] = $type;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Validate SVG content for security
+     *
+     * @param string $content SVG file content
+     * @return boolean Whether the SVG content is safe
+     */
+    private function validate_svg($content) {
+        // Basic security checks for SVG content
+        if (!$content) {
+            return false;
+        }
+
+        // Check for PHP tags
+        if (stripos($content, '<?php') !== false) {
+            return false;
+        }
+
+        // Check for script tags
+        if (preg_match('/<script[^>]*>[^<]*<\/script>/i', $content)) {
+            return false;
+        }
+
+        // Check for suspicious attributes
+        $suspicious_attributes = array('onload', 'onclick', 'onmouseover', 'onerror', 'onmouseout', 'onmousedown', 'onmouseup');
+        foreach ($suspicious_attributes as $attr) {
+            if (stripos($content, $attr) !== false) {
+                return false;
+            }
+        }
+
+        return true;
     }
 } 

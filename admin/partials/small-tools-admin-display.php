@@ -82,6 +82,44 @@ if (!defined('WPINC')) {
                     </tr>
                 </table>
             </div>
+
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Media Upload Settings', 'small-tools'); ?></h3>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_enable_svg_upload"><?php esc_html_e('Enable SVG Upload', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_enable_svg_upload" 
+                                   name="small_tools_enable_svg_upload" 
+                                   class="smiling_syntax_toggle"
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_enable_svg_upload')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_svg_upload')); ?></p>
+                            <p class="notice notice-warning" style="margin-top: 10px;">
+                                <?php esc_html_e('Note: SVG files will be sanitized for security before upload.', 'small-tools'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_enable_avif_upload"><?php esc_html_e('Enable AVIF Upload', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_enable_avif_upload" 
+                                   name="small_tools_enable_avif_upload" 
+                                   class="smiling_syntax_toggle"
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_enable_avif_upload')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_avif_upload')); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <!-- Performance Tab -->
