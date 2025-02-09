@@ -31,7 +31,15 @@ class Small_Tools_Settings {
             'small_tools_enable_media_replace' => 'yes',
             'small_tools_enable_svg_upload' => 'no',
             'small_tools_enable_avif_upload' => 'no',
-            'small_tools_enable_duplication' => 'yes'
+            'small_tools_enable_duplication' => 'yes',
+            'small_tools_remove_wp_logo' => 'no',
+            'small_tools_remove_site_name' => 'no',
+            'small_tools_remove_customize_menu' => 'no',
+            'small_tools_remove_updates_menu' => 'no',
+            'small_tools_remove_comments_menu' => 'no',
+            'small_tools_remove_new_content' => 'no',
+            'small_tools_remove_howdy' => 'no',
+            'small_tools_remove_help' => 'no'
         );
 
         // Create directory if it doesn't exist
@@ -171,6 +179,58 @@ class Small_Tools_Settings {
                 "add_filter('admin_footer_text', function() {\n    return '%s';\n});\n",
                 wp_kses_post($settings['small_tools_admin_footer_text'])
             );
+        }
+
+        // Admin Bar Cleanup
+        $content .= "\n// Admin Bar Cleanup\n";
+        $content .= "function small_tools_clean_admin_bar() {\n";
+        $content .= "    global \$wp_admin_bar;\n\n";
+        
+        if ($settings['small_tools_remove_wp_logo'] === 'yes') {
+            $content .= "    \$wp_admin_bar->remove_menu('wp-logo');\n";
+        }
+        
+        if ($settings['small_tools_remove_site_name'] === 'yes') {
+            $content .= "    \$wp_admin_bar->remove_menu('site-name');\n";
+        }
+        
+        if ($settings['small_tools_remove_customize_menu'] === 'yes') {
+            $content .= "    \$wp_admin_bar->remove_menu('customize');\n";
+        }
+        
+        if ($settings['small_tools_remove_updates_menu'] === 'yes') {
+            $content .= "    \$wp_admin_bar->remove_menu('updates');\n";
+        }
+        
+        if ($settings['small_tools_remove_comments_menu'] === 'yes') {
+            $content .= "    \$wp_admin_bar->remove_menu('comments');\n";
+        }
+        
+        if ($settings['small_tools_remove_new_content'] === 'yes') {
+            $content .= "    \$wp_admin_bar->remove_menu('new-content');\n";
+        }
+        
+        $content .= "}\n";
+        $content .= "add_action('wp_before_admin_bar_render', 'small_tools_clean_admin_bar');\n\n";
+
+        // Remove Howdy
+        if ($settings['small_tools_remove_howdy'] === 'yes') {
+            $content .= "add_filter('admin_bar_menu', function(\$wp_admin_bar) {
+    \$my_account = \$wp_admin_bar->get_node('my-account');
+    \$newtext = str_replace('Howdy,', '', \$my_account->title);
+    \$wp_admin_bar->add_node(array(
+        'id' => 'my-account',
+        'title' => \$newtext
+    ));
+}, 25);\n\n";
+        }
+
+        // Remove Help Tabs
+        if ($settings['small_tools_remove_help'] === 'yes') {
+            $content .= "add_action('admin_head', function() {
+    \$screen = get_current_screen();
+    \$screen->remove_help_tabs();
+});\n\n";
         }
 
         // Frontend Features

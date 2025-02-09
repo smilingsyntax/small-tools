@@ -73,7 +73,7 @@ class Small_Tools_Admin {
     }
 
     public function register_settings() {
-        // General Settings
+        // Register settings
         $settings = array(
             'small_tools_disable_right_click' => 'boolean',
             'small_tools_remove_image_threshold' => 'boolean',
@@ -82,45 +82,32 @@ class Small_Tools_Admin {
             'small_tools_remove_jquery_migrate' => 'boolean',
             'small_tools_back_to_top' => 'boolean',
             'small_tools_back_to_top_position' => 'string',
-            'small_tools_back_to_top_icon' => 'url',
+            'small_tools_back_to_top_icon' => 'string',
             'small_tools_back_to_top_bg_color' => 'string',
             'small_tools_back_to_top_size' => 'number',
-            'small_tools_dark_mode_enabled' => 'boolean',
-            'small_tools_admin_footer_text' => 'html',
-            'small_tools_enable_duplication' => 'boolean',
-            'small_tools_enable_svg_upload' => 'boolean',
-            'small_tools_enable_avif_upload' => 'boolean'
-        );
-
-        foreach ($settings as $option => $type) {
-            register_setting('small-tools-general', $option, array(
-                'sanitize_callback' => array($this, 'sanitize_and_regenerate'),
-                'type' => $type,
-                'show_in_rest' => true
-            ));
-        }
-
-        // Security Settings
-        $security_settings = array(
             'small_tools_force_strong_passwords' => 'boolean',
             'small_tools_disable_xmlrpc' => 'boolean',
-            'small_tools_hide_wp_version' => 'boolean'
+            'small_tools_hide_wp_version' => 'boolean',
+            'small_tools_wc_variation_threshold' => 'number',
+            'small_tools_admin_footer_text' => 'string',
+            'small_tools_dark_mode_enabled' => 'boolean',
+            'small_tools_enable_media_replace' => 'boolean',
+            'small_tools_enable_svg_upload' => 'boolean',
+            'small_tools_enable_avif_upload' => 'boolean',
+            'small_tools_enable_duplication' => 'boolean',
+            'small_tools_remove_wp_logo' => 'boolean',
+            'small_tools_remove_site_name' => 'boolean',
+            'small_tools_remove_customize_menu' => 'boolean',
+            'small_tools_remove_updates_menu' => 'boolean',
+            'small_tools_remove_comments_menu' => 'boolean',
+            'small_tools_remove_new_content' => 'boolean',
+            'small_tools_remove_howdy' => 'boolean',
+            'small_tools_remove_help' => 'boolean'
         );
 
-        foreach ($security_settings as $option => $type) {
-            register_setting('small-tools-security', $option, array(
-                'sanitize_callback' => array($this, 'sanitize_and_regenerate'),
-                'type' => $type,
-                'show_in_rest' => true
-            ));
+        foreach ($settings as $setting => $type) {
+            register_setting('small-tools-settings', $setting);
         }
-
-        // WooCommerce Settings
-        register_setting('small-tools-woocommerce', 'small_tools_wc_variation_threshold', array(
-            'sanitize_callback' => array($this, 'sanitize_and_regenerate'),
-            'type' => 'number',
-            'show_in_rest' => true
-        ));
     }
 
     public function sanitize_and_regenerate($value) {
@@ -602,20 +589,16 @@ class Small_Tools_Admin {
 
     public function ajax_save_settings() {
         // Verify nonce
-        if (!isset($_POST['security']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['security'])), 'small_tools_settings_nonce')) {
+        if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'small_tools_settings_nonce')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'small-tools')));
         }
 
-        // Verify user capabilities
+        // Check permissions
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('You do not have permission to perform this action.', 'small-tools')));
+            wp_send_json_error(array('message' => __('Permission denied.', 'small-tools')));
         }
 
-        $settings_updated = false;
-        $settings = array();
-
-        // Process general settings
-        $general_settings = array(
+        $settings = array(
             'small_tools_disable_right_click',
             'small_tools_remove_image_threshold',
             'small_tools_disable_lazy_load',
@@ -626,49 +609,44 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_icon',
             'small_tools_back_to_top_bg_color',
             'small_tools_back_to_top_size',
-            'small_tools_dark_mode_enabled',
+            'small_tools_force_strong_passwords',
+            'small_tools_disable_xmlrpc',
+            'small_tools_hide_wp_version',
+            'small_tools_wc_variation_threshold',
             'small_tools_admin_footer_text',
-            'small_tools_enable_duplication',
+            'small_tools_dark_mode_enabled',
             'small_tools_enable_media_replace',
             'small_tools_enable_svg_upload',
-            'small_tools_enable_avif_upload'
+            'small_tools_enable_avif_upload',
+            'small_tools_enable_duplication',
+            'small_tools_remove_wp_logo',
+            'small_tools_remove_site_name',
+            'small_tools_remove_customize_menu',
+            'small_tools_remove_updates_menu',
+            'small_tools_remove_comments_menu',
+            'small_tools_remove_new_content',
+            'small_tools_remove_howdy',
+            'small_tools_remove_help'
         );
 
-        foreach ($general_settings as $option) {
-            // Handle checkbox fields differently
-            if (in_array($option, array(
-                'small_tools_disable_right_click',
-                'small_tools_remove_image_threshold',
-                'small_tools_disable_lazy_load',
-                'small_tools_disable_emojis',
-                'small_tools_remove_jquery_migrate',
-                'small_tools_back_to_top',
-                'small_tools_dark_mode_enabled',
-                'small_tools_enable_duplication',
-                'small_tools_enable_media_replace',
-                'small_tools_enable_svg_upload',
-                'small_tools_enable_avif_upload'
-            ))) {
-                $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : 'no';
-            } else {
-                $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : '';
-            }
-            
-            $value = $this->sanitize_setting($value, $option);
-            update_option($option, $value);
-            $settings[$option] = $value;
-            $settings_updated = true;
+        $updated_settings = array();
+        foreach ($settings as $setting) {
+            $value = isset($_POST[$setting]) ? $this->sanitize_setting($_POST[$setting], $setting) : 'no';
+            update_option($setting, $value);
+            $updated_settings[$setting] = $value;
         }
 
-        if ($settings_updated) {
-            // Regenerate settings file
-            Small_Tools_Settings::get_instance()->generate_settings_file();
+        // Generate settings file
+        $settings_instance = Small_Tools_Settings::get_instance();
+        $file_generated = $settings_instance->generate_settings_file();
+
+        if ($file_generated) {
             wp_send_json_success(array(
                 'message' => __('Settings saved successfully.', 'small-tools'),
-                'settings' => $settings
+                'settings' => $updated_settings
             ));
         } else {
-            wp_send_json_error(array('message' => __('No settings were updated.', 'small-tools')));
+            wp_send_json_error(array('message' => __('Failed to generate settings file.', 'small-tools')));
         }
     }
 
