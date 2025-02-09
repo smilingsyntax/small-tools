@@ -559,6 +559,36 @@ if (!defined('WPINC')) {
 
                         <tr>
                             <th scope="row">
+                                <label for="small_tools_disable_dashboard_site_health"><?php esc_html_e('Site Health Status', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_dashboard_site_health" 
+                                       name="small_tools_disable_dashboard_site_health" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_dashboard_site_health')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the Site Health Status dashboard widget.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_dashboard_at_a_glance"><?php esc_html_e('At a Glance', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_dashboard_at_a_glance" 
+                                       name="small_tools_disable_dashboard_at_a_glance" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_dashboard_at_a_glance')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the At a Glance dashboard widget.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
                                 <label for="small_tools_disable_dashboard_activity"><?php esc_html_e('Activity Widget', 'small-tools'); ?></label>
                             </th>
                             <td>

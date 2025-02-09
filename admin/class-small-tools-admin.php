@@ -102,7 +102,16 @@ class Small_Tools_Admin {
             'small_tools_remove_comments_menu' => 'boolean',
             'small_tools_remove_new_content' => 'boolean',
             'small_tools_remove_howdy' => 'boolean',
-            'small_tools_remove_help' => 'boolean'
+            'small_tools_remove_help' => 'boolean',
+            'small_tools_hide_admin_notices' => 'boolean',
+            'small_tools_disable_dashboard_welcome' => 'boolean',
+            'small_tools_disable_dashboard_activity' => 'boolean',
+            'small_tools_disable_dashboard_quick_press' => 'boolean',
+            'small_tools_disable_dashboard_news' => 'boolean',
+            'small_tools_disable_dashboard_site_health' => 'boolean',
+            'small_tools_disable_dashboard_at_a_glance' => 'boolean',
+            'small_tools_hide_admin_bar' => 'boolean',
+            'small_tools_wider_admin_menu' => 'boolean'
         );
 
         foreach ($settings as $setting => $type) {

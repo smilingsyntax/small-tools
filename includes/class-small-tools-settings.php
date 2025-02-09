@@ -45,6 +45,8 @@ class Small_Tools_Settings {
             'small_tools_disable_dashboard_activity' => 'no',
             'small_tools_disable_dashboard_quick_press' => 'no',
             'small_tools_disable_dashboard_news' => 'no',
+            'small_tools_disable_dashboard_site_health' => 'no',
+            'small_tools_disable_dashboard_at_a_glance' => 'no',
             'small_tools_hide_admin_bar' => 'no',
             'small_tools_wider_admin_menu' => 'no'
         );
@@ -221,7 +223,9 @@ class Small_Tools_Settings {
         if ($settings['small_tools_disable_dashboard_welcome'] === 'yes' ||
             $settings['small_tools_disable_dashboard_activity'] === 'yes' ||
             $settings['small_tools_disable_dashboard_quick_press'] === 'yes' ||
-            $settings['small_tools_disable_dashboard_news'] === 'yes') {
+            $settings['small_tools_disable_dashboard_news'] === 'yes' ||
+            $settings['small_tools_disable_dashboard_site_health'] === 'yes' ||
+            $settings['small_tools_disable_dashboard_at_a_glance'] === 'yes') {
             
             $content .= "add_action('wp_dashboard_setup', function() {\n";
             
@@ -236,6 +240,12 @@ class Small_Tools_Settings {
             }
             if ($settings['small_tools_disable_dashboard_news'] === 'yes') {
                 $content .= "    remove_meta_box('dashboard_primary', 'dashboard', 'side');\n";
+            }
+            if ($settings['small_tools_disable_dashboard_site_health'] === 'yes') {
+                $content .= "    remove_meta_box('dashboard_site_health', 'dashboard', 'normal');\n";
+            }
+            if ($settings['small_tools_disable_dashboard_at_a_glance'] === 'yes') {
+                $content .= "    remove_meta_box('dashboard_right_now', 'dashboard', 'normal');\n";
             }
             
             $content .= "});\n";
