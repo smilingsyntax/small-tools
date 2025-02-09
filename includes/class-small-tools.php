@@ -40,6 +40,15 @@ class Small_Tools {
             require_once $hooks_file;
         }
 
+        // Media Replacement hooks
+        if (get_option('small_tools_enable_media_replace') === 'yes') {
+            add_filter('media_row_actions', array($this, 'add_media_action'), 10, 2);
+            add_action('admin_footer', array($this, 'add_media_replace_popup'));
+            add_action('wp_ajax_small_tools_replace_media', array($this, 'handle_media_replacement'));
+            add_action('wp_ajax_get_attachment_details', array($this, 'get_attachment_details'));
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_media_replace_scripts'));
+        }
+
         // Content Duplication hooks
         add_action('admin_action_small_tools_duplicate', array($this, 'duplicate_post_as_draft'));
         add_filter('post_row_actions', array($this, 'duplicate_post_link'), 10, 2);
@@ -226,5 +235,248 @@ class Small_Tools {
                 true
             );
         }
+    }
+
+    // Media Replacement Feature
+    public function add_media_action($actions, $post) {
+        if (!current_user_can('upload_files')) {
+            return $actions;
+        }
+
+        $actions['replace_media'] = sprintf(
+            '<a href="#" class="small-tools-replace-media" data-id="%d">%s</a>',
+            $post->ID,
+            esc_html__('Replace Media', 'small-tools')
+        );
+
+        return $actions;
+    }
+
+    public function add_media_replace_popup() {
+        ?>
+        <div id="small-tools-media-replace-modal" class="small-tools-modal-wrapper" style="display:none;">
+            <div class="small-tools-modal">
+                <div class="small-tools-modal-content">
+                    <div class="small-tools-modal-header">
+                        <h1><?php esc_html_e('Replace Media', 'small-tools'); ?></h1>
+                        <button type="button" class="small-tools-modal-close">
+                            <span class="dashicons dashicons-no-alt"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="small-tools-modal-body">
+                        <div class="small-tools-media-replace-container">
+                            <div class="small-tools-current-media">
+                                <h2><?php esc_html_e('Current Media', 'small-tools'); ?></h2>
+                                <div class="small-tools-media-preview"></div>
+                                <div class="small-tools-media-details"></div>
+                            </div>
+                            
+                            <div class="small-tools-replacement-media">
+                                <h2><?php esc_html_e('Select Replacement', 'small-tools'); ?></h2>
+                                <p class="description"><?php esc_html_e('Choose a file to replace the current media. The new file must be of the same type.', 'small-tools'); ?></p>
+                                
+                                <form id="small-tools-media-replace-form">
+                                    <input type="hidden" name="attachment_id" id="attachment_id" value="">
+                                    <input type="hidden" name="replacement_id" id="replacement_id" value="">
+                                    
+                                    <div class="small-tools-upload-area">
+                                        <button type="button" class="button button-hero" id="small-tools-select-media">
+                                            <?php esc_html_e('Select or Upload Media', 'small-tools'); ?>
+                                        </button>
+                                        <div id="small-tools-selected-preview"></div>
+                                    </div>
+                                    
+                                    <div class="small-tools-options">
+                                        <label>
+                                            <input type="checkbox" name="update_thumbnails" value="1" checked>
+                                            <?php esc_html_e('Update all thumbnail sizes', 'small-tools'); ?>
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="small-tools-modal-footer">
+                        <div class="small-tools-modal-actions">
+                            <button type="button" class="button small-tools-modal-close">
+                                <?php esc_html_e('Cancel', 'small-tools'); ?>
+                            </button>
+                            <button type="button" class="button button-primary" id="small-tools-replace-submit" disabled>
+                                <?php esc_html_e('Replace Media', 'small-tools'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="small-tools-modal-backdrop"></div>
+        </div>
+        <?php
+    }
+
+    public function enqueue_media_replace_scripts($hook) {
+        if ($hook !== 'upload.php' && $hook !== 'post.php') {
+            return;
+        }
+
+        wp_enqueue_media();
+        
+        wp_enqueue_style(
+            'small-tools-media-replace',
+            SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-media-replace.css',
+            array(),
+            $this->version
+        );
+
+        wp_enqueue_script(
+            'small-tools-media-replace',
+            SMALL_TOOLS_PLUGIN_URL . 'admin/js/small-tools-media-replace.js',
+            array('jquery', 'media-upload'),
+            $this->version,
+            true
+        );
+
+        wp_localize_script(
+            'small-tools-media-replace',
+            'smallToolsMediaReplace',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('small_tools_media_replace'),
+                'strings' => array(
+                    'title' => __('Select Replacement Media', 'small-tools'),
+                    'button' => __('Use this media', 'small-tools'),
+                    'replacing' => __('Replacing...', 'small-tools'),
+                    'success' => __('Media replaced successfully.', 'small-tools'),
+                    'error' => __('Error replacing media.', 'small-tools')
+                )
+            )
+        );
+    }
+
+    public function get_attachment_details() {
+        check_ajax_referer('small_tools_media_replace', 'security');
+
+        if (!current_user_can('upload_files')) {
+            wp_send_json_error(array('message' => __('Permission denied.', 'small-tools')));
+        }
+
+        $attachment_id = isset($_POST['id']) ? absint($_POST['id']) : 0;
+        if (!$attachment_id) {
+            wp_send_json_error(array('message' => __('Invalid attachment ID.', 'small-tools')));
+        }
+
+        $attachment = get_post($attachment_id);
+        if (!$attachment) {
+            wp_send_json_error(array('message' => __('Attachment not found.', 'small-tools')));
+        }
+
+        $file = get_attached_file($attachment_id);
+        $filename = basename($file);
+        $filetype = wp_check_filetype($filename);
+        $attachment_url = wp_get_attachment_url($attachment_id);
+
+        // Prepare preview
+        if (wp_attachment_is_image($attachment_id)) {
+            $preview = wp_get_attachment_image($attachment_id, 'medium', false, array('class' => 'small-tools-preview-image'));
+        } else {
+            $preview = sprintf(
+                '<div class="small-tools-media-info"><span class="dashicons dashicons-media-default"></span><span class="filename">%s</span></div>',
+                esc_html($filename)
+            );
+        }
+
+        // Prepare details
+        $details = sprintf(
+            '<div class="small-tools-media-info-list">
+                <p><strong>%s</strong> %s</p>
+                <p><strong>%s</strong> %s</p>
+                <p><strong>%s</strong> <a href="%s" target="_blank">%s</a></p>
+            </div>',
+            esc_html__('Filename:', 'small-tools'),
+            esc_html($filename),
+            esc_html__('File type:', 'small-tools'),
+            esc_html($filetype['type']),
+            esc_html__('URL:', 'small-tools'),
+            esc_url($attachment_url),
+            esc_html($attachment_url)
+        );
+
+        wp_send_json_success(array(
+            'preview' => $preview,
+            'details' => $details
+        ));
+    }
+
+    public function handle_media_replacement() {
+        check_ajax_referer('small_tools_media_replace', 'security');
+
+        if (!current_user_can('upload_files')) {
+            wp_send_json_error(array('message' => __('Permission denied.', 'small-tools')));
+        }
+
+        // Get attachment IDs
+        $original_id = isset($_POST['attachment_id']) ? absint($_POST['attachment_id']) : 0;
+        $replacement_id = isset($_POST['replacement_id']) ? absint($_POST['replacement_id']) : 0;
+
+        if (!$original_id || !$replacement_id) {
+            wp_send_json_error(array('message' => __('Invalid attachment IDs.', 'small-tools')));
+        }
+
+        // Get file paths
+        $original_file = get_attached_file($original_id);
+        $replacement_file = get_attached_file($replacement_id);
+
+        if (!$original_file || !$replacement_file || !file_exists($replacement_file)) {
+            wp_send_json_error(array('message' => __('Could not locate one or both files.', 'small-tools')));
+        }
+
+        // Check file types match
+        $original_type = wp_check_filetype(basename($original_file));
+        $replacement_type = wp_check_filetype(basename($replacement_file));
+
+        if ($original_type['type'] !== $replacement_type['type']) {
+            wp_send_json_error(array(
+                'message' => sprintf(
+                    __('File type mismatch. Original: %1$s, Replacement: %2$s', 'small-tools'),
+                    $original_type['type'],
+                    $replacement_type['type']
+                )
+            ));
+        }
+
+        // Get upload directory info
+        $uploads = wp_upload_dir();
+        $original_rel_path = _wp_get_attachment_relative_path($original_file);
+        $original_filename = wp_basename($original_file);
+        $new_file_path = $uploads['basedir'] . '/' . $original_rel_path;
+
+        // Ensure target directory exists
+        if (!wp_mkdir_p($new_file_path)) {
+            wp_send_json_error(array('message' => __('Failed to create target directory.', 'small-tools')));
+        }
+
+        $new_file = trailingslashit($new_file_path) . $original_filename;
+
+        // Copy the replacement file
+        if (!copy($replacement_file, $new_file)) {
+            wp_send_json_error(array('message' => __('Failed to copy replacement file.', 'small-tools')));
+        }
+
+        // Update the attachment metadata
+        update_attached_file($original_id, $new_file);
+
+        // Update thumbnails if requested
+        if (isset($_POST['update_thumbnails']) && $_POST['update_thumbnails'] === '1') {
+            $metadata = wp_generate_attachment_metadata($original_id, $new_file);
+            wp_update_attachment_metadata($original_id, $metadata);
+        }
+
+        // Clean up the temporary replacement attachment
+        wp_delete_attachment($replacement_id, true);
+
+        wp_send_json_success(array(
+            'message' => __('Media replaced successfully.', 'small-tools')
+        ));
     }
 }

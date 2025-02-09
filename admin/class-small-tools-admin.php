@@ -17,6 +17,7 @@ class Small_Tools_Admin {
 
         // Add AJAX handlers
         add_action('wp_ajax_small_tools_save_settings', array($this, 'ajax_save_settings'));
+        add_action('wp_ajax_small_tools_replace_media', array($this, 'ajax_replace_media'));
     }
 
     public function add_plugin_admin_menu() {
@@ -618,7 +619,8 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_size',
             'small_tools_dark_mode_enabled',
             'small_tools_admin_footer_text',
-            'small_tools_enable_duplication'
+            'small_tools_enable_duplication',
+            'small_tools_enable_media_replace'
         );
 
         foreach ($general_settings as $option) {
@@ -631,7 +633,8 @@ class Small_Tools_Admin {
                 'small_tools_remove_jquery_migrate',
                 'small_tools_back_to_top',
                 'small_tools_dark_mode_enabled',
-                'small_tools_enable_duplication'
+                'small_tools_enable_duplication',
+                'small_tools_enable_media_replace'
             ))) {
                 $value = isset($_POST[$option]) ? sanitize_text_field(wp_unslash($_POST[$option])) : 'no';
             } else {
@@ -690,5 +693,138 @@ class Small_Tools_Admin {
                 }
                 return sanitize_text_field($value);
         }
+    }
+
+    public function ajax_replace_media() {
+        // Check nonce
+        if (!check_ajax_referer('small_tools_media_replace', 'security', false)) {
+            wp_send_json_error(array('message' => __('Security check failed.', 'small-tools')));
+        }
+
+        // Check user capabilities
+        if (!current_user_can('upload_files')) {
+            wp_send_json_error(array('message' => __('You do not have permission to upload files.', 'small-tools')));
+        }
+
+        // Check if file was uploaded
+        if (!isset($_POST['replacement_id'])) {
+            wp_send_json_error(array('message' => __('No file was selected.', 'small-tools')));
+        }
+
+        // Get attachment ID
+        $attachment_id = isset($_POST['attachment_id']) ? absint($_POST['attachment_id']) : 0;
+        if (!$attachment_id) {
+            wp_send_json_error(array('message' => __('Invalid attachment ID.', 'small-tools')));
+        }
+
+        // Get original file path
+        $original_file = get_attached_file($attachment_id);
+        if (!$original_file) {
+            wp_send_json_error(array('message' => __('Original file not found.', 'small-tools')));
+        }
+
+        // Get replacement file path
+        $replacement_file = get_attached_file($_POST['replacement_id']);
+        if (!$replacement_file) {
+            wp_send_json_error(array('message' => __('Replacement file not found.', 'small-tools')));
+        }
+
+        // Get file info
+        $original_info = wp_check_filetype(basename($original_file));
+        $replacement_info = wp_check_filetype(basename($replacement_file));
+
+        // Check if file type is allowed
+        $allowed_mime_types = get_allowed_mime_types();
+        if (!in_array($replacement_info['type'], $allowed_mime_types)) {
+            wp_send_json_error(array(
+                'message' => sprintf(
+                    /* translators: %s: File type */
+                    __('File type not allowed: %s', 'small-tools'),
+                    $replacement_info['type']
+                )
+            ));
+        }
+
+        // Get attachment data
+        $original_attachment = get_post($attachment_id);
+        $replacement_attachment = get_post($_POST['replacement_id']);
+
+        if (!$original_attachment || !$replacement_attachment) {
+            wp_send_json_error(array('message' => __('One or both attachments not found.', 'small-tools')));
+        }
+
+        // Store original attachment data
+        $original_data = array(
+            'post_title' => $original_attachment->post_title,
+            'post_content' => $original_attachment->post_content,
+            'post_excerpt' => $original_attachment->post_excerpt,
+            'post_status' => $original_attachment->post_status,
+            'post_mime_type' => $original_attachment->post_mime_type,
+            'guid' => $original_attachment->guid,
+            'meta' => get_post_meta($attachment_id)
+        );
+
+        // Store replacement attachment data
+        $replacement_data = array(
+            'post_title' => $replacement_attachment->post_title,
+            'post_content' => $replacement_attachment->post_content,
+            'post_excerpt' => $replacement_attachment->post_excerpt,
+            'post_status' => $replacement_attachment->post_status,
+            'post_mime_type' => $replacement_attachment->post_mime_type,
+            'guid' => $replacement_attachment->guid,
+            'meta' => get_post_meta($_POST['replacement_id'])
+        );
+
+        // Update original attachment with replacement data
+        wp_update_post(array(
+            'ID' => $attachment_id,
+            'post_title' => $replacement_data['post_title'],
+            'post_content' => $replacement_data['post_content'],
+            'post_excerpt' => $replacement_data['post_excerpt'],
+            'post_mime_type' => $replacement_data['post_mime_type'],
+            'guid' => $replacement_data['guid']
+        ));
+
+        // Update replacement attachment with original data
+        wp_update_post(array(
+            'ID' => $_POST['replacement_id'],
+            'post_title' => $original_data['post_title'],
+            'post_content' => $original_data['post_content'],
+            'post_excerpt' => $original_data['post_excerpt'],
+            'post_mime_type' => $original_data['post_mime_type'],
+            'guid' => $original_data['guid']
+        ));
+
+        // Swap metadata
+        foreach ($original_data['meta'] as $meta_key => $meta_values) {
+            delete_post_meta($attachment_id, $meta_key);
+            foreach ($meta_values as $meta_value) {
+                add_post_meta($attachment_id, $meta_key, maybe_unserialize($meta_value));
+            }
+        }
+
+        foreach ($replacement_data['meta'] as $meta_key => $meta_values) {
+            delete_post_meta($_POST['replacement_id'], $meta_key);
+            foreach ($meta_values as $meta_value) {
+                add_post_meta($_POST['replacement_id'], $meta_key, maybe_unserialize($meta_value));
+            }
+        }
+
+        // Swap file paths
+        update_attached_file($attachment_id, $replacement_file);
+        update_attached_file($_POST['replacement_id'], $original_file);
+
+        // Update thumbnails if requested
+        $update_thumbnails = isset($_POST['update_thumbnails']) && sanitize_text_field($_POST['update_thumbnails']) === '1';
+        if ($update_thumbnails) {
+            wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $replacement_file));
+            wp_update_attachment_metadata($_POST['replacement_id'], wp_generate_attachment_metadata($_POST['replacement_id'], $original_file));
+        }
+
+        // Send success response
+        wp_send_json_success(array(
+            'message' => __('Media replaced successfully. Original media preserved with new attachment ID.', 'small-tools'),
+            'redirect' => admin_url('upload.php')
+        ));
     }
 } 

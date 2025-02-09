@@ -65,6 +65,21 @@ if (!defined('WPINC')) {
                             <p class="description"><?php echo esc_html($this->get_setting_description('enable_duplication')); ?></p>
                         </td>
                     </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="small_tools_enable_media_replace"><?php esc_html_e('Enable Media Replacement', 'small-tools'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" 
+                                   id="small_tools_enable_media_replace" 
+                                   name="small_tools_enable_media_replace" 
+                                   class="smiling_syntax_toggle"
+                                   value="yes"
+                                   <?php checked('yes', get_option('small_tools_enable_media_replace')); ?>>
+                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_media_replace')); ?></p>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
