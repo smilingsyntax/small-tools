@@ -481,6 +481,129 @@ if (!defined('WPINC')) {
                     </table>
                 </div>
             </div>
+
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Admin Interface Enhancements', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_hide_admin_notices"><?php esc_html_e('Hide Admin Notices', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_hide_admin_notices" 
+                                       name="small_tools_hide_admin_notices" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_hide_admin_notices')); ?>>
+                                <p class="description"><?php esc_html_e('Hide all admin notices to reduce clutter in the admin area.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_hide_admin_bar"><?php esc_html_e('Hide Admin Bar', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_hide_admin_bar" 
+                                       name="small_tools_hide_admin_bar" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_hide_admin_bar')); ?>>
+                                <p class="description"><?php esc_html_e('Hide the admin bar on the frontend for logged-in users.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_wider_admin_menu"><?php esc_html_e('Wider Admin Menu', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_wider_admin_menu" 
+                                       name="small_tools_wider_admin_menu" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_wider_admin_menu')); ?>>
+                                <p class="description"><?php esc_html_e('Make the admin menu wider for better readability.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Dashboard Widgets', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_dashboard_welcome"><?php esc_html_e('Welcome Panel', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_dashboard_welcome" 
+                                       name="small_tools_disable_dashboard_welcome" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_dashboard_welcome')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the WordPress Welcome panel.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_dashboard_activity"><?php esc_html_e('Activity Widget', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_dashboard_activity" 
+                                       name="small_tools_disable_dashboard_activity" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_dashboard_activity')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the Activity dashboard widget.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_dashboard_quick_press"><?php esc_html_e('Quick Draft Widget', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_dashboard_quick_press" 
+                                       name="small_tools_disable_dashboard_quick_press" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_dashboard_quick_press')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the Quick Draft dashboard widget.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_dashboard_news"><?php esc_html_e('WordPress News Widget', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_dashboard_news" 
+                                       name="small_tools_disable_dashboard_news" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_dashboard_news')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the WordPress News dashboard widget.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </form>
 </div> 

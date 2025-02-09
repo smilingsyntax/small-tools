@@ -598,46 +598,20 @@ class Small_Tools_Admin {
             wp_send_json_error(array('message' => __('Permission denied.', 'small-tools')));
         }
 
-        $settings = array(
-            'small_tools_disable_right_click',
-            'small_tools_remove_image_threshold',
-            'small_tools_disable_lazy_load',
-            'small_tools_disable_emojis',
-            'small_tools_remove_jquery_migrate',
-            'small_tools_back_to_top',
-            'small_tools_back_to_top_position',
-            'small_tools_back_to_top_icon',
-            'small_tools_back_to_top_bg_color',
-            'small_tools_back_to_top_size',
-            'small_tools_force_strong_passwords',
-            'small_tools_disable_xmlrpc',
-            'small_tools_hide_wp_version',
-            'small_tools_wc_variation_threshold',
-            'small_tools_admin_footer_text',
-            'small_tools_dark_mode_enabled',
-            'small_tools_enable_media_replace',
-            'small_tools_enable_svg_upload',
-            'small_tools_enable_avif_upload',
-            'small_tools_enable_duplication',
-            'small_tools_remove_wp_logo',
-            'small_tools_remove_site_name',
-            'small_tools_remove_customize_menu',
-            'small_tools_remove_updates_menu',
-            'small_tools_remove_comments_menu',
-            'small_tools_remove_new_content',
-            'small_tools_remove_howdy',
-            'small_tools_remove_help'
-        );
+        // Get all possible settings from the default settings array
+        $settings_instance = Small_Tools_Settings::get_instance();
+        $default_settings = $settings_instance->get_default_settings();
+        $settings = array_keys($default_settings);
 
         $updated_settings = array();
         foreach ($settings as $setting) {
+            // For checkboxes, if not set in POST, it means they're unchecked
             $value = isset($_POST[$setting]) ? $this->sanitize_setting($_POST[$setting], $setting) : 'no';
             update_option($setting, $value);
             $updated_settings[$setting] = $value;
         }
 
         // Generate settings file
-        $settings_instance = Small_Tools_Settings::get_instance();
         $file_generated = $settings_instance->generate_settings_file();
 
         if ($file_generated) {
@@ -646,45 +620,41 @@ class Small_Tools_Admin {
                 'settings' => $updated_settings
             ));
         } else {
-            wp_send_json_error(array('message' => __('Failed to generate settings file.', 'small-tools')));
+            wp_send_json_error(array(
+                'message' => __('Error generating settings file.', 'small-tools')
+            ));
         }
     }
 
     private function sanitize_setting($value, $option) {
         switch ($option) {
-            case 'small_tools_back_to_top_bg_color':
-                return sanitize_text_field($value);
-                
-            case 'small_tools_back_to_top_size':
-                $size = absint($value);
-                return ($size >= 20 && $size <= 100) ? $size : 40;
-                
-            case 'small_tools_back_to_top_icon':
-                return esc_url_raw($value);
-                
-            case 'small_tools_back_to_top_position':
-                return in_array($value, array('left', 'right')) ? $value : 'right';
-                
             case 'small_tools_admin_footer_text':
                 return wp_kses_post($value);
-                
+            
+            case 'small_tools_back_to_top_icon':
+                return esc_url_raw($value);
+            
+            case 'small_tools_back_to_top_bg_color':
+                return sanitize_text_field($value);
+            
+            case 'small_tools_back_to_top_size':
+                return absint($value);
+            
+            case 'small_tools_wc_variation_threshold':
+                return absint($value);
+            
+            case 'small_tools_back_to_top_position':
+                return in_array($value, array('left', 'right')) ? $value : 'right';
+            
             default:
-                // For yes/no options
-                if (in_array($option, array(
-                    'small_tools_disable_right_click',
-                    'small_tools_remove_image_threshold',
-                    'small_tools_disable_lazy_load',
-                    'small_tools_disable_emojis',
-                    'small_tools_remove_jquery_migrate',
-                    'small_tools_back_to_top',
-                    'small_tools_dark_mode_enabled',
-                    'small_tools_enable_duplication',
-                    'small_tools_enable_media_replace',
-                    'small_tools_enable_svg_upload',
-                    'small_tools_enable_avif_upload'
-                ))) {
-                    return in_array($value, array('yes', 'no')) ? $value : 'no';
+                // For checkbox/toggle settings
+                if (strpos($option, 'small_tools_enable_') === 0 ||
+                    strpos($option, 'small_tools_disable_') === 0 ||
+                    strpos($option, 'small_tools_remove_') === 0 ||
+                    strpos($option, 'small_tools_hide_') === 0) {
+                    return $value === 'yes' ? 'yes' : 'no';
                 }
+                
                 return sanitize_text_field($value);
         }
     }
