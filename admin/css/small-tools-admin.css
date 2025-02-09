@@ -149,4 +149,111 @@
     color: #1d2327;
     font-size: 16px;
     font-weight: 600;
+}
+
+/* Accordion Styles */
+.small-tools-accordion {
+    margin-bottom: 15px;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.small-tools-accordion-header {
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccd0d4;
+    background: #f8f9fa;
+    transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.small-tools-accordion-header:hover {
+    background: #f0f0f1;
+}
+
+.small-tools-accordion-header h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.small-tools-accordion-header::after {
+    content: '\f347';
+    font-family: dashicons;
+    font-size: 20px;
+    color: #72777c;
+    transition: transform 0.2s ease;
+}
+
+.small-tools-accordion-header.active::after {
+    transform: rotate(180deg);
+}
+
+.small-tools-accordion-content {
+    display: none;
+    padding: 20px;
+    border-top: 1px solid #ccd0d4;
+    background: #fff;
+}
+
+.small-tools-accordion-content.active {
+    display: block;
+}
+
+/* Smooth transition for accordion content */
+.small-tools-accordion-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.small-tools-accordion-content.active {
+    max-height: 2000px; /* Large enough to accommodate content */
+}
+
+/* Ensure form elements inside accordion are properly styled */
+.small-tools-accordion-content .form-table {
+    margin: 0;
+}
+
+.small-tools-accordion-content .form-table th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.small-tools-accordion-content .form-table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Description text styling */
+.small-tools-accordion-content .description {
+    margin-top: 5px;
+    color: #666;
+}
+
+/* Notice styling inside accordion */
+.small-tools-accordion-content .notice {
+    margin: 10px 0;
+    padding: 8px 12px;
+}
+
+/* Dark Mode Accordion Styles */
+body.small-tools-dark-mode .small-tools-accordion-header {
+    background: #2c2c2c;
+}
+
+body.small-tools-dark-mode .small-tools-accordion-header:hover {
+    background: #383838;
+}
+
+body.small-tools-dark-mode .small-tools-accordion-content {
+    background: #2c2c2c;
+}
+
+body.small-tools-dark-mode .small-tools-accordion-header.active {
+    background: #383838;
 } 

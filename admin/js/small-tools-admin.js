@@ -81,4 +81,65 @@ jQuery(document).ready(function($) {
         preview.hide();
         button.hide();
     });
+
+    // Initialize accordions
+    function initAccordions() {
+        const accordionHeaders = document.querySelectorAll('.small-tools-accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const isActive = this.classList.contains('active');
+                
+                // Close all accordions in the current tab
+                const currentTab = this.closest('.small-tools-tab-content');
+                currentTab.querySelectorAll('.small-tools-accordion-header').forEach(h => {
+                    if (h !== this) {
+                        h.classList.remove('active');
+                        h.nextElementSibling.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current accordion
+                this.classList.toggle('active');
+                content.classList.toggle('active');
+                
+                // Smooth scroll to the header if opening
+                if (!isActive) {
+                    setTimeout(() => {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+            });
+        });
+    }
+
+    // Open first accordion in active tab on page load
+    function openFirstAccordion() {
+        const activeTab = document.querySelector('.small-tools-tab-content.active');
+        if (activeTab) {
+            const firstHeader = activeTab.querySelector('.small-tools-accordion-header');
+            const firstContent = activeTab.querySelector('.small-tools-accordion-content');
+            if (firstHeader && firstContent) {
+                firstHeader.classList.add('active');
+                firstContent.classList.add('active');
+            }
+        }
+    }
+
+    // Initialize accordions when document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        initAccordions();
+        openFirstAccordion();
+        
+        // Re-initialize accordions when tab changes
+        const tabLinks = document.querySelectorAll('.nav-tab');
+        tabLinks.forEach(tab => {
+            tab.addEventListener('click', function() {
+                setTimeout(() => {
+                    openFirstAccordion();
+                }, 100);
+            });
+        });
+    });
 }); 

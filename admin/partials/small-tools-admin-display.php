@@ -29,105 +29,120 @@ if (!defined('WPINC')) {
 
         <!-- General Tab -->
         <div id="general" class="small-tools-tab-content">
-            <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Content Protection', 'small-tools'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_disable_right_click"><?php esc_html_e('Disable Right Click', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_disable_right_click" 
-                                   name="small_tools_disable_right_click" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_disable_right_click')); ?>>
-                            <p class="description"><?php echo esc_html($this->get_setting_description('disable_right_click')); ?></p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Content Protection', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_right_click"><?php esc_html_e('Disable Right Click', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_right_click" 
+                                       name="small_tools_disable_right_click" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_right_click')); ?>>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('disable_right_click')); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
-            <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Content Management', 'small-tools'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_enable_duplication"><?php esc_html_e('Enable Content Duplication', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_enable_duplication" 
-                                   name="small_tools_enable_duplication" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_enable_duplication')); ?>>
-                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_duplication')); ?></p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Content Management', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_enable_duplication"><?php esc_html_e('Enable Content Duplication', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_enable_duplication" 
+                                       name="small_tools_enable_duplication" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_enable_duplication')); ?>>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('enable_duplication')); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
         <!-- Media Tab -->
         <div id="media" class="small-tools-tab-content">
-            <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Media Replacement', 'small-tools'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_enable_media_replace"><?php esc_html_e('Enable Media Replacement', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_enable_media_replace" 
-                                   name="small_tools_enable_media_replace" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_enable_media_replace')); ?>>
-                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_media_replace')); ?></p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Media Replacement', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_enable_media_replace"><?php esc_html_e('Enable Media Replacement', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_enable_media_replace" 
+                                       name="small_tools_enable_media_replace" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_enable_media_replace')); ?>>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('enable_media_replace')); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
-            <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Upload Settings', 'small-tools'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_enable_svg_upload"><?php esc_html_e('Enable SVG Upload', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_enable_svg_upload" 
-                                   name="small_tools_enable_svg_upload" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_enable_svg_upload')); ?>>
-                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_svg_upload')); ?></p>
-                            <p class="notice notice-warning" style="margin-top: 10px;">
-                                <?php esc_html_e('Note: SVG files will be sanitized for security before upload.', 'small-tools'); ?>
-                            </p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_enable_avif_upload"><?php esc_html_e('Enable AVIF Upload', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_enable_avif_upload" 
-                                   name="small_tools_enable_avif_upload" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_enable_avif_upload')); ?>>
-                            <p class="description"><?php echo esc_html($this->get_setting_description('enable_avif_upload')); ?></p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Upload Settings', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_enable_svg_upload"><?php esc_html_e('Enable SVG Upload', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_enable_svg_upload" 
+                                       name="small_tools_enable_svg_upload" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_enable_svg_upload')); ?>>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('enable_svg_upload')); ?></p>
+                                <p class="notice notice-warning" style="margin-top: 10px;">
+                                    <?php esc_html_e('Note: SVG files will be sanitized for security before upload.', 'small-tools'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_enable_avif_upload"><?php esc_html_e('Enable AVIF Upload', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_enable_avif_upload" 
+                                       name="small_tools_enable_avif_upload" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_enable_avif_upload')); ?>>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('enable_avif_upload')); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -308,155 +323,163 @@ if (!defined('WPINC')) {
 
         <!-- Admin Tab -->
         <div id="admin" class="small-tools-tab-content">
-            <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Admin Interface', 'small-tools'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_dark_mode_enabled"><?php esc_html_e('Enable Dark Mode', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_dark_mode_enabled" 
-                                   name="small_tools_dark_mode_enabled" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_dark_mode_enabled')); ?>>
-                            <p class="description"><?php echo esc_html($this->get_setting_description('dark_mode_enabled')); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_admin_footer_text"><?php esc_html_e('Admin Footer Text', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="text" 
-                                   id="small_tools_admin_footer_text" 
-                                   name="small_tools_admin_footer_text" 
-                                   value="<?php echo esc_attr(get_option('small_tools_admin_footer_text')); ?>" 
-                                   class="regular-text">
-                            <p class="description"><?php echo esc_html($this->get_setting_description('admin_footer_text')); ?></p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Admin Interface', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_dark_mode_enabled"><?php esc_html_e('Enable Dark Mode', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_dark_mode_enabled" 
+                                       name="small_tools_dark_mode_enabled" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_dark_mode_enabled')); ?>>
+                                <p class="description"><?php echo esc_html($this->get_setting_description('dark_mode_enabled')); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_admin_footer_text"><?php esc_html_e('Admin Footer Text', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" 
+                                       id="small_tools_admin_footer_text" 
+                                       name="small_tools_admin_footer_text" 
+                                       value="<?php echo esc_attr(get_option('small_tools_admin_footer_text')); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php echo esc_html($this->get_setting_description('admin_footer_text')); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
-            <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Admin Bar Cleanup', 'small-tools'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_wp_logo"><?php esc_html_e('Remove WordPress Logo', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_wp_logo" 
-                                   name="small_tools_remove_wp_logo" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_wp_logo')); ?>>
-                            <p class="description"><?php esc_html_e('Remove WordPress logo and menu from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_site_name"><?php esc_html_e('Remove Site Name', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_site_name" 
-                                   name="small_tools_remove_site_name" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_site_name')); ?>>
-                            <p class="description"><?php esc_html_e('Remove home icon and site name from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_customize_menu"><?php esc_html_e('Remove Customize Menu', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_customize_menu" 
-                                   name="small_tools_remove_customize_menu" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_customize_menu')); ?>>
-                            <p class="description"><?php esc_html_e('Remove customize menu from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_updates_menu"><?php esc_html_e('Remove Updates Menu', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_updates_menu" 
-                                   name="small_tools_remove_updates_menu" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_updates_menu')); ?>>
-                            <p class="description"><?php esc_html_e('Remove updates counter and link from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_comments_menu"><?php esc_html_e('Remove Comments Menu', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_comments_menu" 
-                                   name="small_tools_remove_comments_menu" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_comments_menu')); ?>>
-                            <p class="description"><?php esc_html_e('Remove comments counter and link from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_new_content"><?php esc_html_e('Remove New Content Menu', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_new_content" 
-                                   name="small_tools_remove_new_content" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_new_content')); ?>>
-                            <p class="description"><?php esc_html_e('Remove new content menu from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_howdy"><?php esc_html_e('Remove Howdy', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_howdy" 
-                                   name="small_tools_remove_howdy" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_howdy')); ?>>
-                            <p class="description"><?php esc_html_e('Remove the Howdy greeting from the admin bar', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="small_tools_remove_help"><?php esc_html_e('Remove Help', 'small-tools'); ?></label>
-                        </th>
-                        <td>
-                            <input type="checkbox" 
-                                   id="small_tools_remove_help" 
-                                   name="small_tools_remove_help" 
-                                   class="smiling_syntax_toggle"
-                                   value="yes"
-                                   <?php checked('yes', get_option('small_tools_remove_help')); ?>>
-                            <p class="description"><?php esc_html_e('Remove the Help tab and drawer from admin pages', 'small-tools'); ?></p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Admin Bar Cleanup', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_wp_logo"><?php esc_html_e('Remove WordPress Logo', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_wp_logo" 
+                                       name="small_tools_remove_wp_logo" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_wp_logo')); ?>>
+                                <p class="description"><?php esc_html_e('Remove WordPress logo and menu from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_site_name"><?php esc_html_e('Remove Site Name', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_site_name" 
+                                       name="small_tools_remove_site_name" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_site_name')); ?>>
+                                <p class="description"><?php esc_html_e('Remove home icon and site name from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_customize_menu"><?php esc_html_e('Remove Customize Menu', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_customize_menu" 
+                                       name="small_tools_remove_customize_menu" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_customize_menu')); ?>>
+                                <p class="description"><?php esc_html_e('Remove customize menu from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_updates_menu"><?php esc_html_e('Remove Updates Menu', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_updates_menu" 
+                                       name="small_tools_remove_updates_menu" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_updates_menu')); ?>>
+                                <p class="description"><?php esc_html_e('Remove updates counter and link from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_comments_menu"><?php esc_html_e('Remove Comments Menu', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_comments_menu" 
+                                       name="small_tools_remove_comments_menu" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_comments_menu')); ?>>
+                                <p class="description"><?php esc_html_e('Remove comments counter and link from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_new_content"><?php esc_html_e('Remove New Content Menu', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_new_content" 
+                                       name="small_tools_remove_new_content" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_new_content')); ?>>
+                                <p class="description"><?php esc_html_e('Remove new content menu from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_howdy"><?php esc_html_e('Remove Howdy', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_howdy" 
+                                       name="small_tools_remove_howdy" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_howdy')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the Howdy greeting from the admin bar', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_remove_help"><?php esc_html_e('Remove Help', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_remove_help" 
+                                       name="small_tools_remove_help" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_remove_help')); ?>>
+                                <p class="description"><?php esc_html_e('Remove the Help tab and drawer from admin pages', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </form>

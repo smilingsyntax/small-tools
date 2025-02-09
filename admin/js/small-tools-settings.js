@@ -41,6 +41,46 @@ jQuery(document).ready(function($) {
     // Initialize tabs
     initTabs();
 
+    // Initialize accordions
+    function initAccordions() {
+        $('.small-tools-accordion-header').on('click', function() {
+            var $header = $(this);
+            var $content = $header.next('.small-tools-accordion-content');
+            var $allContents = $('.small-tools-accordion-content');
+            var $allHeaders = $('.small-tools-accordion-header');
+
+            if ($header.hasClass('active')) {
+                $header.removeClass('active');
+                $content.slideUp(300);
+            } else {
+                $allHeaders.removeClass('active');
+                $allContents.slideUp(300);
+                $header.addClass('active');
+                $content.slideDown(300);
+            }
+        });
+
+        // Open first accordion in active tab by default
+        $('.small-tools-tabs .nav-tab').on('click', function() {
+            setTimeout(function() {
+                var $activeTab = $('.small-tools-tab-content:visible');
+                var $firstAccordion = $activeTab.find('.small-tools-accordion-header:first');
+                if (!$activeTab.find('.small-tools-accordion-header.active').length) {
+                    $firstAccordion.trigger('click');
+                }
+            }, 100);
+        });
+
+        // Open first accordion on page load
+        var $firstAccordion = $('.small-tools-tab-content:visible .small-tools-accordion-header:first');
+        if ($firstAccordion.length && !$('.small-tools-accordion-header.active').length) {
+            $firstAccordion.trigger('click');
+        }
+    }
+
+    // Initialize accordions
+    initAccordions();
+
     // AJAX form submission
     $('.small-tools-settings-form').on('submit', function(e) {
         e.preventDefault();
