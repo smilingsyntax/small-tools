@@ -48,7 +48,9 @@ class Small_Tools_Settings {
             'small_tools_disable_dashboard_site_health' => 'no',
             'small_tools_disable_dashboard_at_a_glance' => 'no',
             'small_tools_hide_admin_bar' => 'no',
-            'small_tools_wider_admin_menu' => 'no'
+            'small_tools_wider_admin_menu' => 'no',
+            'small_tools_login_logo' => '',
+            'small_tools_login_logo_url' => ''
         );
 
         // Create directory if it doesn't exist
@@ -282,6 +284,27 @@ class Small_Tools_Settings {
         
         $content .= "}\n";
         $content .= "add_action('wp_before_admin_bar_render', 'small_tools_clean_admin_bar');\n\n";
+
+        // Add login customization code
+        $content .= "\n// Login Customization\n";
+        if (!empty($settings['small_tools_login_logo'])) {
+            $content .= "add_action('login_head', function() {\n";
+            $content .= "    echo '<style type=\"text/css\">\n";
+            $content .= "        .login h1 a {\n";
+            $content .= "            background-image: url(" . esc_url($settings['small_tools_login_logo']) . ") !important;\n";
+            $content .= "            background-size: contain !important;\n";
+            $content .= "            width: 320px !important;\n";
+            $content .= "            height: 80px !important;\n";
+            $content .= "        }\n";
+            $content .= "    </style>';\n";
+            $content .= "});\n";
+        }
+
+        if (!empty($settings['small_tools_login_logo_url'])) {
+            $content .= "add_filter('login_headerurl', function() {\n";
+            $content .= "    return '" . esc_url($settings['small_tools_login_logo_url']) . "';\n";
+            $content .= "});\n";
+        }
 
         // Remove Howdy
         if ($settings['small_tools_remove_howdy'] === 'yes') {

@@ -34,5 +34,9 @@ class Small_Tools_Activator {
         // Admin settings
         add_option('small_tools_admin_footer_text', 'Thank you for using <a href="https://smalltools.io" target="_blank">Small Tools</a>');
         add_option('small_tools_dark_mode_enabled', 'no');
+
+        // Login settings
+        add_option('small_tools_login_logo', '');
+        add_option('small_tools_login_logo_url', home_url());
     }
 } 

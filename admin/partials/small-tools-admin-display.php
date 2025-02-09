@@ -22,6 +22,7 @@ if (!defined('WPINC')) {
         <a href="#" class="nav-tab" data-tab="performance"><?php esc_html_e('Performance', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="back-to-top"><?php esc_html_e('Back to Top', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="admin"><?php esc_html_e('Admin', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="login"><?php esc_html_e('Login', 'small-tools'); ?></a>
     </h2>
 
     <form method="post" action="" class="small-tools-settings-form" id="small-tools-settings-form">
@@ -629,6 +630,52 @@ if (!defined('WPINC')) {
                                        value="yes"
                                        <?php checked('yes', get_option('small_tools_disable_dashboard_news')); ?>>
                                 <p class="description"><?php esc_html_e('Remove the WordPress News dashboard widget.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="login" class="small-tools-tab-content">
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Login Page Customization', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_login_logo"><?php esc_html_e('Custom Login Logo', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <div class="small-tools-media-upload">
+                                    <input type="text" 
+                                           id="small_tools_login_logo" 
+                                           name="small_tools_login_logo" 
+                                           value="<?php echo esc_url(get_option('small_tools_login_logo')); ?>" 
+                                           class="regular-text">
+                                    <button type="button" class="button small-tools-upload-btn"><?php esc_html_e('Upload Logo', 'small-tools'); ?></button>
+                                    <button type="button" class="button small-tools-remove-btn" <?php echo !get_option('small_tools_login_logo') ? 'style="display:none;"' : ''; ?>><?php esc_html_e('Remove Logo', 'small-tools'); ?></button>
+                                    <div class="small-tools-preview" <?php echo !get_option('small_tools_login_logo') ? 'style="display:none;"' : ''; ?>>
+                                        <img src="<?php echo esc_url(get_option('small_tools_login_logo')); ?>" alt="<?php esc_attr_e('Login logo preview', 'small-tools'); ?>" style="max-width: 320px; height: auto;">
+                                    </div>
+                                    <p class="description"><?php esc_html_e('Upload a custom logo for the WordPress login page. Recommended size: 320px wide.', 'small-tools'); ?></p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_login_logo_url"><?php esc_html_e('Logo URL', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="url" 
+                                       id="small_tools_login_logo_url" 
+                                       name="small_tools_login_logo_url" 
+                                       value="<?php echo esc_url(get_option('small_tools_login_logo_url', home_url())); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php esc_html_e('Enter the URL where users will be directed when clicking the login logo.', 'small-tools'); ?></p>
                             </td>
                         </tr>
                     </table>

@@ -111,7 +111,9 @@ class Small_Tools_Admin {
             'small_tools_disable_dashboard_site_health' => 'boolean',
             'small_tools_disable_dashboard_at_a_glance' => 'boolean',
             'small_tools_hide_admin_bar' => 'boolean',
-            'small_tools_wider_admin_menu' => 'boolean'
+            'small_tools_wider_admin_menu' => 'boolean',
+            'small_tools_login_logo' => 'string',
+            'small_tools_login_logo_url' => 'string'
         );
 
         foreach ($settings as $setting => $type) {
