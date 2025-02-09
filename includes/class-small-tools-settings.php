@@ -27,7 +27,11 @@ class Small_Tools_Settings {
             'small_tools_hide_wp_version' => 'yes',
             'small_tools_wc_variation_threshold' => '30',
             'small_tools_admin_footer_text' => 'Thank you for using Small Tools',
-            'small_tools_dark_mode_enabled' => 'no'
+            'small_tools_dark_mode_enabled' => 'no',
+            'small_tools_enable_media_replace' => 'yes',
+            'small_tools_enable_svg_upload' => 'no',
+            'small_tools_enable_avif_upload' => 'no',
+            'small_tools_enable_duplication' => 'yes'
         );
 
         // Create directory if it doesn't exist
@@ -59,7 +63,16 @@ class Small_Tools_Settings {
         $content = "<?php\n";
         $content .= "defined('ABSPATH') || exit;\n\n";
         
-        // WordPress General Features
+        // Define all settings as constants to avoid DB calls
+        foreach ($settings as $key => $value) {
+            $content .= sprintf(
+                "define('%s', '%s');\n",
+                strtoupper($key),
+                esc_attr($value)
+            );
+        }
+        
+        $content .= "\n// WordPress General Features\n";
         if ($settings['small_tools_remove_image_threshold'] === 'yes') {
             $content .= "add_filter('big_image_size_threshold', '__return_false');\n";
         }
@@ -76,7 +89,66 @@ class Small_Tools_Settings {
             $content .= $this->get_jquery_migrate_code();
         }
 
+        // Media Features
+        $content .= "\n// Media Features\n";
+        if ($settings['small_tools_enable_media_replace'] === 'yes') {
+            $content .= "add_filter('media_row_actions', function(\$actions, \$post) {
+                if (current_user_can('upload_files')) {
+                    \$actions['replace_media'] = sprintf(
+                        '<a href=\"#\" class=\"small-tools-replace-media\" data-id=\"%d\">%s</a>',
+                        \$post->ID,
+                        esc_html__('Replace Media', 'small-tools')
+                    );
+                }
+                return \$actions;
+            }, 10, 2);\n";
+        }
+
+        // SVG and AVIF Support
+        if ($settings['small_tools_enable_svg_upload'] === 'yes' || $settings['small_tools_enable_avif_upload'] === 'yes') {
+            $content .= "add_filter('upload_mimes', function(\$mimes) {\n";
+            if ($settings['small_tools_enable_svg_upload'] === 'yes') {
+                $content .= "    \$mimes['svg'] = 'image/svg+xml';\n";
+                $content .= "    \$mimes['svgz'] = 'image/svg+xml';\n";
+            }
+            if ($settings['small_tools_enable_avif_upload'] === 'yes') {
+                $content .= "    \$mimes['avif'] = 'image/avif';\n";
+            }
+            $content .= "    return \$mimes;\n";
+            $content .= "});\n";
+        }
+
+        // Content Duplication
+        if ($settings['small_tools_enable_duplication'] === 'yes') {
+            $content .= "\n// Content Duplication\n";
+            $content .= "add_filter('post_row_actions', function(\$actions, \$post) {
+                if (current_user_can('edit_posts')) {
+                    \$actions['duplicate'] = sprintf(
+                        '<a href=\"%s\" title=\"%s\">%s</a>',
+                        esc_url(wp_nonce_url(
+                            add_query_arg(
+                                array(
+                                    'action' => 'small_tools_duplicate',
+                                    'post' => \$post->ID
+                                ),
+                                admin_url('admin.php')
+                            ),
+                            'small_tools_duplicate_post_' . \$post->ID,
+                            'nonce'
+                        )),
+                        esc_attr__('Duplicate this item', 'small-tools'),
+                        esc_html__('Duplicate', 'small-tools')
+                    );
+                }
+                return \$actions;
+            }, 10, 2);\n";
+            $content .= "add_filter('page_row_actions', function(\$actions, \$post) {
+                return apply_filters('post_row_actions', \$actions, \$post);
+            }, 10, 2);\n";
+        }
+
         // Security Features
+        $content .= "\n// Security Features\n";
         if ($settings['small_tools_disable_xmlrpc'] === 'yes') {
             $content .= "add_filter('xmlrpc_enabled', '__return_false');\n";
         }
@@ -87,26 +159,30 @@ class Small_Tools_Settings {
         }
 
         // Admin Features
+        $content .= "\n// Admin Features\n";
+        if ($settings['small_tools_dark_mode_enabled'] === 'yes') {
+            $content .= "add_filter('admin_body_class', function(\$classes) {
+                return \$classes . ' small-tools-dark-mode';
+            });\n";
+        }
+
         if (!empty($settings['small_tools_admin_footer_text'])) {
             $content .= sprintf(
-                "function small_tools_custom_admin_footer() {\n    return '%s';\n}\n",
+                "add_filter('admin_footer_text', function() {\n    return '%s';\n});\n",
                 wp_kses_post($settings['small_tools_admin_footer_text'])
             );
-            $content .= "add_filter('admin_footer_text', 'small_tools_custom_admin_footer');\n\n";
         }
 
-        // WooCommerce Features
-        if (function_exists('is_woocommerce')) {
-            $content .= $this->get_woocommerce_code($settings);
-        }
-
-        // Asset Management
+        // Frontend Features
+        $content .= "\n// Frontend Features\n";
         if ($settings['small_tools_disable_right_click'] === 'yes' || $settings['small_tools_back_to_top'] === 'yes') {
             $content .= $this->get_frontend_assets_code($settings);
         }
 
-        if ($settings['small_tools_dark_mode_enabled'] === 'yes') {
-            $content .= $this->get_admin_assets_code();
+        // WooCommerce Features
+        if (function_exists('is_woocommerce')) {
+            $content .= "\n// WooCommerce Features\n";
+            $content .= $this->get_woocommerce_code($settings);
         }
 
         return (bool) file_put_contents($this->settings_file, $content);
