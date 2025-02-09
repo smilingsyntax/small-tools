@@ -724,7 +724,7 @@ class Small_Tools_Admin {
         }
 
         // Get replacement file path
-        $replacement_file = get_attached_file($_POST['replacement_id']);
+        $replacement_file = get_attached_file(sanitize_text_field(wp_unslash($_POST['replacement_id'])));
         if (!$replacement_file) {
             wp_send_json_error(array('message' => __('Replacement file not found.', 'small-tools')));
         }
@@ -747,84 +747,112 @@ class Small_Tools_Admin {
 
         // Get attachment data
         $original_attachment = get_post($attachment_id);
-        $replacement_attachment = get_post($_POST['replacement_id']);
+        $replacement_id = isset($_POST['replacement_id']) ? absint($_POST['replacement_id']) : 0;
+        $replacement_attachment = get_post($replacement_id);
 
         if (!$original_attachment || !$replacement_attachment) {
-            wp_send_json_error(array('message' => __('One or both attachments not found.', 'small-tools')));
+            wp_send_json_error(array(
+                'message' => esc_html__('One or both attachments not found.', 'small-tools')
+            ));
         }
 
         // Store original attachment data
         $original_data = array(
-            'post_title' => $original_attachment->post_title,
-            'post_content' => $original_attachment->post_content,
-            'post_excerpt' => $original_attachment->post_excerpt,
-            'post_status' => $original_attachment->post_status,
-            'post_mime_type' => $original_attachment->post_mime_type,
-            'guid' => $original_attachment->guid,
+            'post_title' => sanitize_text_field($original_attachment->post_title),
+            'post_content' => wp_kses_post($original_attachment->post_content),
+            'post_excerpt' => wp_kses_post($original_attachment->post_excerpt),
+            'post_status' => sanitize_text_field($original_attachment->post_status),
+            'post_mime_type' => sanitize_text_field($original_attachment->post_mime_type),
+            'guid' => esc_url_raw($original_attachment->guid),
             'meta' => get_post_meta($attachment_id)
         );
 
         // Store replacement attachment data
         $replacement_data = array(
-            'post_title' => $replacement_attachment->post_title,
-            'post_content' => $replacement_attachment->post_content,
-            'post_excerpt' => $replacement_attachment->post_excerpt,
-            'post_status' => $replacement_attachment->post_status,
-            'post_mime_type' => $replacement_attachment->post_mime_type,
-            'guid' => $replacement_attachment->guid,
-            'meta' => get_post_meta($_POST['replacement_id'])
+            'post_title' => sanitize_text_field($replacement_attachment->post_title),
+            'post_content' => wp_kses_post($replacement_attachment->post_content),
+            'post_excerpt' => wp_kses_post($replacement_attachment->post_excerpt),
+            'post_status' => sanitize_text_field($replacement_attachment->post_status),
+            'post_mime_type' => sanitize_text_field($replacement_attachment->post_mime_type),
+            'guid' => esc_url_raw($replacement_attachment->guid),
+            'meta' => get_post_meta($replacement_id)
         );
 
         // Update original attachment with replacement data
-        wp_update_post(array(
+        $original_update = wp_update_post(array(
             'ID' => $attachment_id,
             'post_title' => $replacement_data['post_title'],
             'post_content' => $replacement_data['post_content'],
             'post_excerpt' => $replacement_data['post_excerpt'],
             'post_mime_type' => $replacement_data['post_mime_type'],
             'guid' => $replacement_data['guid']
-        ));
+        ), true);
+
+        if (is_wp_error($original_update)) {
+            wp_send_json_error(array(
+                'message' => esc_html__('Failed to update original attachment.', 'small-tools')
+            ));
+        }
 
         // Update replacement attachment with original data
-        wp_update_post(array(
-            'ID' => $_POST['replacement_id'],
+        $replacement_update = wp_update_post(array(
+            'ID' => $replacement_id,
             'post_title' => $original_data['post_title'],
             'post_content' => $original_data['post_content'],
             'post_excerpt' => $original_data['post_excerpt'],
             'post_mime_type' => $original_data['post_mime_type'],
             'guid' => $original_data['guid']
-        ));
+        ), true);
+
+        if (is_wp_error($replacement_update)) {
+            wp_send_json_error(array(
+                'message' => esc_html__('Failed to update replacement attachment.', 'small-tools')
+            ));
+        }
 
         // Swap metadata
         foreach ($original_data['meta'] as $meta_key => $meta_values) {
-            delete_post_meta($attachment_id, $meta_key);
+            delete_post_meta($attachment_id, sanitize_key($meta_key));
             foreach ($meta_values as $meta_value) {
-                add_post_meta($attachment_id, $meta_key, maybe_unserialize($meta_value));
+                add_post_meta($attachment_id, sanitize_key($meta_key), maybe_unserialize($meta_value));
             }
         }
 
         foreach ($replacement_data['meta'] as $meta_key => $meta_values) {
-            delete_post_meta($_POST['replacement_id'], $meta_key);
+            delete_post_meta($replacement_id, sanitize_key($meta_key));
             foreach ($meta_values as $meta_value) {
-                add_post_meta($_POST['replacement_id'], $meta_key, maybe_unserialize($meta_value));
+                add_post_meta($replacement_id, sanitize_key($meta_key), maybe_unserialize($meta_value));
             }
         }
 
         // Swap file paths
-        update_attached_file($attachment_id, $replacement_file);
-        update_attached_file($_POST['replacement_id'], $original_file);
+        $original_file_update = update_attached_file($attachment_id, sanitize_text_field($replacement_file));
+        $replacement_file_update = update_attached_file($replacement_id, sanitize_text_field($original_file));
+
+        if (!$original_file_update || !$replacement_file_update) {
+            wp_send_json_error(array(
+                'message' => esc_html__('Failed to update file paths.', 'small-tools')
+            ));
+        }
 
         // Update thumbnails if requested
-        $update_thumbnails = isset($_POST['update_thumbnails']) && sanitize_text_field($_POST['update_thumbnails']) === '1';
+        $update_thumbnails = isset($_POST['update_thumbnails']) && sanitize_text_field(wp_unslash($_POST['update_thumbnails'])) === '1';
         if ($update_thumbnails) {
-            wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $replacement_file));
-            wp_update_attachment_metadata($_POST['replacement_id'], wp_generate_attachment_metadata($_POST['replacement_id'], $original_file));
+            $original_metadata = wp_generate_attachment_metadata($attachment_id, $replacement_file);
+            $replacement_metadata = wp_generate_attachment_metadata($replacement_id, $original_file);
+
+            if (!wp_update_attachment_metadata($attachment_id, $original_metadata) || 
+                !wp_update_attachment_metadata($replacement_id, $replacement_metadata)) {
+                wp_send_json_error(array(
+                    'message' => esc_html__('Failed to update attachment metadata.', 'small-tools')
+                ));
+            }
         }
 
         // Send success response
         wp_send_json_success(array(
-            'message' => __('Media replaced successfully. Original media preserved with new attachment ID.', 'small-tools'),
-            'redirect' => admin_url('upload.php')
+            'message' => esc_html__('Media replaced successfully. Original media preserved with new attachment ID.', 'small-tools'),
+            'redirect' => esc_url_raw(admin_url('upload.php'))
         ));
     }
 } 
