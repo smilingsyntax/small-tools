@@ -18,6 +18,7 @@ if (!defined('WPINC')) {
 
     <h2 class="nav-tab-wrapper small-tools-tabs">
         <a href="#" class="nav-tab" data-tab="general"><?php esc_html_e('General', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="media"><?php esc_html_e('Media', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="performance"><?php esc_html_e('Performance', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="back-to-top"><?php esc_html_e('Back to Top', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="admin"><?php esc_html_e('Admin', 'small-tools'); ?></a>
@@ -65,7 +66,15 @@ if (!defined('WPINC')) {
                             <p class="description"><?php echo esc_html($this->get_setting_description('enable_duplication')); ?></p>
                         </td>
                     </tr>
+                </table>
+            </div>
+        </div>
 
+        <!-- Media Tab -->
+        <div id="media" class="small-tools-tab-content">
+            <div class="small-tools-section">
+                <h3 class="small-tools-section-title"><?php esc_html_e('Media Replacement', 'small-tools'); ?></h3>
+                <table class="form-table">
                     <tr>
                         <th scope="row">
                             <label for="small_tools_enable_media_replace"><?php esc_html_e('Enable Media Replacement', 'small-tools'); ?></label>
@@ -84,7 +93,7 @@ if (!defined('WPINC')) {
             </div>
 
             <div class="small-tools-section">
-                <h3 class="small-tools-section-title"><?php esc_html_e('Media Upload Settings', 'small-tools'); ?></h3>
+                <h3 class="small-tools-section-title"><?php esc_html_e('Upload Settings', 'small-tools'); ?></h3>
                 <table class="form-table">
                     <tr>
                         <th scope="row">
