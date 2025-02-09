@@ -681,6 +681,47 @@ if (!defined('WPINC')) {
                     </table>
                 </div>
             </div>
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('User Columns', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        
+                    <tr>
+                            <th scope="row">
+                                <label for="small_tools_enable_user_columns"><?php esc_html_e('User List Columns', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <label class="small-tools-toggle">
+                                    <input type="checkbox" 
+                                           id="small_tools_enable_user_columns" 
+                                           name="small_tools_enable_user_columns" 
+                                           value="yes" 
+                                           <?php checked('yes', get_option('small_tools_enable_user_columns', 'yes')); ?>>
+                                    <span class="slider"></span>
+                                </label>
+                                <p class="description"><?php esc_html_e('Add Registration Date column to users list.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_enable_last_login"><?php esc_html_e('Last Login Column', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <label class="small-tools-toggle">
+                                    <input type="checkbox" 
+                                           id="small_tools_enable_last_login" 
+                                           name="small_tools_enable_last_login" 
+                                           value="yes" 
+                                           <?php checked('yes', get_option('small_tools_enable_last_login', 'yes')); ?>>
+                                    <span class="slider"></span>
+                                </label>
+                                <p class="description"><?php esc_html_e('Add Last Login column to users list and track login times.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
         </div>
     </form>
 </div> 

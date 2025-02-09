@@ -50,7 +50,9 @@ class Small_Tools_Settings {
             'small_tools_hide_admin_bar' => 'no',
             'small_tools_wider_admin_menu' => 'no',
             'small_tools_login_logo' => '',
-            'small_tools_login_logo_url' => ''
+            'small_tools_login_logo_url' => '',
+            'small_tools_enable_user_columns' => 'yes',
+            'small_tools_enable_last_login' => 'yes'
         );
 
         // Create directory if it doesn't exist
@@ -304,6 +306,39 @@ class Small_Tools_Settings {
             $content .= "add_filter('login_headerurl', function() {\n";
             $content .= "    return '" . esc_url($settings['small_tools_login_logo_url']) . "';\n";
             $content .= "});\n";
+        }
+
+        // Add Registration Date and Last Login columns to users list
+        if ($settings['small_tools_enable_user_columns'] === 'yes') {
+            $content .= "\n// User Columns\n";
+            $content .= "add_filter('manage_users_columns', function(\$columns) {
+    \$columns['registered'] = __('Registration Date', 'small-tools');
+    if (defined('SMALL_TOOLS_ENABLE_LAST_LOGIN') && SMALL_TOOLS_ENABLE_LAST_LOGIN === 'yes') {
+        \$columns['last_login'] = __('Last Login', 'small-tools');
+    }
+    return \$columns;
+});\n\n";
+
+            $content .= "add_action('manage_users_custom_column', function(\$value, \$column_name, \$user_id) {
+    switch (\$column_name) {
+        case 'registered':
+            \$user = get_userdata(\$user_id);
+            return date_i18n(get_option('date_format'), strtotime(\$user->user_registered));
+        case 'last_login':
+            if (defined('SMALL_TOOLS_ENABLE_LAST_LOGIN') && SMALL_TOOLS_ENABLE_LAST_LOGIN === 'yes') {
+                \$last_login = get_user_meta(\$user_id, 'last_login', true);
+                return \$last_login ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), \$last_login) : __('Never', 'small-tools');
+            }
+    }
+    return \$value;
+}, 10, 3);\n\n";
+
+            if ($settings['small_tools_enable_last_login'] === 'yes') {
+                $content .= "// Update last login timestamp when user logs in
+add_action('wp_login', function(\$user_login, \$user) {
+    update_user_meta(\$user->ID, 'last_login', time());
+}, 10, 2);\n\n";
+            }
         }
 
         // Remove Howdy
