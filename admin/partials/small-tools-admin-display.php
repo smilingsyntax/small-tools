@@ -99,7 +99,53 @@ if (!defined('WPINC')) {
                                        class="smiling_syntax_toggle"
                                        value="yes"
                                        <?php checked('yes', get_option('small_tools_disable_gutenberg')); ?>>
-                                <p class="description"><?php esc_html_e('Disable the Gutenberg editor and restore the classic editor.', 'small-tools'); ?></p>
+                                <p class="description"><?php esc_html_e('Disable the Gutenberg editor globally and restore the classic editor.', 'small-tools'); ?></p>
+                                
+                                <div class="small-tools-post-types-wrapper" style="margin-top: 20px;">
+                                    <h4><?php esc_html_e('Disable Gutenberg for Specific Post Types:', 'small-tools'); ?></h4>
+                                    <?php
+                                    // Get post types that support the editor feature
+                                    $post_types = get_post_types(['show_ui' => true], 'objects');
+                                    $disabled_post_types = (array) get_option('small_tools_gutenberg_disabled_post_types', array());
+                                    if (!is_array($disabled_post_types)) {
+                                        $disabled_post_types = array();
+                                    }
+                                    
+                                    // List of post types that should not be included
+                                    $excluded_types = array(
+                                        'attachment',
+                                        'revision',
+                                        'nav_menu_item',
+                                        'custom_css',
+                                        'customize_changeset',
+                                        'oembed_cache',
+                                        'user_request',
+                                        'wp_block',
+                                        'wp_template',
+                                        'wp_template_part',
+                                        'wp_global_styles',
+                                        'wp_navigation'
+                                    );
+                                    
+                                    foreach ($post_types as $post_type) :
+                                        // Skip if post type is in excluded list or doesn't support editor
+                                        if (in_array($post_type->name, $excluded_types) || !post_type_supports($post_type->name, 'editor')) {
+                                            continue;
+                                        }
+                                    ?>
+                                        <div class="small-tools-post-type-toggle" style="margin: 10px 0;">
+                                            <label>
+                                                <input type="checkbox" 
+                                                       name="small_tools_gutenberg_disabled_post_types[]" 
+                                                       value="<?php echo esc_attr($post_type->name); ?>"
+                                                       class="smiling_syntax_toggle"
+                                                       <?php checked(in_array($post_type->name, $disabled_post_types)); ?>>
+                                                <?php echo esc_html($post_type->labels->singular_name); ?>
+                                            </label>
+                                        </div>
+                                    <?php endforeach; ?>
+                                    <p class="description"><?php esc_html_e('Select post types where you want to disable Gutenberg editor. These settings will only apply if global Gutenberg disable is turned off.', 'small-tools'); ?></p>
+                                </div>
                             </td>
                         </tr>
                         <tr>

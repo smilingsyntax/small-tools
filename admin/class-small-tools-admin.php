@@ -126,7 +126,8 @@ class Small_Tools_Admin {
             'small_tools_login_redirect_default_url' => 'string',
             'small_tools_logout_redirect_default_url' => 'string',
             'small_tools_login_redirect_roles' => 'array',
-            'small_tools_logout_redirect_roles' => 'array'
+            'small_tools_logout_redirect_roles' => 'array',
+            'small_tools_gutenberg_disabled_post_types' => 'array'
         );
 
         foreach ($settings as $setting => $type) {
@@ -623,10 +624,19 @@ class Small_Tools_Admin {
         unset($posted_data['action'], $posted_data['security']);
 
         foreach ($posted_data as $key => $value) {
-            // Handle arrays (like role redirects)
-            if (is_array($value)) {
-                $settings[$key] = $this->sanitize_setting($value, $key);
-                update_option($key, $settings[$key]);
+            // Handle arrays (like role redirects and post types)
+            if (is_array($value) || strpos($key, '[]') !== false) {
+                // Remove array notation from key if present
+                $clean_key = str_replace('[]', '', $key);
+                
+                // If it's not already an array, make it one
+                if (!is_array($value)) {
+                    $value = array($value);
+                }
+                
+                // Sanitize the array values
+                $settings[$clean_key] = $this->sanitize_setting($value, $clean_key);
+                update_option($clean_key, $settings[$clean_key]);
                 continue;
             }
 
@@ -677,6 +687,19 @@ class Small_Tools_Admin {
                 foreach ($value as $role => $url) {
                     if (!empty($url)) {
                         $sanitized[sanitize_text_field($role)] = wp_strip_all_tags(stripslashes($url));
+                    }
+                }
+                return $sanitized;
+
+            case 'small_tools_gutenberg_disabled_post_types':
+                if (!is_array($value)) {
+                    return array();
+                }
+                $sanitized = array();
+                foreach ($value as $post_type) {
+                    $post_type = sanitize_key($post_type);
+                    if (!empty($post_type) && post_type_exists($post_type) && post_type_supports($post_type, 'editor')) {
+                        $sanitized[] = $post_type;
                     }
                 }
                 return $sanitized;
