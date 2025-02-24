@@ -5,11 +5,14 @@ class Small_Tools {
     protected $plugin_name;
 
     public function __construct() {
-            $this->version = SMALL_TOOLS_VERSION;
+        $this->version = SMALL_TOOLS_VERSION;
         $this->plugin_name = 'small-tools';
         
         $this->load_dependencies();
         add_action('plugins_loaded', array($this, 'setup_actions'));
+        
+        // Add filter for plugin action links
+        add_filter('plugin_action_links_' . plugin_basename(SMALL_TOOLS_PLUGIN_FILE), array($this, 'add_action_links'));
     }
 
     private function load_dependencies() {
@@ -478,5 +481,22 @@ class Small_Tools {
         wp_send_json_success(array(
             'message' => __('Media replaced successfully.', 'small-tools')
         ));
+    }
+
+    /**
+     * Add settings link to plugin action links
+     *
+     * @param array $links Array of plugin action links
+     * @return array Modified array of plugin action links
+     */
+    public function add_action_links($links) {
+        $settings_link = sprintf(
+            '<a href="%s">%s</a>',
+            admin_url('admin.php?page=small-tools-settings'),
+            __('Settings', 'small-tools')
+        );
+
+        array_unshift($links, $settings_link);
+        return $links;
     }
 }
