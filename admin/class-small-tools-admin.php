@@ -113,7 +113,11 @@ class Small_Tools_Admin {
             'small_tools_hide_admin_bar' => 'boolean',
             'small_tools_wider_admin_menu' => 'boolean',
             'small_tools_login_logo' => 'string',
-            'small_tools_login_logo_url' => 'string'
+            'small_tools_login_logo_url' => 'string',
+            'small_tools_login_redirect_default_url' => 'string',
+            'small_tools_logout_redirect_default_url' => 'string',
+            'small_tools_login_redirect_roles' => 'array',
+            'small_tools_logout_redirect_roles' => 'array'
         );
 
         foreach ($settings as $setting => $type) {
@@ -214,9 +218,9 @@ class Small_Tools_Admin {
 
     public function handle_utility_actions() {
         // Verify user capabilities first
-        if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'small-tools'));
-        }
+        // if (!current_user_can('manage_options')) {
+        //     wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'small-tools'));
+        // }
 
         // Handle Database Cleanup
         if (isset($_POST['small_tools_cleanup_db'])) {
@@ -599,63 +603,74 @@ class Small_Tools_Admin {
     }
 
     public function ajax_save_settings() {
-        // Verify nonce
-        if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'small_tools_settings_nonce')) {
-            wp_send_json_error(array('message' => __('Security check failed.', 'small-tools')));
-        }
+        check_ajax_referer('small_tools_settings_nonce', 'security');
 
-        // Check permissions
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Permission denied.', 'small-tools')));
+            wp_send_json_error(array('message' => __('You do not have permission to perform this action.', 'small-tools')));
         }
 
-        // Get all possible settings from the default settings array
+        $settings = array();
+        $posted_data = $_POST;
+        unset($posted_data['action'], $posted_data['security']);
+
+        foreach ($posted_data as $key => $value) {
+            // Handle arrays (like role redirects)
+            if (is_array($value)) {
+                $settings[$key] = $this->sanitize_setting($value, $key);
+                update_option($key, $settings[$key]);
+                continue;
+            }
+
+            // Handle regular settings
+            $settings[$key] = $this->sanitize_setting($value, $key);
+            update_option($key, $settings[$key]);
+        }
+
+        // Regenerate settings file
         $settings_instance = Small_Tools_Settings::get_instance();
-        $default_settings = $settings_instance->get_default_settings();
-        $settings = array_keys($default_settings);
-
-        $updated_settings = array();
-        foreach ($settings as $setting) {
-            // For checkboxes, if not set in POST, it means they're unchecked
-            $value = isset($_POST[$setting]) ? $this->sanitize_setting($_POST[$setting], $setting) : 'no';
-            update_option($setting, $value);
-            $updated_settings[$setting] = $value;
-        }
-
-        // Generate settings file
         $file_generated = $settings_instance->generate_settings_file();
 
         if ($file_generated) {
             wp_send_json_success(array(
                 'message' => __('Settings saved successfully.', 'small-tools'),
-                'settings' => $updated_settings
+                'settings' => $settings
             ));
         } else {
-            wp_send_json_error(array(
-                'message' => __('Error generating settings file.', 'small-tools')
-            ));
+            wp_send_json_error(array('message' => __('Error generating settings file.', 'small-tools')));
         }
     }
 
     private function sanitize_setting($value, $option) {
         switch ($option) {
-            case 'small_tools_admin_footer_text':
-                return wp_kses_post($value);
-            
+            case 'small_tools_login_logo':
             case 'small_tools_back_to_top_icon':
+            case 'small_tools_login_logo_url':
+            case 'small_tools_login_redirect_default_url':
+            case 'small_tools_logout_redirect_default_url':
                 return esc_url_raw($value);
             
             case 'small_tools_back_to_top_bg_color':
                 return sanitize_text_field($value);
             
             case 'small_tools_back_to_top_size':
-                return absint($value);
-            
             case 'small_tools_wc_variation_threshold':
                 return absint($value);
             
             case 'small_tools_back_to_top_position':
                 return in_array($value, array('left', 'right')) ? $value : 'right';
+
+            case 'small_tools_login_redirect_roles':
+            case 'small_tools_logout_redirect_roles':
+                if (!is_array($value)) {
+                    return array();
+                }
+                $sanitized = array();
+                foreach ($value as $role => $url) {
+                    if (!empty($url)) {
+                        $sanitized[sanitize_text_field($role)] = wp_strip_all_tags(stripslashes($url));
+                    }
+                }
+                return $sanitized;
             
             default:
                 // For checkbox/toggle settings

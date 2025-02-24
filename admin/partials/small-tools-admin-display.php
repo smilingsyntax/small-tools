@@ -723,5 +723,96 @@ if (!defined('WPINC')) {
                     </table>
             </div>
         </div>
+        <div class="small-tools-accordion">
+            <div class="small-tools-accordion-header">
+                <h3><?php esc_html_e('Login/Logout Redirects', 'small-tools'); ?></h3>
+            </div>
+            <div class="small-tools-accordion-content">
+                <table class="form-table">
+                    <!-- Login Redirect Settings -->
+                    <tr>
+                        <th scope="row">
+                            <?php esc_html_e('Login Redirects', 'small-tools'); ?>
+                        </th>
+                        <td>
+                            <div class="small-tools-role-redirect-wrapper">
+                                <div class="small-tools-role-default">
+                                    <label>
+                                        <strong><?php esc_html_e('Default Login Redirect URL', 'small-tools'); ?></strong>
+                                        <input type="url" 
+                                               name="small_tools_login_redirect_default_url" 
+                                               value="<?php echo esc_url(get_option('small_tools_login_redirect_default_url')); ?>" 
+                                               class="regular-text"
+                                               placeholder="<?php esc_attr_e('Enter URL where users will be redirected after login', 'small-tools'); ?>">
+                                    </label>
+                                    <p class="description"><?php esc_html_e('Default URL where users will be redirected after login if no role-specific URL is set.', 'small-tools'); ?></p>
+                                </div>
+                                <div class="small-tools-role-list">
+                                    <h4><?php esc_html_e('Role-Specific Login Redirects', 'small-tools'); ?></h4>
+                                    <?php
+                                    $roles = wp_roles()->get_names();
+                                    $login_redirect_roles = get_option('small_tools_login_redirect_roles', array());
+                                    foreach ($roles as $role_key => $role_name) :
+                                        $role_url = isset($login_redirect_roles[$role_key]) ? $login_redirect_roles[$role_key] : '';
+                                    ?>
+                                    <div class="small-tools-role-redirect-row">
+                                        <label>
+                                            <strong><?php echo esc_html($role_name); ?></strong>
+                                            <input type="url" 
+                                                   name="small_tools_login_redirect_roles[<?php echo esc_attr($role_key); ?>]" 
+                                                   value="<?php echo esc_url($role_url); ?>" 
+                                                   class="regular-text"
+                                                   placeholder="<?php esc_attr_e('Leave empty to use default URL', 'small-tools'); ?>">
+                                        </label>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Logout Redirect Settings -->
+                    <tr>
+                        <th scope="row">
+                            <?php esc_html_e('Logout Redirects', 'small-tools'); ?>
+                        </th>
+                        <td>
+                            <div class="small-tools-role-redirect-wrapper">
+                                <div class="small-tools-role-default">
+                                    <label>
+                                        <strong><?php esc_html_e('Default Logout Redirect URL', 'small-tools'); ?></strong>
+                                        <input type="url" 
+                                               name="small_tools_logout_redirect_default_url" 
+                                               value="<?php echo esc_url(get_option('small_tools_logout_redirect_default_url')); ?>" 
+                                               class="regular-text"
+                                               placeholder="<?php esc_attr_e('Enter URL where users will be redirected after logout', 'small-tools'); ?>">
+                                    </label>
+                                    <p class="description"><?php esc_html_e('Default URL where users will be redirected after logout if no role-specific URL is set.', 'small-tools'); ?></p>
+                                </div>
+                                <div class="small-tools-role-list">
+                                    <h4><?php esc_html_e('Role-Specific Logout Redirects', 'small-tools'); ?></h4>
+                                    <?php
+                                    $logout_redirect_roles = get_option('small_tools_logout_redirect_roles', array());
+                                    foreach ($roles as $role_key => $role_name) :
+                                        $role_url = isset($logout_redirect_roles[$role_key]) ? $logout_redirect_roles[$role_key] : '';
+                                    ?>
+                                    <div class="small-tools-role-redirect-row">
+                                        <label>
+                                            <strong><?php echo esc_html($role_name); ?></strong>
+                                            <input type="url" 
+                                                   name="small_tools_logout_redirect_roles[<?php echo esc_attr($role_key); ?>]" 
+                                                   value="<?php echo esc_url($role_url); ?>" 
+                                                   class="regular-text"
+                                                   placeholder="<?php esc_attr_e('Leave empty to use default URL', 'small-tools'); ?>">
+                                        </label>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </form>
 </div> 

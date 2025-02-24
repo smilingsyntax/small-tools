@@ -52,7 +52,11 @@ class Small_Tools_Settings {
             'small_tools_login_logo' => '',
             'small_tools_login_logo_url' => '',
             'small_tools_enable_user_columns' => 'yes',
-            'small_tools_enable_last_login' => 'yes'
+            'small_tools_enable_last_login' => 'yes',
+            'small_tools_login_redirect_roles' => array(),
+            'small_tools_logout_redirect_roles' => array(),
+            'small_tools_login_redirect_default_url' => '',
+            'small_tools_logout_redirect_default_url' => '',
         );
 
         // Create directory if it doesn't exist
@@ -86,11 +90,24 @@ class Small_Tools_Settings {
         
         // Define all settings as constants to avoid DB calls
         foreach ($settings as $key => $value) {
-            $content .= sprintf(
-                "define('%s', '%s');\n",
-                strtoupper($key),
-                esc_attr($value)
-            );
+            if (is_array($value)) {
+                // For array values, store as serialized string with proper escaping
+                $escaped_value = array();
+                foreach ($value as $k => $v) {
+                    $escaped_value[$k] = str_replace("'", "\\'", $v);
+                }
+                $content .= sprintf(
+                    "define('%s', '%s');\n",
+                    strtoupper($key),
+                    addslashes(serialize($escaped_value))
+                );
+            } else {
+                $content .= sprintf(
+                    "define('%s', '%s');\n",
+                    strtoupper($key),
+                    esc_attr($value)
+                );
+            }
         }
         
         $content .= "\n// WordPress General Features\n";
@@ -360,6 +377,57 @@ add_action('wp_login', function(\$user_login, \$user) {
     \$screen->remove_help_tabs();
 });\n\n";
         }
+
+        // Add login/logout redirect functionality
+        $content .= "\n// Login/Logout Redirects\n";
+        
+        // Login redirect
+        $content .= "add_filter('login_redirect', function(\$redirect_to, \$requested_redirect_to, \$user) {
+    if (!\$user || is_wp_error(\$user)) {
+        return \$redirect_to;
+    }
+
+    \$user_roles = \$user->roles;
+    if (!empty(\$user_roles)) {
+        \$primary_role = \$user_roles[0];
+        \$role_redirects = maybe_unserialize(stripslashes(SMALL_TOOLS_LOGIN_REDIRECT_ROLES));
+        
+        // Check if role redirects is an array and has the user's role
+        if (is_array(\$role_redirects) && !empty(\$role_redirects[\$primary_role])) {
+            return stripslashes(\$role_redirects[\$primary_role]);
+        }
+        
+        // If no role-specific URL is set, use the default URL
+        if (defined('SMALL_TOOLS_LOGIN_REDIRECT_DEFAULT_URL') && !empty(SMALL_TOOLS_LOGIN_REDIRECT_DEFAULT_URL)) {
+            return stripslashes(SMALL_TOOLS_LOGIN_REDIRECT_DEFAULT_URL);
+        }
+    }
+
+    return \$redirect_to;
+}, 10, 3);\n\n";
+
+        // Logout redirect
+        $content .= "add_filter('logout_redirect', function(\$redirect_to, \$requested_redirect_to, \$user) {
+    if (\$user instanceof WP_User) {
+        \$user_roles = \$user->roles;
+        if (!empty(\$user_roles)) {
+            \$primary_role = \$user_roles[0];
+            \$role_redirects = maybe_unserialize(stripslashes(SMALL_TOOLS_LOGOUT_REDIRECT_ROLES));
+            
+            // Check if role redirects is an array and has the user's role
+            if (is_array(\$role_redirects) && !empty(\$role_redirects[\$primary_role])) {
+                return stripslashes(\$role_redirects[\$primary_role]);
+            }
+            
+            // If no role-specific URL is set, use the default URL
+            if (defined('SMALL_TOOLS_LOGOUT_REDIRECT_DEFAULT_URL') && !empty(SMALL_TOOLS_LOGOUT_REDIRECT_DEFAULT_URL)) {
+                return stripslashes(SMALL_TOOLS_LOGOUT_REDIRECT_DEFAULT_URL);
+            }
+        }
+    }
+
+    return \$redirect_to;
+}, 10, 3);\n\n";
 
         // Frontend Features
         $content .= "\n// Frontend Features\n";
