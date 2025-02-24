@@ -23,6 +23,7 @@ if (!defined('WPINC')) {
         <a href="#" class="nav-tab" data-tab="back-to-top"><?php esc_html_e('Back to Top', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="admin"><?php esc_html_e('Admin', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="login"><?php esc_html_e('Login', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="components"><?php esc_html_e('Components', 'small-tools'); ?></a>
     </h2>
 
     <form method="post" action="" class="small-tools-settings-form" id="small-tools-settings-form">
@@ -72,6 +73,103 @@ if (!defined('WPINC')) {
                                        value="yes"
                                        <?php checked('yes', get_option('small_tools_enable_duplication')); ?>>
                                 <p class="description"><?php echo esc_html($this->get_setting_description('enable_duplication')); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Components Tab -->
+        <div id="components" class="small-tools-tab-content">
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('WordPress Components', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_gutenberg"><?php esc_html_e('Disable Gutenberg', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_gutenberg" 
+                                       name="small_tools_disable_gutenberg" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_gutenberg')); ?>>
+                                <p class="description"><?php esc_html_e('Disable the Gutenberg editor and restore the classic editor.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_comments"><?php esc_html_e('Disable Comments', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_comments" 
+                                       name="small_tools_disable_comments" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_comments')); ?>>
+                                <p class="description"><?php esc_html_e('Completely disable comments functionality across the site.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_rest_api"><?php esc_html_e('Disable REST API', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_rest_api" 
+                                       name="small_tools_disable_rest_api" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_rest_api')); ?>>
+                                <p class="description"><?php esc_html_e('Disable the WordPress REST API functionality.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_feeds"><?php esc_html_e('Disable Feeds', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_feeds" 
+                                       name="small_tools_disable_feeds" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_feeds')); ?>>
+                                <p class="description"><?php esc_html_e('Disable all RSS, Atom and RDF feeds.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_updates"><?php esc_html_e('Disable Updates', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_updates" 
+                                       name="small_tools_disable_updates" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_updates')); ?>>
+                                <p class="description"><?php esc_html_e('Disable WordPress core, plugin, and theme updates.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_disable_jquery_migrate"><?php esc_html_e('Disable jQuery Migrate', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       id="small_tools_disable_jquery_migrate" 
+                                       name="small_tools_disable_jquery_migrate" 
+                                       class="smiling_syntax_toggle"
+                                       value="yes"
+                                       <?php checked('yes', get_option('small_tools_disable_jquery_migrate')); ?>>
+                                <p class="description"><?php esc_html_e('Remove jQuery Migrate script from loading on the frontend.', 'small-tools'); ?></p>
                             </td>
                         </tr>
                     </table>

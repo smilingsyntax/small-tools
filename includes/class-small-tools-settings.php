@@ -57,6 +57,13 @@ class Small_Tools_Settings {
             'small_tools_logout_redirect_roles' => array(),
             'small_tools_login_redirect_default_url' => '',
             'small_tools_logout_redirect_default_url' => '',
+            // Component Settings
+            'small_tools_disable_gutenberg' => 'no',
+            'small_tools_disable_comments' => 'no',
+            'small_tools_disable_rest_api' => 'no',
+            'small_tools_disable_feeds' => 'no',
+            'small_tools_disable_updates' => 'no',
+            'small_tools_disable_jquery_migrate' => 'no',
         );
 
         // Create directory if it doesn't exist
@@ -439,6 +446,101 @@ add_action('wp_login', function(\$user_login, \$user) {
         if (function_exists('is_woocommerce')) {
             $content .= "\n// WooCommerce Features\n";
             $content .= $this->get_woocommerce_code($settings);
+        }
+
+        // Add WordPress Components functionality
+        $content .= "\n// WordPress Components\n";
+        
+        // Disable Gutenberg
+        if ($settings['small_tools_disable_gutenberg'] === 'yes') {
+            $content .= "// Disable Gutenberg
+add_filter('use_block_editor_for_post', '__return_false', 10);
+add_filter('use_block_editor_for_post_type', '__return_false', 10);\n";
+        }
+
+        // Disable Comments
+        if ($settings['small_tools_disable_comments'] === 'yes') {
+            $content .= "// Disable Comments
+add_action('admin_init', function () {
+    // Disable support for comments and trackbacks in post types
+    \$post_types = get_post_types();
+    foreach (\$post_types as \$post_type) {
+        if (post_type_supports(\$post_type, 'comments')) {
+            remove_post_type_support(\$post_type, 'comments');
+            remove_post_type_support(\$post_type, 'trackbacks');
+        }
+    }
+});
+// Close comments on the front-end
+add_filter('comments_open', '__return_false', 20, 2);
+add_filter('pings_open', '__return_false', 20, 2);
+// Hide existing comments
+add_filter('comments_array', '__return_empty_array', 10, 2);
+// Remove comments page from admin menu
+add_action('admin_menu', function () {
+    remove_menu_page('edit-comments.php');
+});\n";
+        }
+
+        // Disable REST API
+        if ($settings['small_tools_disable_rest_api'] === 'yes') {
+            $content .= "// Disable REST API
+add_filter('rest_authentication_errors', function(\$result) {
+    if (!empty(\$result)) {
+        return \$result;
+    }
+    if (!is_user_logged_in()) {
+        return new WP_Error('rest_not_logged_in', 
+            __('You are not currently logged in.', 'small-tools'), 
+            array('status' => 401)
+        );
+    }
+    return \$result;
+});\n";
+        }
+
+        // Disable Feeds
+        if ($settings['small_tools_disable_feeds'] === 'yes') {
+            $content .= "// Disable Feeds
+function small_tools_disable_feed() {
+    wp_die(__('No feed available, please visit the <a href=\"' . esc_url(home_url('/')) . '\">homepage</a>.', 'small-tools'));
+}
+add_action('do_feed', 'small_tools_disable_feed', 1);
+add_action('do_feed_rdf', 'small_tools_disable_feed', 1);
+add_action('do_feed_rss', 'small_tools_disable_feed', 1);
+add_action('do_feed_rss2', 'small_tools_disable_feed', 1);
+add_action('do_feed_atom', 'small_tools_disable_feed', 1);
+add_action('do_feed_rss2_comments', 'small_tools_disable_feed', 1);
+add_action('do_feed_atom_comments', 'small_tools_disable_feed', 1);\n";
+        }
+
+        // Disable Updates
+        if ($settings['small_tools_disable_updates'] === 'yes') {
+            $content .= "// Disable Updates
+add_filter('auto_update_core', '__return_false');
+add_filter('auto_update_plugin', '__return_false');
+add_filter('auto_update_theme', '__return_false');
+add_filter('automatic_updater_disabled', '__return_true');
+add_filter('allow_minor_auto_core_updates', '__return_false');
+add_filter('allow_major_auto_core_updates', '__return_false');
+add_filter('allow_dev_auto_core_updates', '__return_false');
+add_filter('auto_core_update_send_email', '__return_false');
+add_filter('send_core_update_notification_email', '__return_false');
+add_filter('auto_plugin_update_send_email', '__return_false');
+add_filter('auto_theme_update_send_email', '__return_false');\n";
+        }
+
+        // Disable jQuery Migrate
+        if ($settings['small_tools_disable_jquery_migrate'] === 'yes') {
+            $content .= "// Disable jQuery Migrate
+add_action('wp_default_scripts', function(\$scripts) {
+    if (!is_admin() && isset(\$scripts->registered['jquery'])) {
+        \$script = \$scripts->registered['jquery'];
+        if (\$script->deps) {
+            \$script->deps = array_diff(\$script->deps, array('jquery-migrate'));
+        }
+    }
+});\n";
         }
 
         return (bool) file_put_contents($this->settings_file, $content);

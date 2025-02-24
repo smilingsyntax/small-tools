@@ -70,6 +70,15 @@ class Small_Tools_Admin {
             'small-tools-utilities',
             array($this, 'display_utilities_page')
         );
+
+        add_submenu_page(
+            'small-tools-settings',
+            'Components Settings',
+            'Components',
+            'manage_options',
+            'small-tools-components',
+            array($this, 'display_components_page')
+        );
     }
 
     public function register_settings() {
