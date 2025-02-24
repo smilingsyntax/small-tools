@@ -1,11 +1,11 @@
 === Small Tools ===
 Contributors: smilingsyntax
 Donate link: https://smilingsyntax.com
-Tags: optimization, performance, security, back-to-top
+Tags: optimization, performance, security, back-to-top, gutenberg
 Requires at least: 6.0
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,21 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
     * Customizable admin footer text
     * Support for HTML in footer
     * Brand-specific messaging
+* Media Management
+    * Media replacement feature
+    * SVG support
+    * AVIF support
+
+**Content Management**
+
+* Gutenberg Control
+    * Disable per post type
+    * Global enable/disable
+    * Custom post type support
+* Content Duplication
+    * One-click post/page duplication
+    * Copy all metadata
+    * Copy taxonomies
 
 **Security Features**
 
@@ -65,6 +80,10 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
     * Disable right-click functionality
     * Prevent unauthorized copying
     * Custom protection messages
+* Login Security
+    * Custom login logo
+    * Login/logout redirects
+    * Role-based redirects
 
 **WooCommerce Integration**
 
@@ -83,6 +102,13 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
     * Automatic settings file generation
     * Performance-optimized loading
     * Secure file storage
+
+**User Management**
+
+* Enhanced User Columns
+    * Registration date display
+    * Last login tracking
+    * Role-based features
 
 = Zero Database Queries =
 
@@ -116,37 +142,51 @@ No, the plugin is optimized for performance and actually improves site speed by:
 * Loading assets only when needed
 * Optimizing script and style loading
 
-= Can I customize the back to top button? =
-
-Yes, you can customize:
-* Button size (20-100px)
-* Background color and opacity
-* Custom icon upload
-* Position (left or right)
-* Default arrow icon is included
-
-= Is the dark mode customizable? =
-
-The dark mode theme is carefully designed for optimal readability and applies automatically to the WordPress admin panel. The color scheme is optimized for reduced eye strain.
-
 == Screenshots ==
 
 1. General Settings Panel
-2. Back to Top Button Customization
-3. Security Settings
-4. WooCommerce Integration
-5. Export/Import Settings
-6. Settings Generation Page. This will generate the settings file and there will be no **Database Calls**
+2. Media Settings
+3. Admin Tweaks and Settings
+4. Back to Top Button Customization
+5. WordPress Components settings
+6. Performance Settings
+7. Login page settings
+8. Security Settings
+9. WooCommerce Integration
+10. Export/Import Settings, Settings Generation Page
 
 == Changelog ==
+
+= 2.0.0 =
+* Added: Gutenberg editor control per post type
+* Added: Media replacement functionality
+* Added: SVG and AVIF file support
+* Added: Content duplication feature
+* Added: Role-based login/logout redirects
+* Added: User registration date and last login columns
+* Added: Custom login logo upload
+* Added: Enhanced dark mode support
+* Added: Nested settings UI with smooth animations
+* Added: Performance improvements in settings management
+* Added: Better form validation and error handling
+* Added: Expanded WooCommerce compatibility
+* Added: New security features and options
+* Fixed: Various UI/UX improvements
+* Fixed: Better handling of file-based settings
+* Fixed: Enhanced error reporting
+* Updated: Improved documentation
+* Updated: Code optimization and cleanup
 
 = 1.0.0 =
 * Initial release
 
 == Upgrade Notice ==
 
+= 2.0.0 =
+Major update with new features including Gutenberg control, media management, and content duplication. Includes significant performance improvements and enhanced UI.
+
 = 1.0.0 =
-Initial release with all core features. Includes file-based settings storage for zero database queries.
+Initial release with core features.
 
 == Additional Information ==
 

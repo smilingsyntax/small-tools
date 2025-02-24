@@ -1,131 +1,191 @@
 # Small Tools
 
-A lightweight multipurpose WordPress plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins, and bloated DB rows that comes with those.
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/small-tools)](https://wordpress.org/plugins/small-tools)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/rating/small-tools)](https://wordpress.org/plugins/small-tools)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/small-tools)](https://wordpress.org/plugins/small-tools)
 
-**Although this plugin stores settings on DataBase, on Load not a single hit is done on Database. Instead it stores the settings on file /uploads/small-tools/small-settings.php**
+A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
 
-## Features
+## Description
+
+Small Tools is a comprehensive WordPress plugin that combines multiple essential features into one lightweight package. Unlike other plugins, Small Tools stores settings in a file instead of the database, ensuring zero database queries on load for better performance.
+
+## Key Features
 
 ### Performance Optimization
-- **Image Handling**
-  - Remove image size threshold
-  - Control WordPress image scaling
-  - Disable default lazy loading
-- **Script Optimization**
-  - Remove emoji scripts
-  - Remove jQuery Migrate
-  - Conditional asset loading
+
+* **Image Handling**
+  * Remove image size threshold
+  * Control WordPress image scaling
+  * Disable default lazy loading
+* **Script Optimization**
+  * Remove emoji scripts
+  * Remove jQuery Migrate
+  * Conditional asset loading
 
 ### Back to Top Button
-- **Customizable Appearance**
-  - Adjustable button size (20-100px)
-  - Custom background color with opacity
-  - Custom icon upload support
-  - Default arrow icon fallback
-- **Position Control**
-  - Left or right placement
-  - Fixed position at bottom
-  - Smooth scrolling animation
-- **Responsive Design**
-  - Mobile-friendly
-  - Adaptive sizing
-  - Touch-compatible
+
+* **Customizable Appearance**
+  * Adjustable button size (20-100px)
+  * Custom background color with opacity
+  * Custom icon upload support
+  * Default arrow icon fallback
+* **Position Control**
+  * Left or right placement
+  * Fixed position at bottom
+  * Smooth scrolling animation
+* **Responsive Design**
+  * Mobile-friendly
+  * Adaptive sizing
+  * Touch-compatible
 
 ### Admin Interface
-- **Dark Mode**
-  - Complete admin panel dark theme
-  - Eye-friendly color scheme
-  - Automatic theme switching
-- **Custom Branding**
-  - Customizable admin footer text
-  - Support for HTML in footer
-  - Brand-specific messaging
+
+* **Dark Mode**
+  * Complete admin panel dark theme
+  * Eye-friendly color scheme
+  * Automatic theme switching
+* **Custom Branding**
+  * Customizable admin footer text
+  * Support for HTML in footer
+  * Brand-specific messaging
+* **Media Management**
+  * Media replacement feature
+  * SVG support
+  * AVIF support
+
+### Content Management
+
+* **Gutenberg Control**
+  * Disable per post type
+  * Global enable/disable
+  * Custom post type support
+* **Content Duplication**
+  * One-click post/page duplication
+  * Copy all metadata
+  * Copy taxonomies
 
 ### Security Features
-- **Access Control**
-  - Force strong passwords
-  - Disable XML-RPC
-  - Hide WordPress version
-- **Content Protection**
-  - Disable right-click functionality
-  - Prevent unauthorized copying
-  - Custom protection messages
+
+* **Access Control**
+  * Force strong passwords
+  * Disable XML-RPC
+  * Hide WordPress version
+* **Content Protection**
+  * Disable right-click functionality
+  * Prevent unauthorized copying
+  * Custom protection messages
+* **Login Security**
+  * Custom login logo
+  * Login/logout redirects
+  * Role-based redirects
 
 ### WooCommerce Integration
-- **Performance**
-  - Customizable variation threshold
-  - AJAX optimization
-  - Enhanced loading times
+
+* **Performance**
+  * Customizable variation threshold
+  * AJAX optimization
+  * Enhanced loading times
 
 ### Settings Management
-- **Import/Export**
-  - JSON-based settings export
-  - Settings backup support
-  - Easy site migration
-- **File Management**
-  - Automatic settings file generation
-  - Performance-optimized loading
-  - Secure file storage
+
+* **Import/Export**
+  * JSON-based settings export
+  * Settings backup support
+  * Easy site migration
+* **File Management**
+  * Automatic settings file generation
+  * Performance-optimized loading
+  * Secure file storage
+
+### User Management
+
+* **Enhanced User Columns**
+  * Registration date display
+  * Last login tracking
+  * Role-based features
+
+## Zero Database Queries
+
+Unlike other plugins that constantly query the database for settings, Small Tools stores all settings in a PHP file located at `/uploads/small-tools/small-settings.php`. This means:
+
+* Zero database queries on load
+* Faster page load times
+* Reduced server load
+* Better scalability
+
+## WooCommerce Compatible
+
+Enhance your WooCommerce store with optimized variation handling and improved performance, all without additional database queries.
 
 ## Installation
 
-1. Upload the plugin files to `/wp-content/plugins/small-tools/`
-2. Activate through WordPress plugins menu
-3. Configure via 'Small Tools' admin menu
-
-## Configuration
-
-### General Settings
-- Enable/disable right-click protection
-- Configure image handling options
-- Set up back to top button
-- Manage performance features
-
-### Security Settings
-- Configure password requirements
-- Manage XML-RPC access
-- Control version information display
-
-### WooCommerce Settings
-- Set variation threshold
-- Optimize product loading
-
-### Utilities
-- Database cleanup options
-- Settings import/export
-- File management tools
-
-## Requirements
-
-- WordPress 6.0 or higher
-- PHP 7.4 or higher
-- MySQL 5.6 or higher
-- WooCommerce 6.0+ (for WooCommerce features)
+1. Upload the plugin files to `/wp-content/plugins/small-tools/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Configure the plugin via 'Small Tools' menu in admin panel
 
 ## Frequently Asked Questions
 
-**Q: Is this plugin compatible with my theme?**  
-A: Yes, Small Tools is designed to work with any WordPress theme.
+**Is this plugin compatible with my theme?**
 
-**Q: Will this slow down my site?**  
-A: No, the plugin is optimized for performance and only loads features when needed.
+Yes, Small Tools is designed to work with any WordPress theme. It uses standard WordPress hooks and follows best practices for compatibility.
 
-**Q: Can I customize the back to top button?**  
-A: Yes, you can customize the size, color, position, and icon of the button.
+**Will this slow down my site?**
 
-**Q: Is the dark mode customizable?**  
-A: The dark mode theme is carefully designed for optimal readability and applies automatically.
+No, the plugin is optimized for performance and actually improves site speed by:
+* Storing settings in a file instead of database
+* Loading assets only when needed
+* Optimizing script and style loading
+
+## Screenshots
+
+1. General Settings Panel
+2. Back to Top Button Customization
+3. Security Settings
+4. WooCommerce Integration
+5. Export/Import Settings
+6. Settings Generation Page
+7. Gutenberg Control
+8. Media Management
+
+## Changelog
+
+### 2.0.0
+* Added: Gutenberg editor control per post type
+* Added: Media replacement functionality
+* Added: SVG and AVIF file support
+* Added: Content duplication feature
+* Added: Role-based login/logout redirects
+* Added: User registration date and last login columns
+* Added: Custom login logo upload
+* Added: Enhanced dark mode support
+* Added: Nested settings UI with smooth animations
+* Added: Performance improvements in settings management
+* Added: Better form validation and error handling
+* Added: Expanded WooCommerce compatibility
+* Added: New security features and options
+* Fixed: Various UI/UX improvements
+* Fixed: Better handling of file-based settings
+* Fixed: Enhanced error reporting
+* Updated: Improved documentation
+* Updated: Code optimization and cleanup
+
+### 1.0.0
+* Initial release
+
+## Requirements
+
+* WordPress 6.0 or higher
+* PHP 7.4 or higher
+* MySQL 5.6 or higher
+* WooCommerce 6.0+ (for WooCommerce features)
 
 ## Support
 
 For support, bug reports, or feature requests:
-- Create an issue on GitHub
-- Visit our [support forum](https://smilingsyntax.com/support)
-- Email: support@smilingsyntax.com
-
-## Contributing
-
-Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
+* Create an issue on GitHub
+* Visit our [support forum](https://smilingsyntax.com/support)
+* Email: support@smilingsyntax.com
 
 ## License
 
