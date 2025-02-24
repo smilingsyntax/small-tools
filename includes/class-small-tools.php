@@ -13,6 +13,9 @@ class Small_Tools {
         
         // Add filter for plugin action links
         add_filter('plugin_action_links_' . plugin_basename(SMALL_TOOLS_PLUGIN_FILE), array($this, 'add_action_links'));
+        
+        // Add filter for plugin row meta
+        add_filter('plugin_row_meta', array($this, 'add_plugin_row_meta'), 10, 2);
     }
 
     private function load_dependencies() {
@@ -497,6 +500,32 @@ class Small_Tools {
         );
 
         array_unshift($links, $settings_link);
+        return $links;
+    }
+
+    /**
+     * Add documentation and support links to plugin row meta
+     *
+     * @param array  $links Array of plugin row meta links
+     * @param string $file  Plugin base file
+     * @return array Modified array of plugin row meta links
+     */
+    public function add_plugin_row_meta($links, $file) {
+        if (plugin_basename(SMALL_TOOLS_PLUGIN_FILE) === $file) {
+            $row_meta = array(
+                'docs' => sprintf(
+                    '<a href="%s" target="_blank">%s</a>',
+                    esc_url('https://smilingsyntax.com/small-tools/docs'),
+                    esc_html__('Documentation', 'small-tools')
+                ),
+                'support' => sprintf(
+                    '<a href="%s" target="_blank">%s</a>',
+                    esc_url('https://smilingsyntax.com/support'),
+                    esc_html__('Support', 'small-tools')
+                ),
+            );
+            return array_merge($links, $row_meta);
+        }
         return $links;
     }
 }
