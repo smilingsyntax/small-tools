@@ -57,6 +57,44 @@ if (!defined('WPINC')) {
 
             <div class="small-tools-accordion">
                 <div class="small-tools-accordion-header">
+                    <h3><?php esc_html_e('Colors', 'small-tools'); ?></h3>
+                </div>
+                <div class="small-tools-accordion-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_selection_color"><?php esc_html_e('Selection Background Color', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" 
+                                       id="small_tools_selection_color" 
+                                       name="small_tools_selection_color" 
+                                       value="<?php echo esc_attr(get_option('small_tools_selection_color', '#ACCEF7')); ?>" 
+                                       class="small-tools-color-picker" 
+                                       data-default-color="#ACCEF7" />
+                                <p class="description"><?php esc_html_e('Choose the background color for selected text on your website.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="small_tools_selection_text_color"><?php esc_html_e('Selection Text Color', 'small-tools'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" 
+                                       id="small_tools_selection_text_color" 
+                                       name="small_tools_selection_text_color" 
+                                       value="<?php echo esc_attr(get_option('small_tools_selection_text_color', '#000000')); ?>" 
+                                       class="small-tools-color-picker" 
+                                       data-default-color="#000000" />
+                                <p class="description"><?php esc_html_e('Choose the background color for selected text on your website.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="small-tools-accordion">
+                <div class="small-tools-accordion-header">
                     <h3><?php esc_html_e('Content Management', 'small-tools'); ?></h3>
                 </div>
                 <div class="small-tools-accordion-content">

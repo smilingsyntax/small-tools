@@ -118,7 +118,8 @@ class Small_Tools_Admin {
             'small_tools_logout_redirect_default_url' => 'string',
             'small_tools_login_redirect_roles' => 'array',
             'small_tools_logout_redirect_roles' => 'array',
-            'small_tools_gutenberg_disabled_post_types' => 'array'
+            'small_tools_gutenberg_disabled_post_types' => 'array',
+            'small_tools_selection_color' => 'string'
         );
 
         foreach ($settings as $setting => $type) {
@@ -461,7 +462,9 @@ class Small_Tools_Admin {
             'small_tools_hide_wp_version',
             'small_tools_wc_variation_threshold',
             'small_tools_admin_footer_text',
-            'small_tools_dark_mode_enabled'
+            'small_tools_dark_mode_enabled',
+            'small_tools_selection_color',
+            'small_tools_selection_text_color'
         );
 
         foreach ($options as $option) {
@@ -552,7 +555,9 @@ class Small_Tools_Admin {
             'small_tools_hide_wp_version',
             'small_tools_wc_variation_threshold',
             'small_tools_admin_footer_text',
-            'small_tools_dark_mode_enabled'
+            'small_tools_dark_mode_enabled',
+            'small_tools_selection_color',
+            'small_tools_selection_text_color'
         );
 
         foreach ($settings as $option => $value) {
@@ -585,7 +590,9 @@ class Small_Tools_Admin {
             'enable_duplication' => __('Add a duplicate option to quickly clone posts, pages, and custom post types.', 'small-tools'),
             'enable_media_replace' => __('Enable the ability to replace media files while maintaining the same URL and attachment ID.', 'small-tools'),
             'enable_svg_upload' => __('Allow SVG file uploads with sanitization for enhanced security.', 'small-tools'),
-            'enable_avif_upload' => __('Enable support for AVIF image format uploads.', 'small-tools')
+            'enable_avif_upload' => __('Enable support for AVIF image format uploads.', 'small-tools'),
+            'selection_color' => __('Set the background color for selected text on your website.', 'small-tools'),
+            'selection_text_color' => __('Set the text color for selected text on your website.', 'small-tools')
         );
 
         return isset($descriptions[$key]) ? $descriptions[$key] : '';
@@ -660,6 +667,8 @@ class Small_Tools_Admin {
                 return esc_url_raw($value);
             
             case 'small_tools_back_to_top_bg_color':
+            case 'small_tools_selection_color':
+            case 'small_tools_selection_text_color':
                 return sanitize_text_field($value);
             
             case 'small_tools_back_to_top_size':

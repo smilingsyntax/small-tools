@@ -1,12 +1,10 @@
 jQuery(document).ready(function($) {
     'use strict';
 
-    // Initialize color picker
-    $('.small-tools-color-picker').wpColorPicker({
-        change: function(event, ui) {
-            updatePreview();
-        }
-    });
+    // Initialize color pickers
+    if ($.fn.wpColorPicker) {
+        $('.small-tools-color-picker').wpColorPicker();
+    }
 
     // Update preview when size changes
     $('#small_tools_back_to_top_size').on('input', function() {
