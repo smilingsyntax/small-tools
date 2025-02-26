@@ -28,6 +28,9 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
     * Remove jQuery Migrate
     * Conditional asset loading
 
+**Frontend Enhancements**
+    * Custom Colors for background and text on selecting text on frontend
+
 **Back to Top Button**
 
 * Customizable Appearance
