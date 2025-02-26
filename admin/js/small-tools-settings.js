@@ -127,10 +127,6 @@ jQuery(document).ready(function($) {
                 console.log('Response:', response); // Debug log
                 if (response.success) {
                     showNotice(response.data.message, 'success');
-                    // Update form values if needed
-                    if (response.data && response.data.settings) {
-                        updateFormValues(response.data.settings);
-                    }
                 } else {
                     showNotice(response.data ? response.data.message : 'Error saving settings.', 'error');
                 }
