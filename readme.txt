@@ -5,11 +5,11 @@ Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg
 Requires at least: 6.0
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
+A collection of small but powerful tools to optimize and enhance your WordPress site.
 
 == Description ==
 
@@ -157,6 +157,9 @@ No, the plugin is optimized for performance and actually improves site speed by:
 
 == Changelog ==
 
+= 2.1.0 =
+* Added: Custom Colors for background and text on selecting text on frontend
+
 = 2.0.0 =
 * Added: Gutenberg editor control per post type
 * Added: Media replacement functionality
@@ -181,6 +184,9 @@ No, the plugin is optimized for performance and actually improves site speed by:
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Feature added to Custom Colors for background and text on selecting text on frontend
 
 = 2.0.0 =
 Major update with new features including Gutenberg control, media management, and content duplication. Includes significant performance improvements and enhanced UI.

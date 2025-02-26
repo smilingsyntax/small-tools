@@ -150,6 +150,9 @@ No, the plugin is optimized for performance and actually improves site speed by:
 
 ## Changelog
 
+### 2.1.0
+* Added: Custom Colors for background and text on selecting text on frontend
+
 ### 2.0.0
 * Added: Gutenberg editor control per post type
 * Added: Media replacement functionality

@@ -3,7 +3,7 @@
  * Plugin Name: Small Tools
  * Plugin URI: https://smilingsyntax.com/plugins/small-tools
  * Description: A lightweight multipurpose plugin that provides essential tools for WordPress and WooCommerce users, eliminating the need for multiple plugins.
- * Version: 2.0.0
+ * Version: 2.1.0
  * Author: smilingsyntax
  * Author URI: https://smilingsyntax.com
  * Text Domain: small-tools
