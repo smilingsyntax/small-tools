@@ -561,17 +561,40 @@ add_action('wp_default_scripts', function(\$scripts) {
         if (isset($settings['small_tools_disable_core_updates']) && $settings['small_tools_disable_core_updates'] === 'yes') {
             $php_content .= "// Disable WordPress Core Updates\n";
             $php_content .= "add_filter('auto_update_core', '__return_false');\n";
-            $php_content .= "add_filter('pre_site_transient_update_core', '__return_null');\n";
+            $php_content .= "add_filter('pre_site_transient_update_core', function() {\n";
+            $php_content .= "    // Return empty object with all required properties to prevent errors\n";
+            $php_content .= "    return (object) array(\n";
+            $php_content .= "        'last_checked' => time(),\n";
+            $php_content .= "        'version_checked' => get_bloginfo('version'),\n";
+            $php_content .= "        'updates' => array(),\n";
+            $php_content .= "        'response' => array()\n";
+            $php_content .= "    );\n";
+            $php_content .= "});\n";
+            
+            // Prevent update checks
             $php_content .= "remove_action('admin_init', '_maybe_update_core');\n";
+            $php_content .= "remove_action('wp_version_check', 'wp_version_check');\n";
+            $php_content .= "remove_action('upgrader_process_complete', 'wp_version_check', 10);\n";
+            
+            // Disable auto updates
             $php_content .= "add_filter('allow_dev_auto_core_updates', '__return_false');\n";
             $php_content .= "add_filter('allow_minor_auto_core_updates', '__return_false');\n";
-            $php_content .= "add_filter('allow_major_auto_core_updates', '__return_false');\n\n";
+            $php_content .= "add_filter('allow_major_auto_core_updates', '__return_false');\n";
+            
+            // Disable update nag
+            $php_content .= "add_action('admin_init', function() {\n";
+            $php_content .= "    remove_action('admin_notices', 'update_nag', 3);\n";
+            $php_content .= "    remove_action('network_admin_notices', 'update_nag', 3);\n";
+            $php_content .= "});\n\n";
         }
         
         if (isset($settings['small_tools_disable_plugin_updates']) && $settings['small_tools_disable_plugin_updates'] === 'yes') {
             $php_content .= "// Disable Plugin Updates\n";
             $php_content .= "add_filter('auto_update_plugin', '__return_false');\n";
-            $php_content .= "add_filter('pre_site_transient_update_plugins', '__return_null');\n";
+            $php_content .= "add_filter('pre_site_transient_update_plugins', function() {\n";
+            $php_content .= "    // Return empty object instead of null to prevent errors\n";
+            $php_content .= "    return (object) array('last_checked' => time(), 'response' => array(), 'checked' => array());\n";
+            $php_content .= "});\n";
             $php_content .= "remove_action('load-update-core.php', 'wp_update_plugins');\n";
             $php_content .= "add_filter('plugins_auto_update_enabled', '__return_false');\n\n";
         }
@@ -579,7 +602,10 @@ add_action('wp_default_scripts', function(\$scripts) {
         if (isset($settings['small_tools_disable_theme_updates']) && $settings['small_tools_disable_theme_updates'] === 'yes') {
             $php_content .= "// Disable Theme Updates\n";
             $php_content .= "add_filter('auto_update_theme', '__return_false');\n";
-            $php_content .= "add_filter('pre_site_transient_update_themes', '__return_null');\n";
+            $php_content .= "add_filter('pre_site_transient_update_themes', function() {\n";
+            $php_content .= "    // Return empty object instead of null to prevent errors\n";
+            $php_content .= "    return (object) array('last_checked' => time(), 'response' => array(), 'checked' => array());\n";
+            $php_content .= "});\n";
             $php_content .= "remove_action('load-update-core.php', 'wp_update_themes');\n";
             $php_content .= "add_filter('themes_auto_update_enabled', '__return_false');\n\n";
         }
@@ -587,7 +613,10 @@ add_action('wp_default_scripts', function(\$scripts) {
         if (isset($settings['small_tools_disable_translation_updates']) && $settings['small_tools_disable_translation_updates'] === 'yes') {
             $php_content .= "// Disable Translation Updates\n";
             $php_content .= "add_filter('auto_update_translation', '__return_false');\n";
-            $php_content .= "add_filter('pre_site_transient_update_translations', '__return_null');\n";
+            $php_content .= "add_filter('pre_site_transient_update_translations', function() {\n";
+            $php_content .= "    // Return empty object instead of null to prevent errors\n";
+            $php_content .= "    return (object) array('last_checked' => time(), 'translations' => array());\n";
+            $php_content .= "});\n";
             $php_content .= "add_filter('async_update_translation', '__return_false');\n\n";
         }
         
@@ -598,11 +627,63 @@ add_action('wp_default_scripts', function(\$scripts) {
             $php_content .= "add_filter('automatic_updates_send_debug_email', '__return_false');\n\n";
         }
         
+        // Disable Update Page
         if (isset($settings['small_tools_disable_update_page']) && $settings['small_tools_disable_update_page'] === 'yes') {
-            $php_content .= "// Hide Update Page\n";
+            $php_content .= "// Hide WordPress Update Page\n";
             $php_content .= "add_action('admin_menu', function() {\n";
             $php_content .= "    remove_submenu_page('index.php', 'update-core.php');\n";
-            $php_content .= "}, 999);\n\n";
+            $php_content .= "});\n\n";
+            
+            // Add a safe redirect for direct access to update-core.php
+            $php_content .= "add_action('admin_init', function() {\n";
+            $php_content .= "    global \$pagenow;\n";
+            $php_content .= "    if (\$pagenow === 'update-core.php' && !isset(\$_GET['force-check'])) {\n";
+            $php_content .= "        wp_safe_redirect(admin_url('index.php'));\n";
+            $php_content .= "        exit;\n";
+            $php_content .= "    }\n";
+            $php_content .= "});\n\n";
+        }
+
+        // Add a function to safely handle the update-core.php page
+        if (isset($settings['small_tools_disable_core_updates']) && $settings['small_tools_disable_core_updates'] === 'yes') {
+            $php_content .= "// Safely handle the update-core.php page\n";
+            $php_content .= "add_action('admin_head-update-core.php', function() {\n";
+            $php_content .= "    // Fix for the 'Attempt to read property current on bool' error\n";
+            $php_content .= "    add_filter('pre_option_update_core', function() {\n";
+            $php_content .= "        return (object) array(\n";
+            $php_content .= "            'last_checked' => time(),\n";
+            $php_content .= "            'version_checked' => get_bloginfo('version'),\n";
+            $php_content .= "            'updates' => array()\n";
+            $php_content .= "        );\n";
+            $php_content .= "    });\n\n";
+            
+            $php_content .= "    echo '<style>\n";
+            $php_content .= "        .wrap h2, .wrap .update-php {\n";
+            $php_content .= "            display: block !important;\n";
+            $php_content .= "        }\n";
+            $php_content .= "        .wrap .update-php div.notice, .wrap .update-php div.updated, .wrap .update-php div.error {\n";
+            $php_content .= "            display: none !important;\n";
+            $php_content .= "        }\n";
+            $php_content .= "        .wrap .update-php p, .wrap .update-php h2 + p, .wrap .update-php h3 + p {\n";
+            $php_content .= "            display: none !important;\n";
+            $php_content .= "        }\n";
+            $php_content .= "        .core-updates-table, .plugins-updates-table, .themes-updates-table, .translations-updates-table {\n";
+            $php_content .= "            display: none !important;\n";
+            $php_content .= "        }\n";
+            $php_content .= "    </style>';\n";
+            $php_content .= "    echo '<div class=\"notice notice-info\"><p>" . esc_html__('Updates have been disabled by the Small Tools plugin.', 'small-tools') . "</p></div>';\n";
+            $php_content .= "});\n\n";
+            
+            // Override the list_core_update function to prevent errors
+            $php_content .= "// Override core update functions to prevent errors\n";
+            $php_content .= "add_action('admin_head-update-core.php', function() {\n";
+            $php_content .= "    if (!function_exists('small_tools_override_list_core_update')) {\n";
+            $php_content .= "        function small_tools_override_list_core_update() {\n";
+            $php_content .= "            return false;\n";
+            $php_content .= "        }\n";
+            $php_content .= "    }\n";
+            $php_content .= "    add_filter('list_core_update', 'small_tools_override_list_core_update', 10, 0);\n";
+            $php_content .= "});\n\n";
         }
 
         return (bool) file_put_contents($this->settings_file, $php_content);
