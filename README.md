@@ -23,6 +23,22 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
   * Remove jQuery Migrate
   * Conditional asset loading
 
+### Updates Control
+
+* **Granular Update Management**
+  * Selectively disable WordPress core updates
+  * Disable plugin updates
+  * Disable theme updates
+  * Disable translation updates
+  * Disable update notification emails
+  * Hide WordPress update page
+
+### Frontend Enhancements
+
+* **Text Selection Styling**
+  * Custom background color for selected text
+  * Custom text color for selected text
+
 ### Back to Top Button
 
 * **Customizable Appearance**
@@ -149,6 +165,11 @@ No, the plugin is optimized for performance and actually improves site speed by:
 8. Media Management
 
 ## Changelog
+
+### 2.2.0
+* Added: Granular WordPress Updates Control - selectively disable different types of updates
+* Added: New Updates tab in the settings page
+* Improved: Settings organization and user interface
 
 ### 2.1.0
 * Added: Custom Colors for background and text on selecting text on frontend

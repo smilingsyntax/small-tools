@@ -1,11 +1,11 @@
 === Small Tools ===
 Contributors: smilingsyntax
 Donate link: https://smilingsyntax.com
-Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg upload
+Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg upload, update control
 Requires at least: 6.0
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,14 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
 
 **Frontend Enhancements**
     * Custom Colors for background and text on selecting text on frontend
+
+**Updates Control**
+    * Selectively disable WordPress core updates
+    * Disable plugin updates
+    * Disable theme updates
+    * Disable translation updates
+    * Disable update notification emails
+    * Hide WordPress update page
 
 **Back to Top Button**
 
@@ -160,6 +168,11 @@ No, the plugin is optimized for performance and actually improves site speed by:
 
 == Changelog ==
 
+= 2.2.0 =
+* Added: Granular WordPress Updates Control - selectively disable different types of updates
+* Added: New Updates tab in the settings page
+* Improved: Settings organization and user interface
+
 = 2.1.0 =
 * Added: Custom Colors for background and text on selecting text on frontend
 
@@ -187,6 +200,9 @@ No, the plugin is optimized for performance and actually improves site speed by:
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.2.0 =
+New feature: Granular WordPress Updates Control - selectively disable different types of updates including core, plugin, theme, and translation updates.
 
 = 2.1.0 =
 Feature added to Custom Colors for background and text on selecting text on frontend

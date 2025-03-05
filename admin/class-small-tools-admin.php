@@ -125,6 +125,55 @@ class Small_Tools_Admin {
         foreach ($settings as $setting => $type) {
             register_setting('small-tools-settings', $setting);
         }
+
+        // Updates Control Settings
+        register_setting('small_tools_settings', 'small_tools_disable_core_updates', array(
+            'type' => 'string',
+            'sanitize_callback' => function($value) {
+                return $this->sanitize_setting($value, 'small_tools_disable_core_updates');
+            },
+            'default' => 'no',
+        ));
+        
+        register_setting('small_tools_settings', 'small_tools_disable_plugin_updates', array(
+            'type' => 'string',
+            'sanitize_callback' => function($value) {
+                return $this->sanitize_setting($value, 'small_tools_disable_plugin_updates');
+            },
+            'default' => 'no',
+        ));
+        
+        register_setting('small_tools_settings', 'small_tools_disable_theme_updates', array(
+            'type' => 'string',
+            'sanitize_callback' => function($value) {
+                return $this->sanitize_setting($value, 'small_tools_disable_theme_updates');
+            },
+            'default' => 'no',
+        ));
+        
+        register_setting('small_tools_settings', 'small_tools_disable_translation_updates', array(
+            'type' => 'string',
+            'sanitize_callback' => function($value) {
+                return $this->sanitize_setting($value, 'small_tools_disable_translation_updates');
+            },
+            'default' => 'no',
+        ));
+        
+        register_setting('small_tools_settings', 'small_tools_disable_update_emails', array(
+            'type' => 'string',
+            'sanitize_callback' => function($value) {
+                return $this->sanitize_setting($value, 'small_tools_disable_update_emails');
+            },
+            'default' => 'no',
+        ));
+        
+        register_setting('small_tools_settings', 'small_tools_disable_update_page', array(
+            'type' => 'string',
+            'sanitize_callback' => function($value) {
+                return $this->sanitize_setting($value, 'small_tools_disable_update_page');
+            },
+            'default' => 'no',
+        ));
     }
 
     public function sanitize_and_regenerate($value) {
@@ -657,7 +706,14 @@ class Small_Tools_Admin {
         }
     }
 
-    private function sanitize_setting($value, $option) {
+    /**
+     * Sanitize settings based on option name
+     *
+     * @param mixed $value The value to sanitize
+     * @param string $option The option name
+     * @return mixed The sanitized value
+     */
+    public function sanitize_setting($value, $option) {
         switch ($option) {
             case 'small_tools_login_logo':
             case 'small_tools_back_to_top_icon':
@@ -970,5 +1026,130 @@ class Small_Tools_Admin {
         }
 
         return true;
+    }
+
+    public function ajax_import_settings() {
+        // Check nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'small_tools_import_nonce')) {
+            wp_send_json_error('Invalid nonce');
+        }
+
+        // Check user capabilities
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Insufficient permissions');
+        }
+
+        // Check if settings data is provided
+        if (!isset($_POST['settings']) || empty($_POST['settings'])) {
+            wp_send_json_error('No settings data provided');
+        }
+
+        // Decode the JSON settings
+        $settings = json_decode(stripslashes($_POST['settings']), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            wp_send_json_error('Invalid JSON data');
+        }
+
+        // Valid options that can be imported
+        $valid_options = array(
+            // Existing options
+            'small_tools_remove_image_threshold',
+            'small_tools_disable_lazy_load',
+            'small_tools_remove_emoji',
+            'small_tools_remove_jquery_migrate',
+            'small_tools_disable_gutenberg',
+            'small_tools_gutenberg_disabled_post_types',
+            'small_tools_enable_svg',
+            'small_tools_enable_avif',
+            'small_tools_enable_media_replace',
+            'small_tools_enable_duplicate_content',
+            'small_tools_enable_back_to_top',
+            'small_tools_back_to_top_position',
+            'small_tools_back_to_top_size',
+            'small_tools_back_to_top_color',
+            'small_tools_back_to_top_opacity',
+            'small_tools_back_to_top_icon',
+            'small_tools_enable_dark_mode',
+            'small_tools_custom_admin_footer',
+            'small_tools_disable_right_click',
+            'small_tools_right_click_message',
+            'small_tools_force_strong_passwords',
+            'small_tools_disable_xmlrpc',
+            'small_tools_hide_wp_version',
+            'small_tools_login_logo',
+            'small_tools_login_logo_url',
+            'small_tools_login_redirect',
+            'small_tools_logout_redirect',
+            'small_tools_enable_user_columns',
+            'small_tools_woocommerce_variation_threshold',
+            'small_tools_selection_color',
+            
+            // Update control options
+            'small_tools_disable_core_updates',
+            'small_tools_disable_plugin_updates',
+            'small_tools_disable_theme_updates',
+            'small_tools_disable_translation_updates',
+            'small_tools_disable_update_emails',
+            'small_tools_disable_update_page',
+        );
+
+        // Continue with existing code
+    }
+
+    public function ajax_export_settings() {
+        // Check nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'small_tools_export_nonce')) {
+            wp_send_json_error('Invalid nonce');
+        }
+
+        // Check user capabilities
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Insufficient permissions');
+        }
+
+        // Get all settings
+        $exportable_options = array(
+            // Existing options
+            'small_tools_remove_image_threshold',
+            'small_tools_disable_lazy_load',
+            'small_tools_remove_emoji',
+            'small_tools_remove_jquery_migrate',
+            'small_tools_disable_gutenberg',
+            'small_tools_gutenberg_disabled_post_types',
+            'small_tools_enable_svg',
+            'small_tools_enable_avif',
+            'small_tools_enable_media_replace',
+            'small_tools_enable_duplicate_content',
+            'small_tools_enable_back_to_top',
+            'small_tools_back_to_top_position',
+            'small_tools_back_to_top_size',
+            'small_tools_back_to_top_color',
+            'small_tools_back_to_top_opacity',
+            'small_tools_back_to_top_icon',
+            'small_tools_enable_dark_mode',
+            'small_tools_custom_admin_footer',
+            'small_tools_disable_right_click',
+            'small_tools_right_click_message',
+            'small_tools_force_strong_passwords',
+            'small_tools_disable_xmlrpc',
+            'small_tools_hide_wp_version',
+            'small_tools_login_logo',
+            'small_tools_login_logo_url',
+            'small_tools_login_redirect',
+            'small_tools_logout_redirect',
+            'small_tools_enable_user_columns',
+            'small_tools_woocommerce_variation_threshold',
+            'small_tools_selection_color',
+            
+            // Update control options
+            'small_tools_disable_core_updates',
+            'small_tools_disable_plugin_updates',
+            'small_tools_disable_theme_updates',
+            'small_tools_disable_translation_updates',
+            'small_tools_disable_update_emails',
+            'small_tools_disable_update_page',
+        );
+
+        // Continue with existing code
     }
 } 

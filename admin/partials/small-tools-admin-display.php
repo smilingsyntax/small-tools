@@ -24,6 +24,7 @@ if (!defined('WPINC')) {
         <a href="#" class="nav-tab" data-tab="admin"><?php esc_html_e('Admin', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="login"><?php esc_html_e('Login', 'small-tools'); ?></a>
         <a href="#" class="nav-tab" data-tab="components"><?php esc_html_e('Components', 'small-tools'); ?></a>
+        <a href="#" class="nav-tab" data-tab="updates"><?php esc_html_e('Updates', 'small-tools'); ?></a>
     </h2>
 
     <form method="post" action="" class="small-tools-settings-form" id="small-tools-settings-form">
@@ -230,20 +231,6 @@ if (!defined('WPINC')) {
                         </tr>
                         <tr>
                             <th scope="row">
-                                <label for="small_tools_disable_updates"><?php esc_html_e('Disable Updates', 'small-tools'); ?></label>
-                            </th>
-                            <td>
-                                <input type="checkbox" 
-                                       id="small_tools_disable_updates" 
-                                       name="small_tools_disable_updates" 
-                                       class="smiling_syntax_toggle"
-                                       value="yes"
-                                       <?php checked('yes', get_option('small_tools_disable_updates')); ?>>
-                                <p class="description"><?php esc_html_e('Disable WordPress core, plugin, and theme updates.', 'small-tools'); ?></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
                                 <label for="small_tools_disable_jquery_migrate"><?php esc_html_e('Disable jQuery Migrate', 'small-tools'); ?></label>
                             </th>
                             <td>
@@ -259,6 +246,75 @@ if (!defined('WPINC')) {
                     </table>
                 </div>
             </div>
+        </div>
+
+        <!-- Updates Tab -->
+        <div id="updates" class="small-tools-tab-content">
+            <h2><?php esc_html_e('WordPress Updates Control', 'small-tools'); ?></h2>
+            <p><?php esc_html_e('Control which WordPress updates are enabled or disabled on your site.', 'small-tools'); ?></p>
+            
+            <table class="form-table">
+                <tr>
+                    <th scope="row"><?php esc_html_e('Core Updates', 'small-tools'); ?></th>
+                    <td>
+                        <label for="small_tools_disable_core_updates">
+                            <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_core_updates" name="small_tools_disable_core_updates" value="yes" <?php checked(get_option('small_tools_disable_core_updates'), 'yes'); ?>>
+                            <?php esc_html_e('Disable WordPress core updates', 'small-tools'); ?>
+                        </label>
+                        <p class="description"><?php esc_html_e('This will prevent WordPress from updating to new versions.', 'small-tools'); ?></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e('Plugin Updates', 'small-tools'); ?></th>
+                    <td>
+                        <label for="small_tools_disable_plugin_updates">
+                            <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_plugin_updates" name="small_tools_disable_plugin_updates" value="yes" <?php checked(get_option('small_tools_disable_plugin_updates'), 'yes'); ?>>
+                            <?php esc_html_e('Disable plugin updates', 'small-tools'); ?>
+                        </label>
+                        <p class="description"><?php esc_html_e('This will prevent plugins from showing update notifications and updating.', 'small-tools'); ?></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e('Theme Updates', 'small-tools'); ?></th>
+                    <td>
+                        <label for="small_tools_disable_theme_updates">
+                            <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_theme_updates" name="small_tools_disable_theme_updates" value="yes" <?php checked(get_option('small_tools_disable_theme_updates'), 'yes'); ?>>
+                            <?php esc_html_e('Disable theme updates', 'small-tools'); ?>
+                        </label>
+                        <p class="description"><?php esc_html_e('This will prevent themes from showing update notifications and updating.', 'small-tools'); ?></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e('Translation Updates', 'small-tools'); ?></th>
+                    <td>
+                        <label for="small_tools_disable_translation_updates">
+                            <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_translation_updates" name="small_tools_disable_translation_updates" value="yes" <?php checked(get_option('small_tools_disable_translation_updates'), 'yes'); ?>>
+                            <?php esc_html_e('Disable translation updates', 'small-tools'); ?>
+                        </label>
+                        <p class="description"><?php esc_html_e('This will prevent WordPress from updating translations.', 'small-tools'); ?></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e('Update Emails', 'small-tools'); ?></th>
+                    <td>
+                        <label for="small_tools_disable_update_emails">
+                            <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_update_emails" name="small_tools_disable_update_emails" value="yes" <?php checked(get_option('small_tools_disable_update_emails'), 'yes'); ?>>
+                            <?php esc_html_e('Disable update emails', 'small-tools'); ?>
+                        </label>
+                        <p class="description"><?php esc_html_e('This will prevent WordPress from sending emails about available updates.', 'small-tools'); ?></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e('Update Page', 'small-tools'); ?></th>
+                    <td>
+                        <label for="small_tools_disable_update_page">
+                            <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_update_page" name="small_tools_disable_update_page" value="yes" <?php checked(get_option('small_tools_disable_update_page'), 'yes'); ?>>
+                            <?php esc_html_e('Hide WordPress update page', 'small-tools'); ?>
+                        </label>
+                        <p class="description"><?php esc_html_e('This will hide the WordPress update page from the admin menu.', 'small-tools'); ?></p>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!-- Media Tab -->
