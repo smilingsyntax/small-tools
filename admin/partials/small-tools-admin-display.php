@@ -6,6 +6,7 @@ if (!defined('WPINC')) {
 ?>
 
 <div class="wrap">
+    <h1><?php echo esc_html( esc_html__( 'Small Tools', 'small-tools' ) ); ?></h1>
     <div class="small-tools-settings-header">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <div class="small-tools-header-actions">
