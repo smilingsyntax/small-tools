@@ -17,16 +17,16 @@ class Small_Tools_Activator {
         add_option('small_tools_disable_lazy_load', 'no');
         add_option('small_tools_disable_emojis', 'no');
         add_option('small_tools_remove_jquery_migrate', 'no');
-        add_option('small_tools_back_to_top', 'yes');
+        add_option('small_tools_back_to_top', 'no');
         add_option('small_tools_back_to_top_position', 'right');
         add_option('small_tools_back_to_top_icon', '');
         add_option('small_tools_back_to_top_bg_color', 'rgba(0, 0, 0, 0.7)');
         add_option('small_tools_back_to_top_size', '40');
         
         // Security settings
-        add_option('small_tools_force_strong_passwords', 'yes');
-        add_option('small_tools_disable_xmlrpc', 'yes');
-        add_option('small_tools_hide_wp_version', 'yes');
+        add_option('small_tools_force_strong_passwords', 'no');
+        add_option('small_tools_disable_xmlrpc', 'no');
+        add_option('small_tools_hide_wp_version', 'no');
         
         // WooCommerce settings
         add_option('small_tools_wc_variation_threshold', '30');
