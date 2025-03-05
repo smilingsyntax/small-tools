@@ -1,7 +1,7 @@
 === Small Tools ===
 Contributors: smilingsyntax
 Donate link: https://smilingsyntax.com
-Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg upload, update control
+Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg upload
 Requires at least: 6.0
 Tested up to: 6.7.2
 Requires PHP: 7.4
