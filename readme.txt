@@ -5,7 +5,7 @@ Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg
 Requires at least: 6.0
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -168,6 +168,10 @@ No, the plugin is optimized for performance and actually improves site speed by:
 10. Export/Import Settings, Settings Generation Page
 
 == Changelog ==
+
+= 2.2.1 =
+* Bug Fixed: Notice Being shown inside admin heading Solved
+* Added: Language Updated
 
 = 2.2.0 =
 * Added: Granular WordPress Updates Control - selectively disable different types of updates

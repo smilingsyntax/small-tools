@@ -167,6 +167,10 @@ No, the plugin is optimized for performance and actually improves site speed by:
 
 ## Changelog
 
+### 2.2.1
+* Bug Fixed: Notice Being shown inside admin heading Solved
+* Added: Language Updated
+
 ### 2.2.0
 * Added: Granular WordPress Updates Control - selectively disable different types of updates
 * Added: New Updates tab in the settings page
