@@ -2,20 +2,21 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Small Tools 1.0.0\n"
+"Project-Id-Version: Small Tools 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/small-tools\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Smiling Syntax <hello@smilingsyntax.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-04T16:22:50+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2025-03-05T17:54:59+00:00\n"
+"PO-Revision-Date: 2025-03-05T17:55:59+00:00\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: small-tools\n"
 
 #. Plugin Name of the plugin
 #: small-tools.php
+#: admin/partials/small-tools-admin-display.php:9
 msgid "Small Tools"
 msgstr ""
 
@@ -39,196 +40,922 @@ msgstr ""
 msgid "https://smilingsyntax.com"
 msgstr ""
 
-#: admin/class-small-tools-admin.php:209
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: admin/class-small-tools-admin.php:215
-#: admin/class-small-tools-admin.php:223
-#: admin/class-small-tools-admin.php:231
-#: admin/class-small-tools-admin.php:241
-#: admin/class-small-tools-admin.php:254
-#: admin/class-small-tools-admin.php:271
-#: admin/class-small-tools-admin.php:477
+#: admin/class-small-tools-admin.php:279
+#: admin/class-small-tools-admin.php:287
+#: admin/class-small-tools-admin.php:295
+#: admin/class-small-tools-admin.php:305
+#: admin/class-small-tools-admin.php:318
+#: admin/class-small-tools-admin.php:335
+#: admin/class-small-tools-admin.php:543
 msgid "Invalid security token sent."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:246
+#: admin/class-small-tools-admin.php:310
 msgid "Settings file regenerated successfully."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:259
+#: admin/class-small-tools-admin.php:323
 msgid "Settings reset to defaults successfully."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:277
+#: admin/class-small-tools-admin.php:341
 msgid "No cleanup options selected."
 msgstr ""
 
 #. translators: %d is the number of items cleaned from the database.
-#: admin/class-small-tools-admin.php:429
+#: admin/class-small-tools-admin.php:493
 msgid "%d items cleaned from the database."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:460
+#: admin/class-small-tools-admin.php:526
 msgid "Error encoding settings"
 msgstr ""
 
-#: admin/class-small-tools-admin.php:483
+#: admin/class-small-tools-admin.php:549
 msgid "No file was uploaded."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:493
+#: admin/class-small-tools-admin.php:559
 msgid "File size too large. Please upload a file smaller than 1MB."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:498
-#: admin/class-small-tools-admin.php:513
+#: admin/class-small-tools-admin.php:564
+#: admin/class-small-tools-admin.php:579
 msgid "Error uploading file."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:507
+#: admin/class-small-tools-admin.php:573
 msgid "Invalid file type. Please upload a JSON file."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:524
+#: admin/class-small-tools-admin.php:590
 msgid "Invalid JSON file."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:553
+#: admin/class-small-tools-admin.php:621
 msgid "Settings imported successfully."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:559
-msgid "Prevent users from right-clicking on your website content."
+#: admin/class-small-tools-admin.php:627
+msgid "Prevent users from right-clicking on images and content."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:560
-msgid "Allow uploading images in their original size without WordPress scaling."
+#: admin/class-small-tools-admin.php:628
+msgid "Remove WordPress image size threshold limit."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:561
+#: admin/class-small-tools-admin.php:629
 msgid "Disable WordPress default lazy loading for images."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:562
-msgid "Remove WordPress emoji scripts to improve performance."
+#: admin/class-small-tools-admin.php:630
+msgid "Remove emoji scripts and styles from loading."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:563
-msgid "Remove jQuery Migrate script to reduce page load time."
+#: admin/class-small-tools-admin.php:631
+msgid "Remove jQuery Migrate script from loading."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:564
-msgid "Add a back to top button to help users navigate long pages."
+#: admin/class-small-tools-admin.php:632
+msgid "Add a back to top button on your website."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:565
-#: admin/partials/small-tools-admin-display.php:65
+#: admin/class-small-tools-admin.php:633
 msgid "Choose the position of the back to top button."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:566
-msgid "Set the background color of the back to top button."
-msgstr ""
-
-#: admin/class-small-tools-admin.php:567
-msgid "Set the size of the back to top button (20-100 pixels)."
-msgstr ""
-
-#: admin/class-small-tools-admin.php:568
+#: admin/class-small-tools-admin.php:634
 msgid "Upload a custom icon for the back to top button."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:569
-#: admin/partials/small-tools-admin-display.php:139
+#: admin/class-small-tools-admin.php:635
+msgid "Set the background color and opacity for the back to top button."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:636
+msgid "Set the size of the back to top button (20-100px)."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:637
 msgid "Enable dark mode for WordPress admin dashboard."
 msgstr ""
 
-#: admin/class-small-tools-admin.php:570
+#: admin/class-small-tools-admin.php:638
 msgid "Customize the text shown in the admin footer."
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:20
-msgid "Disable Right Click"
+#: admin/class-small-tools-admin.php:639
+msgid "Add a duplicate option to quickly clone posts, pages, and custom post types."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:640
+msgid "Enable the ability to replace media files while maintaining the same URL and attachment ID."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:641
+msgid "Allow SVG file uploads with sanitization for enhanced security."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:642
+msgid "Enable support for AVIF image format uploads."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:643
+msgid "Set the background color for selected text on your website."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:644
+msgid "Set the text color for selected text on your website."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:666
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:701
+msgid "Settings saved successfully."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:705
+msgid "Error generating settings file."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:779
+#: includes/class-small-tools.php:106
+msgid "Security check failed."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:784
+msgid "You do not have permission to upload files."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:789
+msgid "No file was selected."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:795
+#: admin/partials/small-tools-media-replace.php:16
+#: includes/class-small-tools.php:372
+msgid "Invalid attachment ID."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:801
+msgid "Original file not found."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:807
+msgid "Replacement file not found."
+msgstr ""
+
+#. translators: %s: File type
+#: admin/class-small-tools-admin.php:820
+msgid "File type not allowed: %s"
+msgstr ""
+
+#: admin/class-small-tools-admin.php:833
+msgid "One or both attachments not found."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:871
+msgid "Failed to update original attachment."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:887
+msgid "Failed to update replacement attachment."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:912
+msgid "Failed to update file paths."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:925
+msgid "Failed to update attachment metadata."
+msgstr ""
+
+#: admin/class-small-tools-admin.php:932
+msgid "Media replaced successfully. Original media preserved with new attachment ID."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:13
+msgid "Save Changes"
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:21
-msgid "Remove Image Threshold"
+msgid "General"
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:22
-msgid "Disable Lazy Loading"
+msgid "Media"
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:23
-msgid "Disable Emojis"
+msgid "Performance"
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:24
-msgid "Remove jQuery Migrate"
+msgid "Back to Top"
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:25
-msgid "Back to Top Button"
+msgid "Admin"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:46
-msgid "Back to Top Position"
+#: admin/partials/small-tools-admin-display.php:26
+msgid "Login"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:52
-msgid "Left"
+#: admin/partials/small-tools-admin-display.php:27
+msgid "Components"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:28
+msgid "Updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:38
+msgid "Content Protection"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:43
+msgid "Right Click"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:47
+msgid "Disable right click on the website"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:49
+msgid "This will prevent users from right-clicking on your website."
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:53
-msgid "Right"
+msgid "Content Copying"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:71
-msgid "Background Color"
+#: admin/partials/small-tools-admin-display.php:57
+msgid "Prevent unauthorized copying"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:79
-msgid "Choose the background color for the back to top button."
+#: admin/partials/small-tools-admin-display.php:59
+msgid "This will disable keyboard shortcuts / mouse events for copying content (Ctrl+C, Cmd+C, etc.)."
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:85
-msgid "Button Size"
+#: admin/partials/small-tools-admin-display.php:68
+msgid "Colors"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:96
-msgid "Set the size of the back to top button in pixels (20-100)."
+#: admin/partials/small-tools-admin-display.php:74
+msgid "Selection Background Color"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:102
-msgid "Back to Top Icon"
+#: admin/partials/small-tools-admin-display.php:83
+#: admin/partials/small-tools-admin-display.php:97
+msgid "Choose the background color for selected text on your website."
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:111
-msgid "Upload Icon"
+#: admin/partials/small-tools-admin-display.php:88
+msgid "Selection Text Color"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:106
+msgid "Content Management"
 msgstr ""
 
 #: admin/partials/small-tools-admin-display.php:112
+msgid "Enable Content Duplication"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:133
+msgid "WordPress Components"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:139
+msgid "Disable Gutenberg"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:148
+msgid "Disable the Gutenberg editor globally and restore the classic editor."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:151
+msgid "Disable Gutenberg for Specific Post Types:"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:193
+msgid "Select post types where you want to disable Gutenberg editor. These settings will only apply if global Gutenberg disable is turned off."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:199
+msgid "Disable Comments"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:208
+msgid "Completely disable comments functionality across the site."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:213
+msgid "Disable REST API"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:222
+msgid "Disable the WordPress REST API functionality."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:227
+msgid "Disable Feeds"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:236
+msgid "Disable all RSS, Atom and RDF feeds."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:241
+msgid "Disable jQuery Migrate"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:250
+msgid "Remove jQuery Migrate script from loading on the frontend."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:260
+msgid "WordPress Updates Control"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:261
+msgid "Control which WordPress updates are enabled or disabled on your site."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:265
+msgid "Core Updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:269
+msgid "Disable WordPress core updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:271
+msgid "This will prevent WordPress from updating to new versions."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:275
+msgid "Plugin Updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:279
+msgid "Disable plugin updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:281
+msgid "This will prevent plugins from showing update notifications and updating."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:285
+msgid "Theme Updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:289
+msgid "Disable theme updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:291
+msgid "This will prevent themes from showing update notifications and updating."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:295
+msgid "Translation Updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:299
+msgid "Disable translation updates"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:301
+msgid "This will prevent WordPress from updating translations."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:305
+msgid "Update Emails"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:309
+msgid "Disable update emails"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:311
+msgid "This will prevent WordPress from sending emails about available updates."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:315
+msgid "Update Page"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:319
+msgid "Hide WordPress update page"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:321
+msgid "This will hide the WordPress update page from the admin menu."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:331
+msgid "Media Replacement"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:337
+msgid "Enable Media Replacement"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:355
+msgid "Upload Settings"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:361
+msgid "Enable SVG Upload"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:372
+msgid "Note: SVG files will be sanitized for security before upload."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:378
+msgid "Enable AVIF Upload"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:398
+msgid "Image Optimization"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:402
+msgid "Remove Image Threshold"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:416
+msgid "Disable Lazy Loading"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:432
+msgid "Script Optimization"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:436
+msgid "Disable Emojis"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:450
+msgid "Remove jQuery Migrate"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:469
+msgid "Back to Top Button"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:473
+msgid "Enable Back to Top"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:487
+msgid "Button Position"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:493
+msgid "Left"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:494
+msgid "Right"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:511
+msgid "Background Color"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:524
+msgid "Button Size"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:540
+msgid "Custom Icon"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:549
+msgid "Upload Icon"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:550
 msgid "Remove Icon"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:121
+#: admin/partials/small-tools-admin-display.php:559
 msgid "Icon preview"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:124
-msgid "Upload a custom icon for the back to top button (recommended size: 24x24px). Leave empty to use default arrow icon."
+#: admin/partials/small-tools-admin-display.php:574
+msgid "Admin Interface"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:131
+#: admin/partials/small-tools-admin-display.php:580
 msgid "Enable Dark Mode"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:145
+#: admin/partials/small-tools-admin-display.php:594
 msgid "Admin Footer Text"
 msgstr ""
 
-#: admin/partials/small-tools-admin-display.php:153
-msgid "Custom text to display in the admin footer."
+#: admin/partials/small-tools-admin-display.php:611
+msgid "Admin Bar Cleanup"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:617
+msgid "Remove WordPress Logo"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:626
+msgid "Remove WordPress logo and menu from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:631
+msgid "Remove Site Name"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:640
+msgid "Remove home icon and site name from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:645
+msgid "Remove Customize Menu"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:654
+msgid "Remove customize menu from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:659
+msgid "Remove Updates Menu"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:668
+msgid "Remove updates counter and link from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:673
+msgid "Remove Comments Menu"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:682
+msgid "Remove comments counter and link from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:687
+msgid "Remove New Content Menu"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:696
+msgid "Remove new content menu from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:701
+msgid "Remove Howdy"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:710
+msgid "Remove the Howdy greeting from the admin bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:715
+msgid "Remove Help"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:724
+msgid "Remove the Help tab and drawer from admin pages"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:733
+msgid "Admin Interface Enhancements"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:739
+msgid "Hide Admin Notices"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:748
+msgid "Hide all admin notices to reduce clutter in the admin area."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:754
+msgid "Hide Admin Bar"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:763
+msgid "Hide the admin bar on the frontend for logged-in users."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:769
+msgid "Wider Admin Menu"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:778
+msgid "Make the admin menu wider for better readability."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:787
+msgid "Dashboard Widgets"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:793
+msgid "Welcome Panel"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:802
+msgid "Remove the WordPress Welcome panel."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:808
+msgid "Site Health Status"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:817
+msgid "Remove the Site Health Status dashboard widget."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:823
+msgid "At a Glance"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:832
+msgid "Remove the At a Glance dashboard widget."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:838
+msgid "Activity Widget"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:847
+msgid "Remove the Activity dashboard widget."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:853
+msgid "Quick Draft Widget"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:862
+msgid "Remove the Quick Draft dashboard widget."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:868
+msgid "WordPress News Widget"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:877
+msgid "Remove the WordPress News dashboard widget."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:889
+msgid "Login Page Customization"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:895
+msgid "Custom Login Logo"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:904
+msgid "Upload Logo"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:905
+msgid "Remove Logo"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:907
+msgid "Login logo preview"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:909
+msgid "Upload a custom logo for the WordPress login page. Recommended size: 320px wide."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:915
+msgid "Logo URL"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:923
+msgid "Enter the URL where users will be directed when clicking the login logo."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:931
+msgid "User Columns"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:938
+msgid "User List Columns"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:949
+msgid "Add Registration Date column to users list."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:954
+msgid "Last Login Column"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:965
+msgid "Add Last Login column to users list and track login times."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:973
+msgid "Login/Logout Redirects"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:980
+msgid "Login Redirects"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:986
+msgid "Default Login Redirect URL"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:991
+msgid "Enter URL where users will be redirected after login"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:993
+msgid "Default URL where users will be redirected after login if no role-specific URL is set."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:996
+msgid "Role-Specific Login Redirects"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:1010
+#: admin/partials/small-tools-admin-display.php:1051
+msgid "Leave empty to use default URL"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:1022
+msgid "Logout Redirects"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:1028
+msgid "Default Logout Redirect URL"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:1033
+msgid "Enter URL where users will be redirected after logout"
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:1035
+msgid "Default URL where users will be redirected after logout if no role-specific URL is set."
+msgstr ""
+
+#: admin/partials/small-tools-admin-display.php:1038
+msgid "Role-Specific Logout Redirects"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:26
+#: admin/partials/small-tools-media-replace.php:78
+#: includes/class-small-tools.php:255
+#: includes/class-small-tools.php:267
+#: includes/class-small-tools.php:313
+msgid "Replace Media"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:30
+#: includes/class-small-tools.php:276
+msgid "Current Media"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:42
+#: includes/class-small-tools.php:402
+msgid "Filename:"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:43
+#: includes/class-small-tools.php:404
+msgid "File type:"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:44
+#: includes/class-small-tools.php:406
+msgid "URL:"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:49
+msgid "Upload Replacement"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:50
+#: includes/class-small-tools.php:283
+msgid "Choose a file to replace the current media. The new file must be of the same type."
+msgstr ""
+
+#. translators: %s: Maximum upload size
+#: admin/partials/small-tools-media-replace.php:63
+msgid "Maximum upload file size: %s"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:73
+#: includes/class-small-tools.php:299
+msgid "Update all thumbnail sizes"
+msgstr ""
+
+#: admin/partials/small-tools-media-replace.php:79
+#: includes/class-small-tools.php:310
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-small-tools-settings.php:677
+msgid "Updates have been disabled by the Small Tools plugin."
+msgstr ""
+
+#: includes/class-small-tools.php:96
+msgid "Content duplication is not enabled."
+msgstr ""
+
+#: includes/class-small-tools.php:115
+msgid "You do not have permission to duplicate this content."
+msgstr ""
+
+#: includes/class-small-tools.php:127
+msgid "(Copy)"
+msgstr ""
+
+#: includes/class-small-tools.php:171
+msgid "Post creation failed."
+msgstr ""
+
+#: includes/class-small-tools.php:196
+msgid "Duplicate this item"
+msgstr ""
+
+#: includes/class-small-tools.php:197
+msgid "Duplicate"
+msgstr ""
+
+#: includes/class-small-tools.php:282
+msgid "Select Replacement"
+msgstr ""
+
+#: includes/class-small-tools.php:291
+msgid "Select or Upload Media"
+msgstr ""
+
+#: includes/class-small-tools.php:353
+msgid "Select Replacement Media"
+msgstr ""
+
+#: includes/class-small-tools.php:354
+msgid "Use this media"
+msgstr ""
+
+#: includes/class-small-tools.php:355
+msgid "Replacing..."
+msgstr ""
+
+#: includes/class-small-tools.php:356
+#: includes/class-small-tools.php:485
+msgid "Media replaced successfully."
+msgstr ""
+
+#: includes/class-small-tools.php:357
+msgid "Error replacing media."
+msgstr ""
+
+#: includes/class-small-tools.php:367
+#: includes/class-small-tools.php:421
+msgid "Permission denied."
+msgstr ""
+
+#: includes/class-small-tools.php:377
+msgid "Attachment not found."
+msgstr ""
+
+#: includes/class-small-tools.php:429
+msgid "Invalid attachment IDs."
+msgstr ""
+
+#: includes/class-small-tools.php:437
+msgid "Could not locate one or both files."
+msgstr ""
+
+#: includes/class-small-tools.php:447
+msgid "File type mismatch. Original: %1$s, Replacement: %2$s"
+msgstr ""
+
+#: includes/class-small-tools.php:462
+msgid "Failed to create target directory."
+msgstr ""
+
+#: includes/class-small-tools.php:469
+msgid "Failed to copy replacement file."
+msgstr ""
+
+#: includes/class-small-tools.php:499
+msgid "Settings"
+msgstr ""
+
+#: includes/class-small-tools.php:519
+msgid "Documentation"
+msgstr ""
+
+#: includes/class-small-tools.php:524
+msgid "Support"
 msgstr ""
