@@ -28,17 +28,49 @@
                 html: buttonContent
             }).appendTo('body');
 
+            $backToTop.css({
+                'background-color': smallTools.backToTopBgColor,
+                'width': smallTools.backToTopSize + 'px',
+                'height': smallTools.backToTopSize + 'px',
+                'line-height': smallTools.backToTopSize + 'px'
+            });
+
             $(window).scroll(function() {
-                if ($(this).scrollTop() > 100) {
-                    $backToTop.fadeIn();
+                if ($(this).scrollTop() > 300) {
+                    $backToTop.addClass('show');
                 } else {
-                    $backToTop.fadeOut();
+                    $backToTop.removeClass('show');
                 }
             });
 
             $backToTop.on('click', function(e) {
                 e.preventDefault();
                 $('html, body').animate({scrollTop: 0}, 800);
+            });
+        }
+
+        // Prevent Copying
+        if (smallTools.preventCopying) {
+            
+            // Disable keyboard shortcuts for copying
+            $(document).on('keydown', function(e) {
+                // Ctrl+C, Cmd+C, Ctrl+A, Cmd+A, Ctrl+X, Cmd+X
+                if ((e.ctrlKey || e.metaKey) && (e.keyCode === 67 || e.keyCode === 65 || e.keyCode === 88)) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Disable copy event
+            $(document).on('copy', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Disable cut event
+            $(document).on('cut', function(e) {
+                e.preventDefault();
+                return false;
             });
         }
     });

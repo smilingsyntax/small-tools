@@ -39,17 +39,23 @@ if (!defined('WPINC')) {
                 <div class="small-tools-accordion-content">
                     <table class="form-table">
                         <tr>
-                            <th scope="row">
-                                <label for="small_tools_disable_right_click"><?php esc_html_e('Disable Right Click', 'small-tools'); ?></label>
-                            </th>
+                            <th scope="row"><?php esc_html_e('Right Click', 'small-tools'); ?></th>
                             <td>
-                                <input type="checkbox" 
-                                       id="small_tools_disable_right_click" 
-                                       name="small_tools_disable_right_click" 
-                                       class="smiling_syntax_toggle"
-                                       value="yes"
-                                       <?php checked('yes', get_option('small_tools_disable_right_click')); ?>>
-                                <p class="description"><?php echo esc_html($this->get_setting_description('disable_right_click')); ?></p>
+                                <label for="small_tools_disable_right_click">
+                                    <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_disable_right_click" name="small_tools_disable_right_click" value="yes" <?php checked(get_option('small_tools_disable_right_click'), 'yes'); ?>>
+                                    <?php esc_html_e('Disable right click on the website', 'small-tools'); ?>
+                                </label>
+                                <p class="description"><?php esc_html_e('This will prevent users from right-clicking on your website.', 'small-tools'); ?></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php esc_html_e('Content Copying', 'small-tools'); ?></th>
+                            <td>
+                                <label for="small_tools_prevent_copying">
+                                    <input class="smiling_syntax_toggle" type="checkbox" id="small_tools_prevent_copying" name="small_tools_prevent_copying" value="yes" <?php checked(get_option('small_tools_prevent_copying'), 'yes'); ?>>
+                                    <?php esc_html_e('Prevent unauthorized copying', 'small-tools'); ?>
+                                </label>
+                                <p class="description"><?php esc_html_e('This will disable keyboard shortcuts / mouse events for copying content (Ctrl+C, Cmd+C, etc.).', 'small-tools'); ?></p>
                             </td>
                         </tr>
                     </table>

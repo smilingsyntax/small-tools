@@ -1039,20 +1039,24 @@ class Small_Tools_Admin {
             wp_send_json_error('Insufficient permissions');
         }
 
-        // Check if settings data is provided
-        if (!isset($_POST['settings']) || empty($_POST['settings'])) {
-            wp_send_json_error('No settings data provided');
+        // Get the import data
+        $import_data = isset($_POST['import_data']) ? stripslashes($_POST['import_data']) : '';
+        
+        if (empty($import_data)) {
+            wp_send_json_error('No import data provided');
         }
 
-        // Decode the JSON settings
-        $settings = json_decode(stripslashes($_POST['settings']), true);
+        // Try to decode the JSON
+        $settings = json_decode($import_data, true);
+        
         if (json_last_error() !== JSON_ERROR_NONE) {
             wp_send_json_error('Invalid JSON data');
         }
 
-        // Valid options that can be imported
+        // Define valid options that can be imported
         $valid_options = array(
-            // Existing options
+            'small_tools_disable_right_click',
+            'small_tools_prevent_copying',
             'small_tools_remove_image_threshold',
             'small_tools_disable_lazy_load',
             'small_tools_remove_emoji',
@@ -1071,7 +1075,6 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_icon',
             'small_tools_enable_dark_mode',
             'small_tools_custom_admin_footer',
-            'small_tools_disable_right_click',
             'small_tools_right_click_message',
             'small_tools_force_strong_passwords',
             'small_tools_disable_xmlrpc',
@@ -1107,9 +1110,10 @@ class Small_Tools_Admin {
             wp_send_json_error('Insufficient permissions');
         }
 
-        // Get all settings
+        // Define which options to export
         $exportable_options = array(
-            // Existing options
+            'small_tools_disable_right_click',
+            'small_tools_prevent_copying',
             'small_tools_remove_image_threshold',
             'small_tools_disable_lazy_load',
             'small_tools_remove_emoji',
@@ -1128,7 +1132,6 @@ class Small_Tools_Admin {
             'small_tools_back_to_top_icon',
             'small_tools_enable_dark_mode',
             'small_tools_custom_admin_footer',
-            'small_tools_disable_right_click',
             'small_tools_right_click_message',
             'small_tools_force_strong_passwords',
             'small_tools_disable_xmlrpc',

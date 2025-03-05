@@ -95,6 +95,7 @@ Small Tools is a comprehensive WordPress plugin that combines multiple essential
   * Custom login logo
   * Login/logout redirects
   * Role-based redirects
+  * Prevent Content copying
 
 ### WooCommerce Integration
 
@@ -170,6 +171,7 @@ No, the plugin is optimized for performance and actually improves site speed by:
 * Added: Granular WordPress Updates Control - selectively disable different types of updates
 * Added: New Updates tab in the settings page
 * Improved: Settings organization and user interface
+* Added: Prevent Content copying
 
 ### 2.1.0
 * Added: Custom Colors for background and text on selecting text on frontend

@@ -13,6 +13,7 @@ class Small_Tools_Settings {
         
         $this->default_settings = array(
             'small_tools_disable_right_click' => 'no',
+            'small_tools_prevent_copying' => 'no',
             'small_tools_remove_image_threshold' => 'no',
             'small_tools_disable_lazy_load' => 'no',
             'small_tools_disable_emojis' => 'no',
@@ -475,7 +476,9 @@ add_action('wp_login', function(\$user_login, \$user) {
 
         // Frontend Features
         $php_content .= "\n// Frontend Features\n";
-        if ($settings['small_tools_disable_right_click'] === 'yes' || $settings['small_tools_back_to_top'] === 'yes') {
+        if ($settings['small_tools_disable_right_click'] === 'yes' || 
+            $settings['small_tools_prevent_copying'] === 'yes' || 
+            $settings['small_tools_back_to_top'] === 'yes') {
             $php_content .= $this->get_frontend_assets_code($settings);
         }
 
@@ -734,12 +737,14 @@ add_action('wp_default_scripts', 'small_tools_remove_jquery_migrate');\n\n";
         $content .= sprintf(
             "        'backToTop' => %s,\n" .
             "        'disableRightClick' => %s,\n" .
+            "        'preventCopying' => %s,\n" .
             "        'backToTopPosition' => '%s',\n" .
             "        'backToTopIcon' => '%s',\n" .
             "        'backToTopBgColor' => '%s',\n" .
             "        'backToTopSize' => %d\n",
             $settings['small_tools_back_to_top'] === 'yes' ? 'true' : 'false',
             $settings['small_tools_disable_right_click'] === 'yes' ? 'true' : 'false',
+            $settings['small_tools_prevent_copying'] === 'yes' ? 'true' : 'false',
             esc_js($settings['small_tools_back_to_top_position']),
             esc_url($settings['small_tools_back_to_top_icon']),
             esc_js($settings['small_tools_back_to_top_bg_color']),
