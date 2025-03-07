@@ -243,12 +243,19 @@ class Small_Tools_Settings {
 
         // Admin Features
         $php_content .= "\n// Admin Features\n";
+        
+        // Dark Mode
         if ($settings['small_tools_dark_mode_enabled'] === 'yes') {
-            $php_content .= "add_filter('admin_body_class', function(\$classes) {
-                return \$classes . ' small-tools-dark-mode';
-            });\n";
+            $php_content .= "add_filter('admin_body_class', function(\$classes) {\n";
+            $php_content .= "    return \$classes . ' small-tools-dark-mode';\n";
+            $php_content .= "});\n\n";
+            
+            $php_content .= "add_action('admin_enqueue_scripts', function() {\n";
+            $php_content .= "    wp_enqueue_style('small-tools-dark-mode', '" . esc_url(SMALL_TOOLS_PLUGIN_URL . 'admin/css/small-tools-dark-mode.css') . "', array(), '" . esc_attr(SMALL_TOOLS_VERSION) . "');\n";
+            $php_content .= "});\n\n";
         }
-
+        
+        // Admin Footer Text
         if (!empty($settings['small_tools_admin_footer_text'])) {
             $php_content .= sprintf(
                 "add_filter('admin_footer_text', function() {\n    return '%s';\n});\n",

@@ -240,20 +240,3 @@
     margin: 10px 0;
     padding: 8px 12px;
 }
-
-/* Dark Mode Accordion Styles */
-body.small-tools-dark-mode .small-tools-accordion-header {
-    background: #2c2c2c;
-}
-
-body.small-tools-dark-mode .small-tools-accordion-header:hover {
-    background: #383838;
-}
-
-body.small-tools-dark-mode .small-tools-accordion-content {
-    background: #2c2c2c;
-}
-
-body.small-tools-dark-mode .small-tools-accordion-header.active {
-    background: #383838;
-} 
