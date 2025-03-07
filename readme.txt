@@ -1,11 +1,11 @@
 === Small Tools ===
 Contributors: smilingsyntax
 Donate link: https://smilingsyntax.com
-Tags: small tools, back to top, smiling syntax, Admin and Site Enhancements, svg upload
+Tags: small tools, dark mode, smiling syntax, Admin and Site Enhancements, svg upload
 Requires at least: 6.0
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -168,6 +168,9 @@ No, the plugin is optimized for performance and actually improves site speed by:
 10. Export/Import Settings, Settings Generation Page
 
 == Changelog ==
+
+= 2.2.2 =
+* Bug Fixed: Dark mode Css issue fixed
 
 = 2.2.1 =
 * Bug Fixed: Notice Being shown inside admin heading Solved
